@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FormController;
+use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 
@@ -32,6 +34,13 @@ Route::get('/account/logout', [LoginController::class, 'logout'])->name('account
 // Teacher Routes
 Route::group(['middleware' => 'auth:teacher'], function(){
     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+    Route::get('/teacher/formBuilder', [FormController::class, 'formBuilder'])->name('teacher.formBuilder');
+    Route::get('/teacher/showForm/{id}', [FormController::class, 'showForm'])->name('teacher.showForm');
+    Route::get('/teacher/classroom/setup', [TeacherController::class, 'classroomInitialSetup'])->name('teacher.classroom.setup');
+    Route::get('/teacher/deleteForm/{id}', [FormController::class, 'deleteForm'])->name('teacher.deleteForm');
+
+    Route::post('/form/save', [FormController::class, 'store'])->name('form.save');
+
 });
 
 // Student Routes

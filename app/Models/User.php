@@ -23,6 +23,20 @@ class User extends Authenticatable
         'password',
         'role',
     ];
+    public function isTeacher(): bool
+    {
+        return $this->role === 'teacher';
+    }
+
+    public function isStudent(): bool
+    {
+        return $this->role === 'student';
+    }
+
+    public function forms()
+    {
+        return $this->hasMany(Form::class, 'teacher_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
