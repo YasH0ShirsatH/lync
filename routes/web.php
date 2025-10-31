@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth:teacher'], function(){
     Route::get('/teacher/showForm/{id}', [FormController::class, 'showForm'])->name('teacher.showForm');
     Route::get('/teacher/classroom/setup', [TeacherController::class, 'classroomInitialSetup'])->name('teacher.classroom.setup');
     Route::get('/teacher/deleteForm/{id}', [FormController::class, 'deleteForm'])->name('teacher.deleteForm');
+    Route::get('/teacher/classroom', [ClassroomController::class, 'index'])->name('teacher.classroom');
     Route::post('/teacher/classroom/save', [ClassroomController::class, 'createClassroom'])->name('teacher.classroom.save');
     Route::post('/form/save', [FormController::class, 'store'])->name('form.save');
 

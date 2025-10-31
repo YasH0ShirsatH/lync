@@ -11,9 +11,13 @@ class Form extends Model
         'html_content',
         'teacher_id',
     ];
-    
+
     public function teacher()
     {
         return $this->belongsTo(User::class, 'teacher_id');
+    }
+    public function classroomforms()
+    {
+        return $this->hasMany(ClassroomForm::class, 'form_id');
     }
 }
