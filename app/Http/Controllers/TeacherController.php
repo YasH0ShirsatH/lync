@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Form;
+use App\Models\Classroom;
 use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
@@ -16,7 +17,8 @@ class TeacherController extends Controller
 
     public function classroomInitialSetup()
     {
-        return view('teacher.classroom.classroomSetup');
+        $classrooms = Classroom::where('teacher_id', auth()->user()->id)->get();
+        return view('teacher.classroom.classroomSetup', compact('classrooms'));
     }
 
 
