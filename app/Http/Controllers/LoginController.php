@@ -23,10 +23,16 @@ class LoginController extends Controller
         if($validated){
             //authentication logic
             if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-                $request->session()->regenerate();
+                $user = Auth::user();
+                
+                if($user->role === 'teacher'){
+                    return redirect()->route('teacher.dashboard');
+                } else {
+                    return redirect()->route('student.dashboard');
+                }
             }
             else{
-                return redirect()->route('account.login')->withErrors(['message' => 'Invalid credentials of Email or Password'])->withInput();
+                return redirect()->route('account.login')->with('error', 'Invalid credentials of Email or Password')->withInput();
             }
 
 
@@ -49,12 +55,19 @@ class LoginController extends Controller
         $validated = $request->validate([
                             'user' => 'required|string|max:255',
                             'email' => 'required|email|unique:users,email',
+                            'role' => 'required|string',
                             'password' => 'required|min:6|confirmed',
                         ]);
 
                         if($validated){
-                            //authentication logic
+
                             $user = new User();
+                            $user->name = $request->user;
+                            $user->email = $request->email;
+                            $user->password = bcrypt($request->password);
+                            $user->role = $request->role;
+                            $user->save();
+                            return redirect()->route('account.login')->with('success', 'Registration successful. Please login.');
 
                         }
                         else{
@@ -63,5 +76,12 @@ class LoginController extends Controller
 
 
 
+    }
+
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('account.login')->with('success', 'Logged out successfully.');
     }
 }
