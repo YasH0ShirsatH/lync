@@ -13,7 +13,7 @@ Route::get('/', function () {
 Route::group(['prefix' => 'account'],function(){
 
     //GUEST MIDDLEWARE
-    Route::group(['middleware' => 'guest'],function(){
+    Route::group(['middleware' => 'guest.multi'],function(){
         Route::get('/login', [LoginController::class, 'index'])->name('account.login');
         Route::post('/login', [LoginController::class, 'authenticate'])->name('account.login-post');
         Route::get('/register', [LoginController::class, 'register'])->name('account.register');
@@ -22,20 +22,25 @@ Route::group(['prefix' => 'account'],function(){
 
     //AUTH MIDDLEWARE
     Route::group(['middleware' => 'auth'],function(){
-        Route::get('/logout', [LoginController::class, 'logout'])->name('account.logout');
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('account.dashboard');
     });
 });
 
+// Logout route accessible by both guards
+Route::get('/account/logout', [LoginController::class, 'logout'])->name('account.logout');
+
 // Teacher Routes
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => 'auth:teacher'], function(){
     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
 });
 
 // Student Routes
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => 'auth:student'], function(){
     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+
 });
+
+
 
 
 

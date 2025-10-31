@@ -21,26 +21,23 @@ class LoginController extends Controller
         ]);
 
         if($validated){
-            //authentication logic
-            if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-                $user = Auth::user();
-                
-                if($user->role === 'teacher'){
-                    return redirect()->route('teacher.dashboard');
-                } else {
-                    return redirect()->route('student.dashboard');
-                }
+            $credentials = ['email' => $request->email, 'password' => $request->password];
+            
+            // Try teacher guard first
+            if(Auth::guard('teacher')->attempt(array_merge($credentials, ['role' => 'teacher']))){
+                return redirect()->route('teacher.dashboard');
+            }
+            // Try student guard
+            elseif(Auth::guard('student')->attempt(array_merge($credentials, ['role' => 'student']))){
+                return redirect()->route('student.dashboard');
             }
             else{
                 return redirect()->route('account.login')->with('error', 'Invalid credentials of Email or Password')->withInput();
             }
-
-
         }
         else{
             return redirect()->route('account.login')->withErrors($validated)->withInput();
         }
-
     }
 
     public function register()
@@ -79,7 +76,12 @@ class LoginController extends Controller
     }
 
     public function logout(Request $request){
-        Auth::logout();
+        if(Auth::guard('teacher')->check()){
+            Auth::guard('teacher')->logout();
+        } elseif(Auth::guard('student')->check()){
+            Auth::guard('student')->logout();
+        }
+        
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('account.login')->with('success', 'Logged out successfully.');

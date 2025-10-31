@@ -14,8 +14,8 @@
                     <div class="container">
                         <a class="navbar-brand" href="#">Student Dashboard</a>
                         <div class="navbar-nav ms-auto">
-                            <span class="navbar-text me-3">Welcome, {{ Auth::user()->name }}</span>
-                            <a class="btn btn-outline-light btn-sm" href="#">Logout</a>
+                            <span class="navbar-text me-3">Welcome, {{ Auth::guard('student')->user()->name }}</span>
+                            <a class="btn btn-outline-light btn-sm" href="{{route('account.logout')}}">Logout</a>
                         </div>
                     </div>
                 </nav>
