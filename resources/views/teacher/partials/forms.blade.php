@@ -38,7 +38,11 @@
                                 @endif
                             </div>
                         @endif
-
+                        <div class="classroom-badges">
+                              <span class="classroom-label">
+                                   <i class="fas fa-school me-1"></i>Responses Count: {{$submissions->where('form_id',$form->id)->count() ?? 0}}
+                              </span>
+                        </div>
                         <div class="form-actions">
                             <a href="{{route('teacher.showForm',$form->id)}}" class="btn btn-sm btn-success">
                                 <i class="fas fa-eye me-1"></i>View Form
