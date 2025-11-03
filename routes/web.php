@@ -34,20 +34,30 @@ Route::get('/account/logout', [LoginController::class, 'logout'])->name('account
 // Teacher Routes
 Route::group(['middleware' => 'auth:teacher'], function(){
     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+    Route::get('/teacher/forms', [TeacherController::class, 'getForms'])->name('teacher.forms');
+    Route::post('/teacher/assign-form', [TeacherController::class, 'assignFormToClassrooms'])->name('teacher.assignForm');
     Route::get('/teacher/formBuilder', [FormController::class, 'formBuilder'])->name('teacher.formBuilder');
     Route::get('/teacher/showForm/{id}', [FormController::class, 'showForm'])->name('teacher.showForm');
+    Route::get('/teacher/editForm/{id}', [FormController::class, 'editForm'])->name('teacher.editForm');
+    Route::post('/teacher/updateForm/{id}', [FormController::class, 'update'])->name('teacher.updateForm');
     Route::get('/teacher/classroom/setup', [TeacherController::class, 'classroomInitialSetup'])->name('teacher.classroom.setup');
     Route::get('/teacher/deleteForm/{id}', [FormController::class, 'deleteForm'])->name('teacher.deleteForm');
-    Route::get('/teacher/classroom', [ClassroomController::class, 'index'])->name('teacher.classroom');
+    Route::get('/teacher/deleteClass/{id}', [ClassroomController::class, 'deleteClass'])->name('teacher.deleteClass');
+
+    Route::get('/teacher/classroom/show/{id}', [ClassroomController::class, 'index'])->name('teacher.classroom.show');
     Route::post('/teacher/classroom/save', [ClassroomController::class, 'createClassroom'])->name('teacher.classroom.save');
     Route::post('/form/save', [FormController::class, 'store'])->name('form.save');
+    Route::get('/teacher/classroom/{classroom}/removeForm/{form}', [ClassroomController::class, 'removeForm'])->name('teacher.classroom.removeForm');
 
 });
 
 // Student Routes
 Route::group(['middleware' => 'auth:student'], function(){
     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
-
+    Route::get('/student/classrooms', [StudentController::class, 'viewClasses'])->name('student.classes');
+    Route::get('/student/classrooms/{classroom}/forms', [StudentController::class, 'viewAssignedForms'])->name('student.viewAssignedForms');
+    Route::get('/student/classrooms/joined', [StudentController::class, 'viewJoinedClasses'])->name('student.viewJoinedClasses');
+    Route::post('/student/join-class', [StudentController::class, 'joinClass'])->name('student.joinClass');
 });
 
 

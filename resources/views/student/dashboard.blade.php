@@ -14,23 +14,7 @@
 </head>
 <body class="bg-white">
     <!-- Header -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom">
-        <div class="container-fluid px-4">
-            <a class="navbar-brand fw-bold text-dark" href="#">
-                <i class="fas fa-user-graduate me-2 text-primary"></i>Lync Student
-            </a>
-            <div class="d-flex align-items-center">
-                <div class="dropdown">
-                    <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle me-2"></i>{{ Auth::guard('student')->user()->name }}
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item text-danger" href="{{route('account.logout')}}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
+    @include('layouts.navbar')
 
     <!-- Main Content -->
     <div class="container-fluid px-4 py-5">
@@ -96,8 +80,8 @@
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <a href="#" class="btn btn-primary w-100 py-4 text-start">
+                            <div class="col-md-4">
+                                <a href="{{route('student.classes')}}" class="btn btn-primary w-100 py-4 text-start">
                                     <i class="fas fa-school me-3 fa-lg"></i>
                                     <div class="d-inline-block">
                                         <div class="fw-bold fs-5">Classrooms</div>
@@ -105,8 +89,19 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="col-md-6">
-                                <a href="#" class="btn btn-outline-primary w-100 py-4 text-start">
+                            <div class="col-md-4">
+                                  <a href="{{route('student.viewJoinedClasses')}}" class="btn btn-warning w-100 py-4 text-start">
+                                       <i class="fas fa-clipboard-list me-3 fa-lg"></i>
+                                       <div class="d-inline-block">
+                                        <div class="fw-bold fs-5">Your Classrooms</div>
+                                            <small
+                                                class="text-muted">View Your forms and assignments
+                                            </small>
+                                        </div>
+                                  </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="btn btn-info w-100 py-4 text-start">
                                     <i class="fas fa-clipboard-list me-3 fa-lg"></i>
                                     <div class="d-inline-block">
                                         <div class="fw-bold fs-5">Fill Form Assigned</div>

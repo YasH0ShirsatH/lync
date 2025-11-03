@@ -3,9 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Teacher Dashboard - Lync</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>lynq - Teacher Dashboard </title>
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
     <style>
         body {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
@@ -15,6 +18,11 @@
             background: rgba(52, 58, 64, 0.8);
             border-radius: 25px;
             backdrop-filter: blur(10px);
+        }
+
+        :not(.input-group)>.bootstrap-select.form-control:not([class*=col-]) {
+            width: 100%;
+            margin-bottom: 20px;
         }
 
         .welcome-card h1 {
@@ -179,6 +187,190 @@
             color: rgba(255,255,255,0.7) !important;
             font-size: 1.1rem;
         }
+
+        .classroom-badges {
+            margin: 12px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .classroom-badge {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 110, 253, 0.05) 100%);
+            color: #0d6efd;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid rgba(13, 110, 253, 0.15);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .classroom-badge:hover {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.15) 0%, rgba(13, 110, 253, 0.1) 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
+        }
+
+        .classroom-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            font-weight: 500;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .form-item-card {
+            border-radius: 20px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .form-item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        .form-item-card .card-body {
+            padding: 25px;
+        }
+
+        .form-item-card .card-title {
+            color: #212529 !important;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .form-meta {
+            margin-bottom: 15px;
+        }
+
+        .form-meta p {
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+        }
+
+        .form-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .classroom-select {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #495057;
+            transition: all 0.3s ease;
+            height: auto;
+            min-height: 45px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .classroom-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+            outline: none;
+        }
+
+        .classroom-select option {
+            padding: 8px 12px;
+            background: white;
+            color: #495057;
+            border: none;
+        }
+
+        .classroom-select option:checked {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .classroom-select option:hover {
+            background: #f8f9fa;
+        }
+
+        .assign-btn {
+            background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(25, 135, 84, 0.2);
+        }
+
+        .assign-btn:hover {
+            background: linear-gradient(135deg, #157347 0%, #1aa179 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(25, 135, 84, 0.3);
+            color: white;
+        }
+
+        .classroom-assignment {
+            background: rgba(248, 249, 250, 0.5);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid rgba(233, 236, 239, 0.6);
+        }
+
+        .assignment-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .classroom-badges {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .classroom-badge {
+                font-size: 0.7rem;
+                padding: 5px 12px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .classroom-select {
+                font-size: 0.8rem;
+            }
+
+            .assign-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -189,11 +381,19 @@
     <div class="container-fluid px-4 py-5">
         <!-- Welcome Section -->
         <div class="row mb-5">
+            <div>
+             @if (session('success'))
+              <div class="alert alert-success text-dark" role="alert">
+                {{ session('success') }}
+              </div>
+              @endif
+             </div>
             <div class="col-12">
                 <div class="card border-0 shadow-sm welcome-card">
                     <div class="card-body p-5">
                         <div class="row align-items-center">
                             <div class="col-md-8">
+
                                 <h1 class="mb-3 fw-bold text-dark">Welcome back, {{ Auth::guard('teacher')->user()->name }}!</h1>
                                 <p class="mb-0 text-muted fs-5">Ready to inspire and educate your students today?</p>
                             </div>
@@ -278,41 +478,125 @@
             <div class="col-12">
                 <div class="card border-0 forms-card">
                     <div class="card-header border-0 pb-0">
-                        <h5 class="card-title text-white mb-0"><i class="fas fa-clipboard-list me-2 text-primary"></i>Your Forms</h5>
-                    </div>
-                    @if(count($forms) > 0)
-                        <div class="card-body">
-                            <div class="row">
-                                @foreach($forms as $form)
-                                    <div class="col-md-6 mb-4">
-                                        <div class="card border-0 form-item-card">
-                                            <div class="card-body p-4">
-                                                <h5 class="card-title mb-2" style="color:black;" >{{ $loop->iteration }})  {{ $form->title }}</h5>
-                                                <p class="card-text text-muted mb-0">Created on: {{ $form->created_at->format('d M Y') }}</p>
-                                                <p class="card-text text-muted mb-0">By : {{ $form->teacher->name }}</p>
-                                                <a href="{{route('teacher.showForm',$form->id)}}" class="btn btn-sm btn-success mt-3">View Form</a>
-                                                <a href="{{route('teacher.deleteForm',$form->id)}}" onclick="return confirm('Are you sure you want to delete this form?');"  class="btn btn-sm btn-danger mt-3">Delete Form</a>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title text-white mb-0"><i class="fas fa-clipboard-list me-2 text-primary"></i>Your Forms</h5>
+                            <div class="search-container d-flex">
+                                <input type="text" id="form-search" class="form-control me-2" placeholder="Search forms..." style="border-radius: 20px; width: 200px;">
+                                <button type="button" id="search-btn" class="btn btn-primary" style="border-radius: 20px;">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
                         </div>
-                    @endif
-                    @empty($forms)
+                    </div>
                     <div class="card-body">
-                        <div class="text-center text-muted py-4 empty-state">
-                            <i class="fas fa-file-alt fa-3x mb-3"></i>
-                            <p class="mb-0">No forms created yet. Use the Form Builder to create your first form.</p>
+                        <div id="forms-container">
+                            @include('teacher.partials.forms')
+                        </div>
+                        <div id="pagination-container">
+                            {{ $forms->links('teacher.partials.pagination') }}
                         </div>
                     </div>
-                    @endempty
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentSearch = '';
+
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.page-link[data-page]')) {
+                    e.preventDefault();
+                    const page = e.target.getAttribute('data-page');
+                    loadForms(page, currentSearch);
+                }
+            });
+
+            document.getElementById('search-btn').addEventListener('click', function() {
+                currentSearch = document.getElementById('form-search').value;
+                loadForms(1, currentSearch);
+            });
+
+            document.getElementById('form-search').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    currentSearch = this.value;
+                    loadForms(1, currentSearch);
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.add-classroom-btn') || e.target.closest('.add-classroom-btn')) {
+                    const btn = e.target.matches('.add-classroom-btn') ? e.target : e.target.closest('.add-classroom-btn');
+                    const formId = btn.getAttribute('data-form-id');
+                    const assignmentDiv = document.getElementById(`assignment-${formId}`);
+                    const icon = btn.querySelector('i');
+
+                    if (assignmentDiv.style.display === 'none' || assignmentDiv.style.display === '') {
+                        assignmentDiv.style.display = 'block';
+                        icon.className = 'fas fa-minus';
+                        setTimeout(() => {
+                            $(`#classroom-select-${formId}`).selectpicker('destroy').selectpicker();
+                        }, 100);
+                    } else {
+                        assignmentDiv.style.display = 'none';
+                        icon.className = 'fas fa-plus';
+                    }
+                    return;
+                }
+
+                if (e.target.matches('.assign-btn')) {
+                    const formId = e.target.getAttribute('data-form-id');
+                    const selectedOptions = $(`#classroom-select-${formId}`).val();
+
+                    if (selectedOptions.length === 0) {
+                        alert('Please select at least one classroom');
+                        return;
+                    }
+
+                    fetch('/teacher/assign-form', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            form_id: formId,
+                            classroom_ids: selectedOptions
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            loadForms(1, currentSearch);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            });
+
+            function loadForms(page = 1, search = '') {
+                const url = new URL('/teacher/forms', window.location.origin);
+                url.searchParams.set('page', page);
+                if (search) url.searchParams.set('search', search);
+
+                fetch(url, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('forms-container').innerHTML = data.html;
+                    document.getElementById('pagination-container').innerHTML = data.pagination;
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
+    </script>
 </body>
 </html>

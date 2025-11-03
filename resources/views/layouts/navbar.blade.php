@@ -25,7 +25,9 @@
     color: white !important;
     transition: all 0.3s ease;
 }
-
+.nav-item{
+    margin : 0px 5px;
+}
 .navbar-brand:hover {
     animation: pulse 0.6s ease;
     color: #f8f9fa !important;
@@ -128,7 +130,7 @@
 
 <nav class="navbar navbar-expand-lg modern-navbar">
     <div class="container-fluid px-4">
-        <a class="navbar-brand" href="{{ route('teacher.dashboard') }}">
+        <a class="navbar-brand" href="{{ Auth::guard('teacher')->check() ? route('teacher.dashboard') : (Auth::guard('student')->check() ? route('student.dashboard') : '/') }}">
             <i class="fas fa-graduation-cap"></i>Lync
         </a>
 
@@ -137,34 +139,51 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto ms-4">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('teacher.dashboard') }}">
-                        <i class="fas fa-home"></i>Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('teacher.classroom.setup')}}">
-                        <i class="fas fa-school"></i>Classrooms
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('teacher.formBuilder') }}">
-                        <i class="fas fa-wpforms"></i>Form Builder
-                    </a>
-                </li>
-            </ul>
+            @if(Auth::guard('teacher')->check())
+                <ul class="navbar-nav me-auto ms-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('teacher.dashboard') }}">
+                            <i class="fas fa-home"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('teacher.classroom.setup')}}">
+                            <i class="fas fa-school"></i>Classrooms
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('teacher.formBuilder') }}">
+                            <i class="fas fa-wpforms"></i>Form Builder
+                        </a>
+                    </li>
+                </ul>
+            @elseif(Auth::guard('student')->check())
+                <ul class="navbar-nav me-auto ms-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('student.dashboard') }}">
+                            <i class="fas fa-home"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/student/classrooms">
+                            <i class="fas fa-book"></i>My Classes
+                        </a>
+                    </li>
+                </ul>
+            @endif
 
             <div class="d-flex align-items-center">
-                <div class="dropdown">
-                    <button class="btn user-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle me-2"></i>{{ Auth::guard('teacher')->user()->name }}
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-
-                        <li><a class="dropdown-item text-danger" href="{{ route('account.logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
-                    </ul>
-                </div>
+                @if(Auth::guard('teacher')->check() || Auth::guard('student')->check())
+                    <div class="dropdown">
+                        <button class="btn user-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-2"></i>
+                            {{ Auth::guard('teacher')->check() ? Auth::guard('teacher')->user()->name : Auth::guard('student')->user()->name }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item text-danger" href="{{ route('account.logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

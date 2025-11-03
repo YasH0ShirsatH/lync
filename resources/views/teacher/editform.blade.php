@@ -2,23 +2,12 @@
 <html>
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Form Builder - Lync</title>
+    <title>Edit Form - {{ $form->title }}</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
-
     <style>
         body {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-
-        .container {
-            max-width: 1200px;
-        }
-
-        h2 {
-            color: #212529;
-            font-weight: 700;
         }
 
         .card {
@@ -168,95 +157,26 @@
         .remove-btn:hover {
             background: #c82333;
         }
-
-        .text-center.text-muted {
-            color: #6c757d !important;
-        }
-
-        .text-center.text-muted i {
-            color: #343a40;
-        }
-
-        #successAlert {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1050;
-            background: linear-gradient(135deg, #198754 0%, #20c997 100%);
-            border: none;
-            border-radius: 25px;
-            color: white;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(25,135,84,0.3);
-            backdrop-filter: blur(10px);
-            animation: slideInRight 0.5s ease;
-            min-width: 300px;
-        }
-
-        #successAlert.fade-out {
-            animation: slideOutRight 0.5s ease;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
     </style>
 </head>
 <body>
-   @include('layouts.navbar')
-
-        <div id="successAlert" class="alert text-center p-3" style="display: none;">
-            <i class="fas fa-check-circle me-2"></i>
-            <span id="successMessage"></span>
-        </div>
+    @include('layouts.navbar')
 
     <div class="container py-4">
         <div class="row">
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="mb-4"><i class="fas fa-wpforms me-2 text-primary"></i>Form Builder</h2>
+                    <h2 class="mb-4" id="pageTitle"><i class="fas fa-edit me-2 text-primary"></i>Edit Form: {{ $form->title }}</h2>
                     <a href="{{ route('teacher.dashboard') }}" class="btn btn-outline-dark btn-sm">
-                                                    <i class="fas fa-arrow-left me-1"></i>Back
-                                                </a>
-                    </div>
-
-                <div>
-                    <h4>Enter Classroom </h4>
-                    @if($classrooms->count() > 0)
-
-
-
-                        <select name="classroom[]" id="classroom" class="selectpicker form-control mb-4" multiple data-live-search="true" title="--- SELECT CLASSROOMS ---">
-                            @foreach($classrooms as $classroom)
-                                <option value="{{ $classroom->id }}">{{ $classroom->name }}</option>
-                            @endforeach
-                        </select>
-                    @else
-                        <div class="alert alert-warning" role="alert">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
-                            No classrooms found. <a href="{{ route('teacher.classroom.setup') }}" class="alert-link">Create a classroom first</a>.
-                        </div>
-                    @endif
+                        <i class="fas fa-arrow-left me-1"></i>Back
+                    </a>
                 </div>
 
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Form Title</label>
+                    <input type="text" id="formTitle" class="form-control" value="{{ $form->title }}" placeholder="Enter form title">
+                </div>
+                
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <h5 class="card-title mb-3">Add Form Elements</h5>
@@ -288,28 +208,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-center text-muted">
-                                        <i class="fas fa-plus-circle fa-2x mb-2"></i>
-                                        <p>Click buttons above to add form elements</p>
-                                    </div>
-                <div id="formArea" class="mb-4">
 
+                <div id="formArea" class="mb-4">
+                    {!! $form->html_content !!}
                 </div>
 
-                <button class="btn btn-success btn-lg" onclick="saveForm()"><i class="fas fa-save me-2"></i>Save Form</button>
+                <button class="btn btn-success btn-lg" onclick="updateForm()"><i class="fas fa-save me-2"></i>Update Form</button>
             </div>
         </div>
     </div>
 
     <script>
-        let elementCounter = 1;
+        let elementCounter = 100; // Start high to avoid conflicts
+        
+        // Update page title when form title changes
+        document.getElementById('formTitle').addEventListener('input', function() {
+            const newTitle = this.value || '{{ $form->title }}';
+            document.getElementById('pageTitle').innerHTML = `<i class="fas fa-edit me-2 text-primary"></i>Edit Form: ${newTitle}`;
+        });
 
         function addInput() {
             const title = prompt('Enter label for text input:');
-            if (!title || title.trim() === '') {
+            if (!title || title.trim() === '') return;
 
-                return;
-            }
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -319,7 +240,7 @@
             div.innerHTML = `
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
                 <label class="form-label fw-bold">${title}${asterisk}</label>
-                <input type="text" class="form-control"  name="form_text_${elementCounter}" placeholder="Enter ${title.toLowerCase()}" ${requiredAttr} >
+                <input type="text" class="form-control" name="form_text_${elementCounter}" placeholder="Enter ${title.toLowerCase()}" ${requiredAttr}>
             `;
             document.getElementById('formArea').appendChild(div);
             elementCounter++;
@@ -327,10 +248,8 @@
 
         function addTextarea() {
             const title = prompt('Enter label for textarea:');
-            if (!title || title.trim() === '') {
+            if (!title || title.trim() === '') return;
 
-                return;
-            }
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -340,7 +259,7 @@
             div.innerHTML = `
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
                 <label class="form-label fw-bold">${title}${asterisk}</label>
-                <textarea class="form-control" style="resize:none" name="form_textarea_${elementCounter}" rows="3" placeholder="Enter ${title.toLowerCase()}" ${requiredAttr}></textarea>
+                <textarea class="form-control" name="form_textarea_${elementCounter}" rows="3" placeholder="Enter ${title.toLowerCase()}" ${requiredAttr}></textarea>
             `;
             document.getElementById('formArea').appendChild(div);
             elementCounter++;
@@ -348,15 +267,11 @@
 
         function addRadio() {
             const title = prompt('Enter question for radio buttons:');
-            if (!title || title.trim() === '') {
+            if (!title || title.trim() === '') return;
 
-                return;
-            }
             const options = prompt('Enter options separated by commas:');
-            if (!options || options.trim() === '') {
+            if (!options || options.trim() === '') return;
 
-                return;
-            }
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -385,15 +300,11 @@
 
         function addCheckbox() {
             const title = prompt('Enter question for checkboxes:');
-            if (!title || title.trim() === '') {
+            if (!title || title.trim() === '') return;
 
-                return;
-            }
             const options = prompt('Enter options separated by commas:');
-            if (!options || options.trim() === '') {
+            if (!options || options.trim() === '') return;
 
-                return;
-            }
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -422,15 +333,11 @@
 
         function addSelect() {
             const title = prompt('Enter label for select dropdown:');
-            if (!title || title.trim() === '') {
+            if (!title || title.trim() === '') return;
 
-                return;
-            }
             const options = prompt('Enter options separated by commas:');
-            if (!options || options.trim() === '') {
+            if (!options || options.trim() === '') return;
 
-                return;
-            }
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -457,10 +364,8 @@
 
         function addDate() {
             const title = prompt('Enter label for date input:');
-            if (!title || title.trim() === '') {
+            if (!title || title.trim() === '') return;
 
-                return;
-            }
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -478,10 +383,8 @@
 
         function addTel() {
             const title = prompt('Enter label for phone input:');
-            if (!title || title.trim() === '') {
+            if (!title || title.trim() === '') return;
 
-                return;
-            }
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -499,10 +402,8 @@
 
         function addFile() {
             const title = prompt('Enter label for file input:');
-            if (!title || title.trim() === '') {
+            if (!title || title.trim() === '') return;
 
-                return;
-            }
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -518,90 +419,57 @@
             elementCounter++;
         }
 
-        function saveForm() {
+        function updateForm() {
             const html = document.getElementById('formArea').innerHTML;
-            const classrooms = $('#classroom').val(); // Get array of selected values
+            const title = document.getElementById('formTitle').value;
             
-            if (!classrooms || classrooms.length === 0) {
-                alert('Please select at least one classroom!');
-                return;
-            }
-            const title = prompt('Enter form title:');
             if (!title || title.trim() === '') {
                 alert('Form title is required!');
                 return;
             }
 
-            fetch('{{ route("form.save") }}', {
+            fetch('{{ route("teacher.updateForm", $form->id) }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 },
                 body: JSON.stringify({
-                    title: title,
                     html_content: html,
-                    classroom: classrooms // Send array of classroom IDs
+                    title: title
                 })
             })
-            .then(res => {
-                console.log('Response status:', res.status);
-                console.log('Response headers:', res.headers);
-
-                if (!res.ok) {
-                    return res.text().then(text => {
-                        console.log('Error response body:', text);
-                        throw new Error('Server error: ' + res.status + ' - ' + text.substring(0, 100));
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        console.log('Error response:', text);
+                        throw new Error('Server error: ' + response.status);
                     });
                 }
-
-                return res.text().then(text => {
-                    console.log('Response body:', text);
+                return response.text().then(text => {
                     try {
                         return JSON.parse(text);
                     } catch (e) {
-                        console.error('JSON parse error:', e);
-                        console.error('Response was:', text.substring(0, 200));
+                        console.log('Response was:', text.substring(0, 200));
                         throw new Error('Invalid JSON response from server');
                     }
                 });
             })
             .then(data => {
-                // Show success message
-                const alert = document.getElementById('successAlert');
-                document.getElementById('successMessage').textContent = data.message;
-                alert.style.display = 'block';
-
-                // Auto-hide after 3 seconds
-                setTimeout(() => {
-                    alert.classList.add('fade-out');
-                    setTimeout(() => {
-                        alert.style.display = 'none';
-                        alert.classList.remove('fade-out');
-                    }, 500);
-                }, 3000);
-
-                // Clear the form area
-                document.getElementById('formArea').innerHTML = ``;
-
-                // Reset counter and multiselect
-                elementCounter = 1;
-                $('#classroom').selectpicker('deselectAll');
+                alert('Form updated successfully!');
+                const urlParams = new URLSearchParams(window.location.search);
+                const classroomId = urlParams.get('classroom_id');
+                if (classroomId) {
+                    window.location.href = `/teacher/classroom/show/${classroomId}`;
+                } else {
+                    window.location.href = '{{ route("teacher.dashboard") }}';
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error saving form: ' + error.message);
+                alert('Error updating form: ' + error.message);
             });
         }
-        
-        // Initialize Bootstrap Select
-        $(document).ready(function() {
-            $('.selectpicker').selectpicker();
-        });
     </script>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 </body>
 </html>

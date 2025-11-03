@@ -189,24 +189,24 @@
             font-size: 0.95rem;
             margin-bottom: 15px;
         }
-        
+
         .classroom-actions {
             display: flex;
             gap: 10px;
             justify-content: flex-start;
         }
-        
+
         .btn-sm {
             padding: 8px 16px;
             font-size: 0.875rem;
             border-radius: 15px;
         }
-        
+
         .btn-danger {
             background: #dc3545;
             border-color: #dc3545;
         }
-        
+
         .btn-danger:hover {
             background: #bb2d3b;
             border-color: #b02a37;
@@ -222,6 +222,12 @@
             <span id="successMessage">{{ session('success') }}</span>
         </div>
     @endif
+     @if(session('delete'))
+            <div id="successAlert" class="alert text-center p-3">
+                <i class="fas fa-check-circle me-2"></i>
+                <span id="successMessage">{{ session('delete') }}</span>
+            </div>
+        @endif
 
     <div class="container py-5">
         <div class="row justify-content-center">
@@ -241,10 +247,10 @@
                                         <div class="classroom-name">{{ $classroom->name }}</div>
                                         <div class="classroom-description">{{ $classroom->description ?: 'No description provided' }}</div>
                                         <div class="classroom-actions">
-                                            <a href="#" class="btn btn-sm btn-success">
+                                            <a href="{{route('teacher.classroom.show',$classroom->id)}}" class="btn btn-sm btn-success">
                                                 <i class="fas fa-eye me-1"></i>View
                                             </a>
-                                            <a href="#" onclick="return confirm('Are you sure you want to delete this classroom?');" class="btn btn-sm btn-danger">
+                                            <a href="{{route('teacher.deleteClass',$classroom->id)}}" onclick="return confirm('Are you sure you want to delete this classroom?');" class="btn btn-sm btn-danger">
                                                 <i class="fas fa-trash me-1"></i>Delete
                                             </a>
                                         </div>
@@ -323,19 +329,19 @@
         document.getElementById('toggleFormBtn').addEventListener('click', function() {
             const form = document.getElementById('classroomForm');
             const btn = document.getElementById('toggleFormBtn');
-            
+
             form.style.display = 'block';
             btn.style.display = 'none';
         });
-        
+
         document.getElementById('hideFormBtn').addEventListener('click', function() {
             const form = document.getElementById('classroomForm');
             const btn = document.getElementById('toggleFormBtn');
-            
+
             form.style.display = 'none';
             btn.style.display = 'block';
         });
-        
+
         // Auto-hide success alert
         const successAlert = document.getElementById('successAlert');
         if (successAlert) {
