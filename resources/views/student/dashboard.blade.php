@@ -101,7 +101,7 @@
                                   </a>
                             </div>
                             <div class="col-md-4">
-                                <a href="#" class="btn btn-info w-100 py-4 text-start">
+                                <a href="{{ route('student.allAssignedForms') }}" class="btn btn-info w-100 py-4 text-start">
                                     <i class="fas fa-clipboard-list me-3 fa-lg"></i>
                                     <div class="d-inline-block">
                                         <div class="fw-bold fs-5">Fill Form Assigned</div>

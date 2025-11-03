@@ -57,7 +57,11 @@ Route::group(['middleware' => 'auth:student'], function(){
     Route::get('/student/classrooms', [StudentController::class, 'viewClasses'])->name('student.classes');
     Route::get('/student/classrooms/{classroom}/forms', [StudentController::class, 'viewAssignedForms'])->name('student.viewAssignedForms');
     Route::get('/student/classrooms/joined', [StudentController::class, 'viewJoinedClasses'])->name('student.viewJoinedClasses');
+    Route::get('/student/classrooms/{classroom}/forms/{form}', [StudentController::class, 'showForm'])->name('student.showForm');
     Route::post('/student/join-class', [StudentController::class, 'joinClass'])->name('student.joinClass');
+    Route::post('/student/leave-class', [StudentController::class, 'leaveClass'])->name('student.leaveClass');
+    Route::post('/student/submit-form', [StudentController::class, 'submitForm'])->name('student.submitForm');
+    Route::get('/student/all-assigned-forms', [StudentController::class, 'viewAllAssignedForms'])->name('student.allAssignedForms');
 });
 
 

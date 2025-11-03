@@ -164,10 +164,14 @@
                             <i class="fas fa-home"></i>Dashboard
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/student/classrooms">
-                            <i class="fas fa-book"></i>My Classes
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book"></i>Classes
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('student.viewJoinedClasses') }}"><i class="fas fa-users"></i>My Classes</a></li>
+                            <li><a class="dropdown-item" href="{{ route('student.classes') }}"><i class="fas fa-list"></i>All Classes</a></li>
+                        </ul>
                     </li>
                 </ul>
             @endif

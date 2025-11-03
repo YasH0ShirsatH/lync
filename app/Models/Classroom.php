@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\User;;
+use App\Models\ClassroomForms;
 class Classroom extends Model
 {
     protected $fillable = [
@@ -18,8 +19,9 @@ class Classroom extends Model
         return $this->belongsTo(User::class, 'teacher_id');
     }
 
-    public function classroomforms()
+    public function classroomForms()
     {
-        return $this->hasMany(ClassroomForm::class, 'classroom_id');
+        return $this->hasMany(ClassroomForms::class, 'classroom_id');
     }
+
 }

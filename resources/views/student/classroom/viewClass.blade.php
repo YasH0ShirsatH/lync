@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Student Dashboard - Lync</title>
+    <title>Available Classes - Lync</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -12,52 +12,147 @@
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             min-height: 100vh;
         }
-        
+
         .page-header {
             background: rgba(52, 58, 64, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 25px;
             margin-bottom: 2rem;
         }
-        
+
         .card {
-            border-radius: 20px;
-            transition: all 0.3s ease;
+            border-radius: 25px;
+            transition: all 0.4s ease;
             border: none;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.95);
-            height: 350px;
+            background: white;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
         }
-        
+
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
-        
+
         .card-header {
-            background: rgba(52, 58, 64, 0.95) !important;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             border: none;
-            padding: 1.5rem;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            position: relative;
         }
-        
+
+        .class-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .class-icon i {
+            font-size: 1.8rem;
+            color: white;
+        }
+
         .card-body {
             padding: 2rem;
             background: white;
+            display: flex;
+            flex-direction: column;
         }
-        
-        .btn-primary {
+
+        .class-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            border-left: 4px solid #198754;
+        }
+
+        .detail-icon {
+            width: 40px;
+            height: 40px;
             background: #198754;
-            border: none;
-            border-radius: 20px;
-            padding: 12px 30px;
-            font-weight: 600;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .detail-icon i {
+            color: white;
+            font-size: 1rem;
+        }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-label {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .detail-value {
+            color: #6c757d;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .action-area {
+            margin-top: 1rem;
+        }
+
+        .password-input-wrapper input {
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
             transition: all 0.3s ease;
         }
-        
+
+        .password-input-wrapper input:focus {
+            border-color: #198754;
+            box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            border-radius: 15px;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+            border: none;
+        }
+
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(25, 135, 84, 0.3);
-            background: #157347;
+            box-shadow: 0 8px 25px rgba(25, 135, 84, 0.4);
         }
     </style>
 </head>
@@ -70,41 +165,71 @@
         </h1>
         <p class="lead mb-0">Choose a class to join and start your learning journey</p>
     </div>
-    
+
     <div class="row g-4">
-        @foreach ($classes as $class)
-            <div class="col-md-6 col-xl-4">
+        @forelse ($classes as $class)
+            <div class="col-lg-4 col-md-6">
                 <div class="card shadow-lg">
                     <div class="card-header text-white">
-                        <h5 class="card-title mb-0 fw-bold">
-                            <i class="fas fa-graduation-cap me-2"></i>
-                            {{ $class->name }}
-                        </h5>
+                        <div class="class-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h5 class="card-title mb-0 fw-bold">{{ $class->name }}</h5>
                     </div>
-                    <div class="card-body d-flex flex-column">
-                        <p class="card-text text-muted flex-grow-1 mb-4">{{ $class->description }}</p>
-                        @if(in_array($class->id, $joinedClassIds))
-                            <a href="{{ route('student.viewAssignedForms', $class->id) }}" class="btn btn-success btn-lg mt-auto">
-                                <i class="fas fa-eye me-2"></i>View Forms
-                            </a>
-                        @else
-                            <div class="password-section" id="password-{{ $class->id }}" style="display: none;">
-                                <input type="password" class="form-control mb-3" placeholder="Enter class password" id="password-input-{{ $class->id }}">
-                                <button type="button" class="btn btn-success w-100 mb-2" onclick="submitJoin('{{ $class->id }}')">
-                                    <i class="fas fa-check me-2"></i>Join Class
-                                </button>
-                                <button type="button" class="btn btn-secondary w-100" onclick="cancelJoin('{{ $class->id }}')">
-                                    Cancel
-                                </button>
+                    
+                    <div class="card-body">
+                        <div class="class-details">
+                            <div class="detail-row">
+                                <div class="detail-icon">
+                                    <i class="fas fa-align-left"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">Description</span>
+                                    <p class="detail-value">{{ $class->description ?: 'No description available' }}</p>
+                                </div>
                             </div>
-                            <button type="button" class="btn btn-primary btn-lg mt-auto join-btn" id="join-btn-{{ $class->id }}" onclick="showPassword('{{ $class->id }}')">
-                                <i class="fas fa-rocket me-2"></i>Join Now
+                            
+                            <div class="detail-row">
+                                <div class="detail-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span class="detail-label">Instructor</span>
+                                    <p class="detail-value">{{ $class->teacher->name }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-area">
+                            <div class="password-section" id="password-{{ $class->id }}" style="display: none;">
+                                <div class="password-input-wrapper mb-3">
+                                    <input type="password" class="form-control" placeholder="Enter class password" id="password-input-{{ $class->id }}">
+                                </div>
+                                <div class="button-group">
+                                    <button type="button" class="btn btn-success flex-fill" onclick="submitJoin('{{ $class->id }}')">
+                                        <i class="fas fa-check me-1"></i>Join
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary flex-fill" onclick="cancelJoin('{{ $class->id }}')">
+                                        <i class="fas fa-times me-1"></i>Cancel
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <button type="button" class="btn btn-primary btn-lg w-100 join-btn" id="join-btn-{{ $class->id }}" onclick="showPassword('{{ $class->id }}')">
+                                <i class="fas fa-rocket me-2"></i>Join Class
                             </button>
-                        @endif
+                        </div>
                     </div>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No classes available to join at the moment.
+                </div>
+            </div>
+        @endforelse
     </div>
 </div>
 
@@ -126,7 +251,7 @@ function submitJoin(classId) {
         alert('Please enter the class password');
         return;
     }
-    
+
     fetch('/student/join-class', {
         method: 'POST',
         headers: {
