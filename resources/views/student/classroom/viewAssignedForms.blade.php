@@ -283,17 +283,17 @@
                             <p class="info-text">
                                 <strong>Instructor:</strong> {{ $classroom->teacher->name }}<br>
                                 <strong>Status:</strong> {{ in_array($form->form_id, $submittedFormIds) ? 'Submitted' : 'Pending Completion' }}
-                                @if(in_array($form->form_id, $submittedFormIds) && isset($submissions[$form->form_id]))
-                                    @php $submission = $submissions[$form->form_id]; @endphp
-                                    @if($submission->rating !== null || $submission->comment)
-                                        <br><strong class="text-success">Teacher Response:</strong> 
-                                        <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Available</span>
-                                    @else
-                                        <br><strong class="text-warning">Teacher Response:</strong> 
-                                        <span class="badge bg-warning"><i class="fas fa-clock me-1"></i>Pending</span>
-                                    @endif
-                                @endif
                             </p>
+                            @if(in_array($form->form_id, $submittedFormIds) && isset($submissions[$form->form_id]))
+                                @php $submission = $submissions[$form->form_id]; @endphp
+                                @if($submission->rating !== null || $submission->comment)
+                                    <div class="mt-2">
+                                        <span class="badge" style="background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 20px; padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600;">
+                                            <i class="fas fa-comment me-1"></i>Teacher Feedback
+                                        </span>
+                                    </div>
+                                @endif
+                            @endif
                         </div>
 
                         <div class="action-button">

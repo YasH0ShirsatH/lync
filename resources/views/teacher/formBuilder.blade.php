@@ -169,6 +169,22 @@
             background: #c82333;
         }
 
+        .edit-title-btn {
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+
+        .edit-title-btn:hover {
+            background: #0b5ed7;
+        }
+
         .text-center.text-muted {
             color: #6c757d !important;
         }
@@ -318,7 +334,7 @@
             div.className = 'form-element';
             div.innerHTML = `
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
-                <label class="form-label fw-bold">${title}${asterisk}</label>
+                <label class="form-label fw-bold">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label>
                 <input type="text" class="form-control"  name="form_text_${elementCounter}" placeholder="Enter ${title.toLowerCase()}" ${requiredAttr} >
             `;
             document.getElementById('formArea').appendChild(div);
@@ -339,7 +355,7 @@
             div.className = 'form-element';
             div.innerHTML = `
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
-                <label class="form-label fw-bold">${title}${asterisk}</label>
+                <label class="form-label fw-bold">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label>
                 <textarea class="form-control" style="resize:none" name="form_textarea_${elementCounter}" rows="3" placeholder="Enter ${title.toLowerCase()}" ${requiredAttr}></textarea>
             `;
             document.getElementById('formArea').appendChild(div);
@@ -366,7 +382,7 @@
             div.className = 'form-element';
             let radioHtml = `
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
-                <label class="form-label fw-bold">${title}${asterisk}</label><br>
+                <label class="form-label fw-bold">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label><br>
             `;
 
             optionArray.forEach((option, index) => {
@@ -403,7 +419,7 @@
             div.className = 'form-element';
             let checkboxHtml = `
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
-                <label class="form-label fw-bold">${title}${asterisk}</label><br>
+                <label class="form-label fw-bold">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label><br>
             `;
 
             optionArray.forEach((option, index) => {
@@ -440,7 +456,7 @@
             div.className = 'form-element';
             let selectHtml = `
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
-                <label class="form-label fw-bold">${title}${asterisk}</label>
+                <label class="form-label fw-bold">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label>
                 <select class="form-select" name="form_select_${elementCounter}" ${requiredAttr}>
                     <option value="">Choose ${title.toLowerCase()}</option>
             `;
@@ -469,7 +485,7 @@
             div.className = 'form-element';
             div.innerHTML = `
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
-                <label class="form-label fw-bold">${title}${asterisk}</label>
+                <label class="form-label fw-bold">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label>
                 <input type="date" class="form-control" name="form_date_${elementCounter}" ${requiredAttr}>
             `;
             document.getElementById('formArea').appendChild(div);
@@ -490,7 +506,7 @@
             div.className = 'form-element';
             div.innerHTML = `
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
-                <label class="form-label fw-bold">${title}${asterisk}</label>
+                <label class="form-label fw-bold">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label>
                 <input type="tel" class="form-control" name="form_tel_${elementCounter}" placeholder="Enter ${title.toLowerCase()}" ${requiredAttr}>
             `;
             document.getElementById('formArea').appendChild(div);
@@ -511,7 +527,7 @@
             div.className = 'form-element';
             div.innerHTML = `
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
-                <label class="form-label fw-bold">${title}${asterisk}</label>
+                <label class="form-label fw-bold">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label>
                 <input type="file" class="form-control" name="form_file_${elementCounter}" ${requiredAttr}>
             `;
             document.getElementById('formArea').appendChild(div);
@@ -594,14 +610,28 @@
             });
         }
 
+        function editTitle(button, event) {
+            if (event) event.stopPropagation();
+            
+            const label = button.parentElement;
+            const currentTitle = label.childNodes[0].textContent.replace(' *', '').trim();
+            const newTitle = prompt('Edit title:', currentTitle);
+            
+            if (newTitle && newTitle.trim() !== '' && newTitle.trim() !== currentTitle) {
+                const hasAsterisk = label.innerHTML.includes('<span class="text-danger">*</span>');
+                const asterisk = hasAsterisk ? ' <span class="text-danger">*</span>' : '';
+                label.innerHTML = `${newTitle}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button>`;
+            }
+        }
+
         // Initialize Bootstrap Select
         $(document).ready(function() {
             $('.selectpicker').selectpicker();
         });
     </script>
 
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 </body>
 </html>

@@ -231,10 +231,25 @@
             color: #64748b;
         }
 
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
+
+
+        .empty-state .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .empty-state .btn-primary:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+            color: white;
         }
 
         /* Responsive */
@@ -312,7 +327,7 @@
                                                     </small>
                                                 </div>
                                             </div>
-                                            
+
                                             @if($classform->allClassrooms && $classform->allClassrooms->count() > 1)
                                                 <div class="mb-3">
                                                     <small class="text-muted d-block mb-1">Also in:</small>
@@ -323,7 +338,7 @@
                                                     @endforeach
                                                 </div>
                                             @endif
-                                            
+
                                             <div class="d-flex gap-2 flex-wrap">
                                                 <a href="{{ route('teacher.showForm', $classform->form->id) }}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-eye me-1"></i>View
@@ -380,7 +395,7 @@
                                                         <small class="student-email">{{ $student->student->email }}</small>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <a href="{{ route('teacher.classroom.viewStudentResponses', [$id, $student->student_id]) }}" class="btn btn-success btn-sm">
                                                     <i class="fas fa-chart-line me-1"></i>Responses
                                                 </a>

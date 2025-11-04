@@ -125,6 +125,10 @@
             color: #212529;
             margin-bottom: 8px;
         }
+
+        .edit-title-btn {
+            display: none !important;
+        }
     </style>
 </head>
 <body>

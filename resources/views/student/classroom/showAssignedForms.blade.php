@@ -135,6 +135,10 @@
             display: none !important;
         }
 
+        .edit-title-btn {
+            display: none !important;
+        }
+
         .breadcrumb-nav {
             background: transparent;
             padding: 0;

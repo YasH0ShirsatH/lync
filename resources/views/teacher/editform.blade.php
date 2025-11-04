@@ -157,6 +157,10 @@
         .remove-btn:hover {
             background: #c82333;
         }
+
+        .edit-title-btn {
+            display: none !important;
+        }
     </style>
 </head>
 <body>

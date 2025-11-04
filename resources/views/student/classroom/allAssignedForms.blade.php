@@ -261,14 +261,20 @@
                                         @endphp
                                         @if($isUpdated)
                                             <span class="status-badge status-updated me-2">
-                                                <i class="fas fa-exclamation me-1"></i>Updated
+                                                <i class="fas fa-sync-alt me-1"></i>Updated
+                                            </span>
+                                        @else
+                                            <span class="status-badge status-completed me-2">
+                                                <i class="fas fa-check me-1"></i>Completed
                                             </span>
                                         @endif
-                                        <span class="status-badge status-completed me-3">
-                                            <i class="fas fa-check me-1"></i>Completed
-                                        </span>
+                                        @if($submission && ($submission->rating !== null || $submission->comment))
+                                            <span class="status-badge status-completed me-2">
+                                                <i class="fas fa-comment me-1"></i>Teacher Feedback
+                                            </span>
+                                        @endif
                                     @else
-                                        <span class="status-badge status-pending me-3">
+                                        <span class="status-badge status-pending me-2">
                                             <i class="fas fa-clock me-1"></i>Pending
                                         </span>
                                     @endif
@@ -282,17 +288,15 @@
         @endif
     @empty
         <div class="empty-state">
-            <i class="fas fa-graduation-cap empty-icon"></i>
-            <h4 class="mb-3">No Classrooms Joined</h4>
-            <p class="text-muted mb-4">You haven't joined any classrooms yet. Browse and join available classes to see your assignments.</p>
-            <a href="{{ route('student.classes') }}" class="btn btn-primary">
-                <i class="fas fa-search me-2"></i>Browse Classes
+            <i class="fas fa-clipboard-list empty-icon"></i>
+            <h4 class="mb-3">No Forms Assigned</h4>
+            <p class="text-muted mb-4">You haven't been assigned any forms yet. Check back later for new assignments.</p>
+            <a href="{{ route('student.dashboard') }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
             </a>
         </div>
     @endforelse
 </div>
 
 </body>
-@include('javascript.js')
-
 </html>

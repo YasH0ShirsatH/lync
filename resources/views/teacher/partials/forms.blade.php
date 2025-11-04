@@ -109,13 +109,18 @@
         @endforeach
     </div>
 @else
-    {{-- Empty State (Unchanged, already looks professional) --}}
-    <div class="alert alert-info text-center shadow-sm p-5 rounded-4" role="alert">
-        <i class="fas fa-file-alt fa-5x mb-4 text-info"></i>
-        <h4 class="alert-heading mb-3">No Forms Created Yet!</h4>
-        <p class="lead mb-4">It looks like you haven't built any forms. Let's get started!</p>
-        <hr>
-        <p class="mb-0">Use the <a href="/teacher/formBuilder" class="alert-link fw-bold">Form Builder</a> to create your first professional form.</p>
+    {{-- Modern Empty State --}}
+    <div class="empty-state-container">
+        <div class="empty-state-card">
+            <div class="empty-state-icon">
+                <i class="fas fa-wpforms"></i>
+            </div>
+            <h3 class="empty-state-title">Ready to Get Started?</h3>
+            <p class="empty-state-description">No forms created yet. Build professional forms, surveys, and assessments with our intuitive form builder.</p>
+            <a href="/teacher/formBuilder" class="empty-state-btn">
+                <i class="fas fa-plus me-2"></i>Create Your First Form
+            </a>
+        </div>
     </div>
 @endif
 
@@ -126,5 +131,84 @@
 }
 .add-classroom-btn {
     /* No hover effects */
+}
+
+/* Modern Empty State */
+.empty-state-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    padding: 2rem;
+}
+
+.empty-state-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    max-width: 480px;
+    width: 100%;
+}
+
+.empty-state-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 4px 12px rgba(148, 163, 184, 0.15);
+}
+
+.empty-state-icon i {
+    font-size: 1.75rem;
+    color: #475569;
+}
+
+.empty-state-title {
+    color: #1e293b;
+    font-weight: 600;
+    font-size: 1.375rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.empty-state-description {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.empty-state-btn {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    color: #475569;
+    padding: 0.75rem 1.75rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgba(148, 163, 184, 0.2);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #cbd5e1;
+}
+
+.empty-state-btn:hover {
+    background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(148, 163, 184, 0.25);
+    color: #334155;
+    text-decoration: none;
+    border-color: #94a3b8;
 }
 </style>

@@ -239,12 +239,18 @@
             border: 1px solid #e2e8f0;
             font-size: 0.9rem;
             padding: 0.75rem 1rem;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
+            width: 250px;
+        }
+
+        .search-container .form-control:focus {
+            width: 350px;
         }
 
         .search-container .form-control:focus {
             border-color: #94a3b8;
             box-shadow: 0 0 0 0.2rem rgba(148, 163, 184, 0.25);
+            width: 350px;
         }
 
         .search-container .btn-primary {
