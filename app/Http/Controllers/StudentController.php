@@ -22,18 +22,17 @@ class StudentController extends Controller
         $completedForms = FormSubmission::where('student_id', $studentId)->count();
         
         // Get unique assigned forms
-        $totalAssignedForms = ClassroomForms::whereIn('classroom_id', 
+        $totalForms = ClassroomForms::whereIn('classroom_id', 
             ClassroomStudents::where('student_id', $studentId)->pluck('classroom_id')
         )->distinct('form_id')->count('form_id');
         
-        $pendingTasks = $totalAssignedForms - $completedForms;
-        $completionRate = $totalAssignedForms > 0 ? round(($completedForms / $totalAssignedForms) * 100) : 100;
+        $pendingForms = $totalForms - $completedForms;
         
         return view('student.dashboard', [
             'joinedClassrooms' => $joinedClassrooms,
+            'totalForms' => $totalForms,
             'completedForms' => $completedForms,
-            'pendingTasks' => $pendingTasks,
-            'completionRate' => $completionRate
+            'pendingForms' => $pendingForms
         ]);
     }
 

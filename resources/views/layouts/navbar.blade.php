@@ -1,6 +1,8 @@
 <style>
 
 
+@import url('https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@100..900&display=swap');
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -130,8 +132,8 @@
 
 <nav class="navbar navbar-expand-lg modern-navbar">
     <div class="container-fluid px-4">
-        <a class="navbar-brand" href="{{ Auth::guard('teacher')->check() ? route('teacher.dashboard') : (Auth::guard('student')->check() ? route('student.dashboard') : '/') }}">
-            <i class="fas fa-graduation-cap"></i>Lync
+        <a class="navbar-brand" href="{{ Auth::guard('teacher')->check() ? route('teacher.dashboard') : (Auth::guard('student')->check() ? route('student.dashboard') : '/') }}" style="margin-right  : 2px ; padding : 0px" >
+            <p style="font-family: 'Grenze Gotisch', sans-serif; font-size: 2rem; color: white; margin-bottom : 0px" >Lynq</p>
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">

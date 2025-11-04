@@ -45,7 +45,7 @@
         /* --- Stats Cards --- */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
             margin: 2rem 0;
         }
@@ -87,6 +87,10 @@
         .stat-card.blue .stat-number { color: #007bff; }
         .stat-card.green .stat-icon { background-color: #e8f5e8; color: #198754; }
         .stat-card.green .stat-number { color: #198754; }
+        .stat-card.orange .stat-icon { background-color: #fff3cd; color: #fd7e14; }
+        .stat-card.orange .stat-number { color: #fd7e14; }
+        .stat-card.purple .stat-icon { background-color: #f3e8ff; color: #7c3aed; }
+        .stat-card.purple .stat-number { color: #7c3aed; }
 
 
         /* --- Action Cards (Cleaner and more defined) --- */
@@ -185,12 +189,26 @@
                 <div class="stat-number">{{ $joinedClassrooms }}</div>
                 <div class="stat-label">Classes Joined</div>
             </div>
+            <div class="stat-card purple">
+                <div class="stat-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="stat-number">{{ $totalForms }}</div>
+                <div class="stat-label">Total Forms</div>
+            </div>
             <div class="stat-card green">
                 <div class="stat-icon">
                     <i class="fas fa-clipboard-check"></i>
                 </div>
                 <div class="stat-number">{{ $completedForms }}</div>
-                <div class="stat-label">Total Forms Completed</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-card orange">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number">{{ $pendingForms }}</div>
+                <div class="stat-label">Pending</div>
             </div>
 
         </div>
