@@ -37,6 +37,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Form::class, 'teacher_id');
     }
+    
+    public function submissions()
+    {
+        return $this->hasMany(FormSubmission::class, 'student_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

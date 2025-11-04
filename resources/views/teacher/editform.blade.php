@@ -2,11 +2,9 @@
 <html>
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Form Builder - Lync</title>
+    <title>Edit Form - {{ $form->title }}</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
-
     <style>
         :root {
             --primary-blue: #0ea5e9;
@@ -48,12 +46,12 @@
 
         /* Page Header */
         .page-header {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
             border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
             color: white;
-            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.15);
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
             position: relative;
             overflow: hidden;
         }
@@ -107,8 +105,8 @@
             transform: translateY(-1px);
         }
 
-        /* Classroom Selection */
-        .classroom-section {
+        /* Form Title Section */
+        .title-section {
             background: white;
             border-radius: 16px;
             padding: 1.75rem;
@@ -160,11 +158,11 @@
         }
 
         .element-btn:hover {
-            background: var(--primary-blue);
-            border-color: var(--primary-blue);
+            background: var(--warning);
+            border-color: var(--warning);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
         }
 
         .element-btn i {
@@ -175,48 +173,11 @@
         .form-canvas {
             background: white;
             border-radius: 16px;
-            border: 2px dashed var(--neutral-300);
+            border: 1px solid var(--neutral-200);
             min-height: 400px;
             padding: 2rem;
             margin-bottom: 2rem;
-            position: relative;
-            transition: all 0.2s ease;
-        }
-
-        .form-canvas.has-elements {
-            border-style: solid;
-            border-color: var(--neutral-200);
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-
-        .canvas-placeholder {
-            text-align: center;
-            color: var(--neutral-400);
-            padding: 3rem 1rem;
-        }
-
-        .canvas-placeholder-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--neutral-100);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            color: var(--neutral-400);
-            font-size: 2rem;
-        }
-
-        .canvas-placeholder h4 {
-            color: var(--neutral-600);
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-        }
-
-        .canvas-placeholder p {
-            color: var(--neutral-500);
-            margin: 0;
         }
 
         /* Form Elements */
@@ -231,8 +192,8 @@
         }
 
         .form-element:hover {
-            border-color: var(--primary-blue);
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+            border-color: var(--warning);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
         }
 
         .form-control, .form-select {
@@ -244,8 +205,8 @@
         }
 
         .form-control:focus, .form-select:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            border-color: var(--warning);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
         }
 
         .form-label {
@@ -260,8 +221,8 @@
         }
 
         .form-check-input:checked {
-            background-color: var(--primary-blue);
-            border-color: var(--primary-blue);
+            background-color: var(--warning);
+            border-color: var(--warning);
         }
 
         .form-check-label {
@@ -295,7 +256,7 @@
         }
 
         .edit-title-btn {
-            background: var(--primary-blue);
+            background: var(--warning);
             color: white;
             border: none;
             border-radius: 4px;
@@ -311,8 +272,32 @@
         }
 
         .edit-title-btn:hover {
-            background: var(--primary-blue-dark);
+            background: #d97706;
             transform: scale(1.1);
+        }
+
+        /* Element Controls */
+        .element-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--neutral-200);
+        }
+
+        .required-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--neutral-600);
+        }
+
+        .required-checkbox {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--warning);
         }
 
         /* Save Section */
@@ -326,8 +311,8 @@
         }
 
         .btn-save {
-            background: var(--success);
-            border-color: var(--success);
+            background: var(--warning);
+            border-color: var(--warning);
             color: white;
             border-radius: 8px;
             padding: 0.875rem 2rem;
@@ -337,80 +322,11 @@
         }
 
         .btn-save:hover {
-            background: #059669;
-            border-color: #059669;
+            background: #d97706;
+            border-color: #d97706;
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-        }
-
-        /* Success Alert */
-        #successAlert {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1050;
-            background: linear-gradient(135deg, var(--success) 0%, #16a34a 100%);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: 500;
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
-            animation: slideInRight 0.5s ease;
-            min-width: 320px;
-            padding: 1rem 1.25rem;
-        }
-
-        #successAlert.fade-out {
-            animation: slideOutRight 0.5s ease;
-        }
-
-        /* Bootstrap Select Overrides */
-        .bootstrap-select .dropdown-toggle {
-            border: 1px solid var(--neutral-300);
-            border-radius: 8px;
-            padding: 0.75rem;
-        }
-
-        .bootstrap-select .dropdown-toggle:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
-        }
-
-        /* Alert Styling */
-        .alert {
-            border-radius: 12px;
-            border: none;
-            padding: 1rem 1.25rem;
-        }
-
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.1);
-            color: #92400e;
-            border-left: 4px solid var(--warning);
-        }
-
-        /* Animations */
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
         }
 
         /* Responsive Design */
@@ -441,7 +357,7 @@
                 padding: 1.5rem;
             }
 
-            .classroom-section,
+            .title-section,
             .elements-toolbar,
             .save-section {
                 padding: 1.25rem;
@@ -452,21 +368,15 @@
 <body>
     @include('layouts.navbar')
 
-    <!-- Success Alert -->
-    <div id="successAlert" class="alert" style="display: none;">
-        <i class="fas fa-check-circle me-2"></i>
-        <span id="successMessage"></span>
-    </div>
-
     <div class="container py-4">
         <!-- Page Header -->
         <div class="page-header">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
                 <div>
-                    <h1 class="page-title">
-                        <i class="fas fa-hammer me-2"></i>Form Builder
+                    <h1 class="page-title" id="pageTitle">
+                        <i class="fas fa-edit me-2"></i>Edit Form: {{ $form->title }}
                     </h1>
-                    <p class="page-subtitle">Create interactive forms for your classrooms</p>
+                    <p class="page-subtitle">Modify and update your existing form</p>
                 </div>
                 <a href="{{ route('teacher.dashboard') }}" class="btn-back mt-3 mt-md-0">
                     <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
@@ -474,31 +384,20 @@
             </div>
         </div>
 
-        <!-- Classroom Selection -->
-        <div class="classroom-section">
+        <!-- Form Title Section -->
+        <div class="title-section">
             <h3 class="section-title">
-                <i class="fas fa-school"></i>
-                Select Target Classrooms
+                <i class="fas fa-heading"></i>
+                Form Title
             </h3>
-            @if($classrooms->count() > 0)
-                <select name="classroom[]" id="classroom" class="selectpicker form-control" multiple data-live-search="true" title="Choose classrooms to assign this form...">
-                    @foreach($classrooms as $classroom)
-                        <option value="{{ $classroom->id }}">{{ $classroom->name }}</option>
-                    @endforeach
-                </select>
-            @else
-                <div class="alert alert-warning" role="alert">
-                    <i class="fas fa-exclamation-triangle me-2"></i>
-                    No classrooms found. <a href="{{ route('teacher.classroom.setup') }}" class="alert-link">Create a classroom first</a>.
-                </div>
-            @endif
+            <input type="text" id="formTitle" class="form-control" value="{{ $form->title }}" placeholder="Enter form title">
         </div>
 
         <!-- Form Elements Toolbar -->
         <div class="elements-toolbar">
             <h3 class="section-title">
                 <i class="fas fa-tools"></i>
-                Form Elements
+                Add New Elements
             </h3>
             <div class="elements-grid">
                 <button class="element-btn" onclick="addInput()">
@@ -538,32 +437,31 @@
 
         <!-- Form Canvas -->
         <div id="formArea" class="form-canvas">
-            <div class="canvas-placeholder">
-                <div class="canvas-placeholder-icon">
-                    <i class="fas fa-plus"></i>
-                </div>
-                <h4>Start Building Your Form</h4>
-                <p>Click on the elements above to add them to your form. You can drag and rearrange them as needed.</p>
-            </div>
+            {!! $form->html_content !!}
         </div>
 
         <!-- Save Section -->
         <div class="save-section">
-            <button class="btn btn-save" onclick="saveForm()">
-                <i class="fas fa-save me-2"></i>Save & Deploy Form
+            <button class="btn btn-save" onclick="updateForm()">
+                <i class="fas fa-save me-2"></i>Update Form
             </button>
-            <p class="mt-2 mb-0 text-muted" style="font-size: 0.875rem;">Your form will be automatically assigned to the selected classrooms</p>
+            <p class="mt-2 mb-0 text-muted" style="font-size: 0.875rem;">Changes will be applied to all assigned classrooms</p>
         </div>
     </div>
 
     <script>
-        let elementCounter = 1;
+        let elementCounter = 100; // Start high to avoid conflicts
+
+        // Update page title when form title changes
+        document.getElementById('formTitle').addEventListener('input', function() {
+            const newTitle = this.value || '{{ $form->title }}';
+            document.getElementById('pageTitle').innerHTML = `<i class="fas fa-edit me-2 text-primary"></i>Edit Form: ${newTitle}`;
+        });
 
         function addInput() {
             const title = prompt('Enter label for text input:');
-            if (!title || title.trim() === '') {
-                return;
-            }
+            if (!title || title.trim() === '') return;
+
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -574,26 +472,21 @@
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
                 <label class="form-label">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label>
                 <input type="text" class="form-control" name="form_text_${elementCounter}" placeholder="Enter ${title.toLowerCase()}" ${requiredAttr}>
+                <div class="element-controls">
+                    <div class="required-toggle">
+                        <input type="checkbox" class="required-checkbox" ${isRequired ? 'checked' : ''} onchange="toggleRequired(this)">
+                        <span>Required field</span>
+                    </div>
+                </div>
             `;
-            updateFormCanvas();
             document.getElementById('formArea').appendChild(div);
             elementCounter++;
         }
 
-        function updateFormCanvas() {
-            const formArea = document.getElementById('formArea');
-            const placeholder = formArea.querySelector('.canvas-placeholder');
-            if (placeholder) {
-                placeholder.remove();
-                formArea.classList.add('has-elements');
-            }
-        }
-
         function addTextarea() {
             const title = prompt('Enter label for textarea:');
-            if (!title || title.trim() === '') {
-                return;
-            }
+            if (!title || title.trim() === '') return;
+
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -603,22 +496,25 @@
             div.innerHTML = `
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
                 <label class="form-label">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label>
-                <textarea class="form-control" style="resize:none" name="form_textarea_${elementCounter}" rows="3" placeholder="Enter ${title.toLowerCase()}" ${requiredAttr}></textarea>
+                <textarea class="form-control" name="form_textarea_${elementCounter}" rows="3" placeholder="Enter ${title.toLowerCase()}" ${requiredAttr}></textarea>
+                <div class="element-controls">
+                    <div class="required-toggle">
+                        <input type="checkbox" class="required-checkbox" ${isRequired ? 'checked' : ''} onchange="toggleRequired(this)">
+                        <span>Required field</span>
+                    </div>
+                </div>
             `;
-            updateFormCanvas();
             document.getElementById('formArea').appendChild(div);
             elementCounter++;
         }
 
         function addRadio() {
             const title = prompt('Enter question for radio buttons:');
-            if (!title || title.trim() === '') {
-                return;
-            }
+            if (!title || title.trim() === '') return;
+
             const options = prompt('Enter options separated by commas:');
-            if (!options || options.trim() === '') {
-                return;
-            }
+            if (!options || options.trim() === '') return;
+
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -640,21 +536,26 @@
                 `;
             });
 
+            radioHtml += `
+                <div class="element-controls">
+                    <div class="required-toggle">
+                        <input type="checkbox" class="required-checkbox" ${isRequired ? 'checked' : ''} onchange="toggleRequired(this)">
+                        <span>Required field</span>
+                    </div>
+                </div>
+            `;
             div.innerHTML = radioHtml;
-            updateFormCanvas();
             document.getElementById('formArea').appendChild(div);
             elementCounter++;
         }
 
         function addCheckbox() {
             const title = prompt('Enter question for checkboxes:');
-            if (!title || title.trim() === '') {
-                return;
-            }
+            if (!title || title.trim() === '') return;
+
             const options = prompt('Enter options separated by commas:');
-            if (!options || options.trim() === '') {
-                return;
-            }
+            if (!options || options.trim() === '') return;
+
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -676,21 +577,26 @@
                 `;
             });
 
+            checkboxHtml += `
+                <div class="element-controls">
+                    <div class="required-toggle">
+                        <input type="checkbox" class="required-checkbox" ${isRequired ? 'checked' : ''} onchange="toggleRequired(this)">
+                        <span>Required field</span>
+                    </div>
+                </div>
+            `;
             div.innerHTML = checkboxHtml;
-            updateFormCanvas();
             document.getElementById('formArea').appendChild(div);
             elementCounter++;
         }
 
         function addSelect() {
             const title = prompt('Enter label for select dropdown:');
-            if (!title || title.trim() === '') {
-                return;
-            }
+            if (!title || title.trim() === '') return;
+
             const options = prompt('Enter options separated by commas:');
-            if (!options || options.trim() === '') {
-                return;
-            }
+            if (!options || options.trim() === '') return;
+
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -710,17 +616,23 @@
             });
 
             selectHtml += '</select>';
+            selectHtml += `
+                <div class="element-controls">
+                    <div class="required-toggle">
+                        <input type="checkbox" class="required-checkbox" ${isRequired ? 'checked' : ''} onchange="toggleRequired(this)">
+                        <span>Required field</span>
+                    </div>
+                </div>
+            `;
             div.innerHTML = selectHtml;
-            updateFormCanvas();
             document.getElementById('formArea').appendChild(div);
             elementCounter++;
         }
 
         function addDate() {
             const title = prompt('Enter label for date input:');
-            if (!title || title.trim() === '') {
-                return;
-            }
+            if (!title || title.trim() === '') return;
+
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -731,17 +643,21 @@
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
                 <label class="form-label">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label>
                 <input type="date" class="form-control" name="form_date_${elementCounter}" ${requiredAttr}>
+                <div class="element-controls">
+                    <div class="required-toggle">
+                        <input type="checkbox" class="required-checkbox" ${isRequired ? 'checked' : ''} onchange="toggleRequired(this)">
+                        <span>Required field</span>
+                    </div>
+                </div>
             `;
-            updateFormCanvas();
             document.getElementById('formArea').appendChild(div);
             elementCounter++;
         }
 
         function addTel() {
             const title = prompt('Enter label for phone input:');
-            if (!title || title.trim() === '') {
-                return;
-            }
+            if (!title || title.trim() === '') return;
+
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -752,17 +668,21 @@
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
                 <label class="form-label">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label>
                 <input type="tel" class="form-control" name="form_tel_${elementCounter}" placeholder="Enter ${title.toLowerCase()}" ${requiredAttr}>
+                <div class="element-controls">
+                    <div class="required-toggle">
+                        <input type="checkbox" class="required-checkbox" ${isRequired ? 'checked' : ''} onchange="toggleRequired(this)">
+                        <span>Required field</span>
+                    </div>
+                </div>
             `;
-            updateFormCanvas();
             document.getElementById('formArea').appendChild(div);
             elementCounter++;
         }
 
         function addFile() {
             const title = prompt('Enter label for file input:');
-            if (!title || title.trim() === '') {
-                return;
-            }
+            if (!title || title.trim() === '') return;
+
             const isRequired = confirm('Is this field required?');
             const requiredAttr = isRequired ? 'required' : '';
             const asterisk = isRequired ? ' <span class="text-danger">*</span>' : '';
@@ -773,95 +693,66 @@
                 <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
                 <label class="form-label">${title}${asterisk}<button class="edit-title-btn" onclick="editTitle(this, event)" title="Edit title"><i class="fas fa-edit"></i></button></label>
                 <input type="file" class="form-control" name="form_file_${elementCounter}" ${requiredAttr}>
+                <div class="element-controls">
+                    <div class="required-toggle">
+                        <input type="checkbox" class="required-checkbox" ${isRequired ? 'checked' : ''} onchange="toggleRequired(this)">
+                        <span>Required field</span>
+                    </div>
+                </div>
             `;
-            updateFormCanvas();
             document.getElementById('formArea').appendChild(div);
             elementCounter++;
         }
 
-        function saveForm() {
+        function updateForm() {
             const html = document.getElementById('formArea').innerHTML;
-            const classrooms = $('#classroom').val(); // Get array of selected values
+            const title = document.getElementById('formTitle').value;
 
-            if (!classrooms || classrooms.length === 0) {
-                alert('Please select at least one classroom!');
-                return;
-            }
-            const title = prompt('Enter form title:');
             if (!title || title.trim() === '') {
                 alert('Form title is required!');
                 return;
             }
 
-            fetch('{{ route("form.save") }}', {
+            fetch('{{ route("teacher.updateForm", $form->id) }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 },
                 body: JSON.stringify({
-                    title: title,
                     html_content: html,
-                    classroom: classrooms // Send array of classroom IDs
+                    title: title
                 })
             })
-            .then(res => {
-                console.log('Response status:', res.status);
-                console.log('Response headers:', res.headers);
-
-                if (!res.ok) {
-                    return res.text().then(text => {
-                        console.log('Error response body:', text);
-                        throw new Error('Server error: ' + res.status + ' - ' + text.substring(0, 100));
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        console.log('Error response:', text);
+                        throw new Error('Server error: ' + response.status);
                     });
                 }
-
-                return res.text().then(text => {
-                    console.log('Response body:', text);
+                return response.text().then(text => {
                     try {
                         return JSON.parse(text);
                     } catch (e) {
-                        console.error('JSON parse error:', e);
-                        console.error('Response was:', text.substring(0, 200));
+                        console.log('Response was:', text.substring(0, 200));
                         throw new Error('Invalid JSON response from server');
                     }
                 });
             })
             .then(data => {
-                // Show success message
-                const alert = document.getElementById('successAlert');
-                document.getElementById('successMessage').textContent = data.message;
-                alert.style.display = 'block';
-
-                // Auto-hide after 3 seconds
-                setTimeout(() => {
-                    alert.classList.add('fade-out');
-                    setTimeout(() => {
-                        alert.style.display = 'none';
-                        alert.classList.remove('fade-out');
-                    }, 500);
-                }, 3000);
-
-                // Clear the form area and restore placeholder
-                const formArea = document.getElementById('formArea');
-                formArea.innerHTML = `
-                    <div class="canvas-placeholder">
-                        <div class="canvas-placeholder-icon">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <h4>Start Building Your Form</h4>
-                        <p>Click on the elements above to add them to your form. You can drag and rearrange them as needed.</p>
-                    </div>
-                `;
-                formArea.classList.remove('has-elements');
-
-                // Reset counter and multiselect
-                elementCounter = 1;
-                $('#classroom').selectpicker('deselectAll');
+                alert('Form updated successfully!');
+                const urlParams = new URLSearchParams(window.location.search);
+                const classroomId = urlParams.get('classroom_id');
+                if (classroomId) {
+                    window.location.href = `/teacher/classroom/show/${classroomId}`;
+                } else {
+                    window.location.href = '{{ route("teacher.dashboard") }}';
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error saving form: ' + error.message);
+                alert('Error updating form: ' + error.message);
             });
         }
 
@@ -879,13 +770,67 @@
             }
         }
 
-        // Initialize Bootstrap Select
-        $(document).ready(function() {
-            $('.selectpicker').selectpicker();
+        function toggleRequired(checkbox) {
+            const formElement = checkbox.closest('.form-element');
+            const label = formElement.querySelector('.form-label');
+            const inputs = formElement.querySelectorAll('input:not(.required-checkbox), textarea, select');
+            
+            if (checkbox.checked) {
+                // Add required attribute and asterisk
+                inputs.forEach(input => input.setAttribute('required', ''));
+                if (!label.innerHTML.includes('<span class="text-danger">*</span>')) {
+                    const editBtn = label.querySelector('.edit-title-btn');
+                    const titleText = label.childNodes[0].textContent.trim();
+                    label.innerHTML = `${titleText} <span class="text-danger">*</span>`;
+                    if (editBtn) label.appendChild(editBtn);
+                }
+            } else {
+                // Remove required attribute and asterisk
+                inputs.forEach(input => input.removeAttribute('required'));
+                if (label.innerHTML.includes('<span class="text-danger">*</span>')) {
+                    const editBtn = label.querySelector('.edit-title-btn');
+                    const titleText = label.childNodes[0].textContent.replace(' *', '').trim();
+                    label.innerHTML = titleText;
+                    if (editBtn) label.appendChild(editBtn);
+                }
+            }
+        }
+
+        // Add edit buttons and required toggles to existing form elements on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const existingElements = document.querySelectorAll('#formArea .form-element');
+            existingElements.forEach(function(element) {
+                const label = element.querySelector('.form-label');
+                
+                // Add edit button if it doesn't exist
+                if (label && !label.querySelector('.edit-title-btn')) {
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'edit-title-btn';
+                    editBtn.onclick = function(event) { editTitle(this, event); };
+                    editBtn.title = 'Edit title';
+                    editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+                    label.appendChild(editBtn);
+                }
+                
+                // Add required toggle if it doesn't exist
+                if (!element.querySelector('.element-controls')) {
+                    const inputs = element.querySelectorAll('input:not(.required-checkbox), textarea, select');
+                    const isRequired = inputs.length > 0 && inputs[0].hasAttribute('required');
+                    
+                    const controlsDiv = document.createElement('div');
+                    controlsDiv.className = 'element-controls';
+                    controlsDiv.innerHTML = `
+                        <div class="required-toggle">
+                            <input type="checkbox" class="required-checkbox" ${isRequired ? 'checked' : ''} onchange="toggleRequired(this)">
+                            <span>Required field</span>
+                        </div>
+                    `;
+                    element.appendChild(controlsDiv);
+                }
+            });
         });
     </script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 </body>

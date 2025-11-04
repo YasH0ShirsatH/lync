@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Classroom;
+use App\Models\Form;
 class ClassroomForms extends Model
 {
     protected $table = 'classroom_forms';
