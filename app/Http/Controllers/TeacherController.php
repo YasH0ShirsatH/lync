@@ -48,7 +48,9 @@ class TeacherController extends Controller
 
     public function classroomInitialSetup()
     {
-        $classrooms = Classroom::where('teacher_id', auth()->user()->id)->get();
+        $classrooms = Classroom::where('teacher_id', auth()->user()->id)
+            ->with(['students', 'classroomForms'])
+            ->get();
         return view('teacher.classroom.classroomSetup', compact('classrooms'));
     }
 

@@ -4,494 +4,400 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>lynq - Teacher Dashboard </title>
+    <title>lynq - Teacher Dashboard</title>
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
+
     <style>
+        /* --- GLOBAL STYLES --- */
+        :root {
+            --primary: #e2e8f0;
+            --primary-dark: #cbd5e1;
+            --secondary: #64748b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
         body {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            color: var(--text-dark);
         }
 
-        .welcome-card {
-            background: rgba(52, 58, 64, 0.8);
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
+        .container {
+            padding-top: 1.5rem;
+            padding-bottom: 2.5rem;
+            max-width: 1200px;
         }
 
-        :not(.input-group)>.bootstrap-select.form-control:not([class*=col-]) {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .welcome-card h1 {
-            color: white !important;
-        }
-
-        .welcome-card p {
-            color: rgba(255,255,255,0.8) !important;
-        }
-
-        .welcome-card i {
-            color: rgb(255, 255, 255) !important;
-        }
-
-        .info-card {
-            border-radius: 20px;
-            background: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-
-        .icon-circle {
-            background: rgba(52, 58, 64, 0.1) !important;
-            border-radius: 50%;
-        }
-
-        .icon-circle i {
-            color: #343a40 !important;
-        }
-
-        .nav-card {
-            background: rgba(52, 58, 64, 0.95);
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-        }
-
-        .btn {
-            border-radius: 20px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-dark {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.2);
+        /* --- HEADER & WELCOME --- */
+        .dashboard-header {
+            background: var(--text-dark);
             color: white;
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-dark:hover {
-            background: rgba(255,255,255,0.2);
-            border-color: rgba(255,255,255,0.4);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline-dark {
-            background: white;
-            border: 2px solid rgba(255,255,255,0.3);
-            color: #343a40;
-        }
-
-        .btn-outline-dark:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.4);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline-dark:hover small {
-            color: rgba(255,255,255,0.8) !important;
-        }
-
-        .forms-card {
-            background: rgba(52, 58, 64, 0.95);
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            backdrop-filter: blur(10px);
-        }
-
-        .forms-card .card-header {
-            background: transparent !important;
-            border-radius: 25px 25px 0 0 !important;
-            padding: 25px;
-        }
-
-        .forms-card .card-title {
-            color: #212529;
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .forms-card .card-title i {
-            color: #0d6efd !important;
-        }
-
-        .form-item-card {
-            border-radius: 20px;
-            background: rgba(255,255,255,0.95);
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .form-item-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            background: white;
-        }
-
-        .form-item-card .card-title {
-            color: #343a40c4;
-            font-weight: 600;
-        }
-
-        .form-item-card .card-text {
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-
-        .btn-success {
-            border-radius: 20px;
-            background: #198754;
-            border-color: #198754;
-            font-weight: 500;
-            padding: 8px 16px;
-        }
-
-        .btn-success:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(25,135,84,0.3);
-        }
-
-        .btn-danger {
-            border-radius: 20px;
-            background: #dc3545;
-            border-color: #dc3545;
-            font-weight: 500;
-            padding: 8px 16px;
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(220,53,69,0.3);
-        }
-
-        .empty-state {
-            color: rgba(255,255,255,0.7) !important;
-            padding: 40px 20px;
-        }
-
-        .empty-state i {
-            color: rgba(255,255,255,0.4) !important;
-        }
-
-        .empty-state p {
-            color: rgba(255,255,255,0.7) !important;
-            font-size: 1.1rem;
-        }
-
-        .classroom-badges {
-            margin: 12px 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .classroom-badge {
-            background: linear-gradient(135deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 110, 253, 0.05) 100%);
-            color: #0d6efd;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            border: 1px solid rgba(13, 110, 253, 0.15);
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-
-        .classroom-badge:hover {
-            background: linear-gradient(135deg, rgba(13, 110, 253, 0.15) 0%, rgba(13, 110, 253, 0.1) 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
-        }
-
-        .classroom-label {
-            font-size: 0.8rem;
-            color: #6c757d;
-            font-weight: 500;
-            margin-right: 8px;
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-        }
-
-        .form-item-card {
-            border-radius: 20px;
-            background: rgba(255,255,255,0.95);
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            padding: 2.5rem 0 3.5rem;
+            margin-bottom: -1.5rem;
+            border-bottom-right-radius: 24px;
+            border-bottom-left-radius: 24px;
+            position: relative;
             overflow: hidden;
         }
 
-        .form-item-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            background: white;
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
         }
 
-        .form-item-card .card-body {
-            padding: 25px;
+        .dashboard-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
         }
 
-        .form-item-card .card-title {
-            color: #212529 !important;
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
             font-weight: 700;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .welcome-subtitle {
             font-size: 1.1rem;
-            margin-bottom: 12px;
-            line-height: 1.3;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            z-index: 2;
         }
 
-        .form-meta {
-            margin-bottom: 15px;
+        /* --- STAT CARDS --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            transform: translateY(-60px);
+            position: relative;
+            z-index: 10;
+            margin-bottom: 2rem;
         }
 
-        .form-meta p {
-            margin-bottom: 4px;
-            font-size: 0.85rem;
-        }
-
-        .form-actions {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .classroom-select {
+        .stat-card {
             background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 15px;
-            padding: 12px 16px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #495057;
-            transition: all 0.3s ease;
-            height: auto;
-            min-height: 45px;
-            max-height: 120px;
-            overflow-y: auto;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.2s ease;
+            text-align: center;
         }
 
-        .classroom-select:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
-            outline: none;
-        }
-
-        .classroom-select option {
-            padding: 8px 12px;
-            background: white;
-            color: #495057;
-            border: none;
-        }
-
-        .classroom-select option:checked {
-            background: #0d6efd;
-            color: white;
-        }
-
-        .classroom-select option:hover {
-            background: #f8f9fa;
-        }
-
-        .assign-btn {
-            background: linear-gradient(135deg, #198754 0%, #20c997 100%);
-            border: none;
-            border-radius: 20px;
-            padding: 10px 20px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: white;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(25, 135, 84, 0.2);
-        }
-
-        .assign-btn:hover {
-            background: linear-gradient(135deg, #157347 0%, #1aa179 100%);
+        .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(25, 135, 84, 0.3);
-            color: white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
         }
 
-        .classroom-assignment {
-            background: rgba(248, 249, 250, 0.5);
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
-            border: 1px solid rgba(233, 236, 239, 0.6);
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.2rem;
         }
 
-        .assignment-label {
-            font-size: 0.8rem;
-            color: #6c757d;
+        .stat-value {
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 8px;
-            display: block;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
         }
 
-        @media (max-width: 768px) {
-            .classroom-badges {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-
-            .classroom-badge {
-                font-size: 0.7rem;
-                padding: 5px 12px;
-            }
-
-            .form-actions {
-                flex-direction: column;
-            }
-
-            .form-actions .btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .classroom-select {
-                font-size: 0.8rem;
-            }
-
-            .assign-btn {
-                width: 100%;
-                justify-content: center;
-            }
+        .stat-label {
+            color: var(--secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
         }
+
+        /* Specific stat card colors */
+        .stat-card:nth-child(1) .stat-icon { background: #e2e8f0; color: #475569; }
+        .stat-card:nth-child(2) .stat-icon { background: #d1fae5; color: #065f46; }
+        .stat-card:nth-child(3) .stat-icon { background: #fef3c7; color: #92400e; }
+
+        /* --- ACTION CARDS --- */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .action-card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+            color: inherit;
+        }
+
+        .action-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .action-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .action-description {
+            color: var(--secondary);
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        /* --- FORMS SECTION --- */
+        .forms-section {
+            margin-top: 2rem;
+        }
+
+        .forms-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+
+        .forms-card .card-header {
+            background-color: var(--bg-light);
+            padding: 2rem 2rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .forms-card .card-title {
+            color: var(--text-dark);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .search-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-container .form-control {
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s;
+        }
+
+        .search-container .form-control:focus {
+            border-color: #94a3b8;
+            box-shadow: 0 0 0 0.2rem rgba(148, 163, 184, 0.25);
+        }
+
+        .search-container .btn-primary {
+            background: #e2e8f0;
+            border-color: #e2e8f0;
+            color: #475569;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .search-container .btn-primary:hover {
+            background: #cbd5e1;
+            border-color: #cbd5e1;
+            color: #334155;
+        }
+
+        /* Bubble animation */
+        .bubble-animate {
+            animation: bubbleEffect 0.6s ease-out;
+        }
+
+        @keyframes bubbleEffect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- PAGINATION --- */
+        #pagination-container {
+            padding: 2rem;
+            border-top: 1px solid #e5e7eb;
+            background-color: #fafbfc;
+        }
+
+        /* --- PLUS ICON REDESIGN --- */
+        .add-classroom-btn {
+            /* Styles handled inline in forms.blade.php */
+        }
+
+        /* --- BUTTON STYLES --- */
+        .btn {
+            border-radius: 12px;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        .btn-dark {
+            background: var(--text-dark);
+            border-color: var(--text-dark);
+        }
+        .btn-dark:hover {
+            background: #0f172a;
+            border-color: #0f172a;
+            transform: translateY(-1px);
+        }
+
     </style>
 </head>
 <body>
-    <!-- Header -->
-   @include('layouts.navbar')
+    @include('layouts.navbar')
 
-    <!-- Main Content -->
-    <div class="container-fluid px-4 py-5">
-        <!-- Welcome Section -->
-        <div class="row mb-5">
-            <div>
-             @if (session('success'))
-              <div class="alert alert-success text-dark" role="alert">
-                {{ session('success') }}
-              </div>
-              @endif
-             </div>
-            <div class="col-12">
-                <div class="card border-0 shadow-sm welcome-card">
-                    <div class="card-body p-5">
-                        <div class="row align-items-center">
-                            <div class="col-md-8">
-
-                                <h1 class="mb-3 fw-bold text-dark">Welcome back, {{ Auth::guard('teacher')->user()->name }}!</h1>
-                                <p class="mb-0 text-muted fs-5">Ready to inspire and educate your students today?</p>
-                            </div>
-                            <div class="col-md-4 text-end">
-                                <i class="fas fa-graduation-cap fa-4x text-primary opacity-25"></i>
-                            </div>
-                        </div>
-                    </div>
+    <div class="dashboard-header">
+        <div class="container">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+            @endif
+            <div class="welcome-section">
+                <h1 class="welcome-title text-white">Teacher Dashboard</h1>
+                <p class="welcome-subtitle">Welcome back, {{ Auth::guard('teacher')->user()->name }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" >
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div class="stat-value">{{ $forms->total() }}</div>
+                <div class="stat-label">Total Forms</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-school"></i>
+                </div>
+                <div class="stat-value">{{ $classroomSetup->count() }}</div>
+                <div class="stat-label">Active Classrooms</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="stat-value text-truncate">{{ Auth::guard('teacher')->user()->name }}</div>
+                <div class="stat-label">Teacher Profile</div>
             </div>
         </div>
 
-        <!-- User Info Cards -->
-        <div class="row mb-5">
-            <div class="col-md-4">
-                <div class="card border-0 info-card h-100">
-                    <div class="card-body text-center p-4">
-                        <div class="icon-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
-                            <i class="fas fa-user fa-xl"></i>
-                        </div>
-                        <h5 class="card-title mb-2 text-dark">Full Name</h5>
-                        <p class="card-text text-muted fs-6">{{ Auth::guard('teacher')->user()->name }}</p>
-                    </div>
+        <div class="action-grid">
+            <a href="{{route('teacher.classroom.setup')}}" class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-school"></i>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card border-0 info-card h-100">
-                    <div class="card-body text-center p-4">
-                        <div class="icon-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
-                            <i class="fas fa-envelope fa-xl"></i>
-                        </div>
-                        <h5 class="card-title mb-2 text-dark">Email</h5>
-                        <p class="card-text text-muted fs-6">{{ Auth::guard('teacher')->user()->email }}</p>
-                    </div>
+                <div>
+                    <div class="action-title">Manage Classrooms</div>
+                    <div class="action-description">Create and manage your classes, view enrolled students, and organize your teaching materials.</div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card border-0 info-card h-100">
-                    <div class="card-body text-center p-4">
-                        <div class="icon-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
-                            <i class="fas fa-id-badge fa-xl"></i>
-                        </div>
-                        <h5 class="card-title mb-2 text-dark">Role</h5>
-                        <p class="card-text text-muted fs-6 text-capitalize">{{ Auth::guard('teacher')->user()->role }}</p>
-                    </div>
+            </a>
+            <a href="{{route('teacher.formBuilder')}}" class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-file-alt"></i>
                 </div>
-            </div>
+                <div>
+                    <div class="action-title">Create Forms & Quizzes</div>
+                    <div class="action-description">Build custom forms, assignments, and quizzes with our intuitive drag-and-drop form builder.</div>
+                </div>
+            </a>
         </div>
 
-        <!-- Navigation Links -->
-        <div class="row mb-5">
-            <div class="col-12">
-                <div class="card border-0 nav-card">
-                    <div class="card-body p-4">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <a href="{{route('teacher.classroom.setup')}}" class="btn btn-dark w-100 py-4 text-start">
-                                    <i class="fas fa-school me-3 fa-lg"></i>
-                                    <div class="d-inline-block">
-                                        <div class="fw-bold fs-5">Classrooms</div>
-                                        <small class="opacity-75">Manage your classes and students</small>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-md-6">
-                                <a href="{{route('teacher.formBuilder')}}" class="btn btn-outline-dark w-100 py-4 text-start">
-                                    <i class="fas fa-wpforms me-3 fa-lg"></i>
-                                    <div class="d-inline-block">
-                                        <div class="fw-bold fs-5">Form Builder</div>
-                                        <small class="text-muted">Create assignments and quizzes</small>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Your Forms Section -->
         <div class="row">
             <div class="col-12">
                 <div class="card border-0 forms-card">
-                    <div class="card-header border-0 pb-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title text-white mb-0"><i class="fas fa-clipboard-list me-2 text-primary"></i>Your Forms</h5>
+                    <div class="card-header">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <h5 class="card-title mb-0"><i class="fas fa-clipboard-list me-2 text-primary"></i>Your Forms & Assignments</h5>
                             <div class="search-container d-flex">
-                                <input type="text" id="form-search" class="form-control me-2" placeholder="Search forms..." style="border-radius: 20px; width: 200px;">
-                                <button type="button" id="search-btn" class="btn btn-primary" style="border-radius: 20px;">
+                                <input type="text" id="form-search" class="form-control me-3" placeholder="Search forms...">
+                                <button type="button" id="search-btn" class="btn btn-primary">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div id="forms-container">
+                    <div class="card-body p-0">
+                        <div id="forms-container" class="p-4">
                             @include('teacher.partials.forms')
                         </div>
+
                         <div id="pagination-container">
                             {{ $forms->links('teacher.partials.pagination') }}
                         </div>
@@ -502,9 +408,10 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
     <script>
+        // The entire JS block for form loading, searching, and assignment is unchanged
         document.addEventListener('DOMContentLoaded', function() {
             let currentSearch = '';
 
@@ -529,15 +436,19 @@
             });
 
             document.addEventListener('click', function(e) {
-                if (e.target.matches('.add-classroom-btn') || e.target.closest('.add-classroom-btn')) {
-                    const btn = e.target.matches('.add-classroom-btn') ? e.target : e.target.closest('.add-classroom-btn');
+                const target = e.target.closest('.add-classroom-btn') || e.target;
+
+                if (target.matches('.add-classroom-btn')) {
+                    const btn = target;
                     const formId = btn.getAttribute('data-form-id');
                     const assignmentDiv = document.getElementById(`assignment-${formId}`);
                     const icon = btn.querySelector('i');
 
+                    // Toggle functionality
                     if (assignmentDiv.style.display === 'none' || assignmentDiv.style.display === '') {
                         assignmentDiv.style.display = 'block';
                         icon.className = 'fas fa-minus';
+                        // Re-initialize bootstrap-select (essential for functionality)
                         setTimeout(() => {
                             $(`#classroom-select-${formId}`).selectpicker('destroy').selectpicker();
                         }, 100);
@@ -549,7 +460,8 @@
                 }
 
                 if (e.target.matches('.assign-btn')) {
-                    const formId = e.target.getAttribute('data-form-id');
+                    const assignButton = e.target;
+                    const formId = assignButton.getAttribute('data-form-id');
                     const selectedOptions = $(`#classroom-select-${formId}`).val();
 
                     if (selectedOptions.length === 0) {
@@ -593,6 +505,8 @@
                 .then(data => {
                     document.getElementById('forms-container').innerHTML = data.html;
                     document.getElementById('pagination-container').innerHTML = data.pagination;
+                    // Re-initialize selectpickers for newly loaded content
+                    $('.tom-select-multiple').selectpicker();
                 })
                 .catch(error => console.error('Error:', error));
             }

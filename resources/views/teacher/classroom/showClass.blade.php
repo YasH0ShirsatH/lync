@@ -6,110 +6,167 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
         body {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .class-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            overflow: hidden;
-        }
-
-        .card-header {
-            background: rgba(52, 58, 64, 0.95);
-            padding: 25px;
-            border-bottom: none;
-        }
-
-        .card-title {
-            color: white;
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin: 0;
-        }
-
-        .card-body {
-            padding: 30px;
-        }
-
-        .form-element {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #e9ecef;
-        }
-
-        .form-label {
-            font-weight: 600;
-            color: #212529;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .form-control, .form-select {
-            border-radius: 10px;
-            border: 2px solid #e9ecef;
-            padding: 12px 16px;
-            background: white;
-            font-weight: 500;
-        }
-
-        .form-control:disabled, .form-select:disabled {
-            background: #f8f9fa;
-            opacity: 0.8;
-        }
-
-        .form-check {
-            margin-bottom: 10px;
-        }
-
-        .form-check-input:disabled {
-            opacity: 0.6;
-        }
-
-        .form-check-label {
-            font-weight: 500;
-            color: #495057;
-        }
-
-        .text-danger {
-            color: #dc3545 !important;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #1e293b;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
         }
 
+        /* Header */
         .page-header {
-            background: rgba(52, 58, 64, 0.95);
-            border-radius: 25px;
-            padding: 30px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
 
         .page-title {
-            color: white;
+            color: var(--text-primary);
             font-weight: 700;
             font-size: 2rem;
             margin: 0;
         }
 
+        /* Cards */
+        .class-card {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
 
+        .class-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card-title {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 2rem;
+            background: white;
+        }
+
+        /* Form Cards */
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        .form-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .form-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-title {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        /* Student Cards */
+        .student-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        .student-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .student-name {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .student-email {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        /* Buttons */
+        .btn {
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s ease;
+            border: none;
+            font-size: 0.875rem;
+        }
 
         .btn-outline-light {
             border: 2px solid rgba(255,255,255,0.3);
             color: white;
-            border-radius: 20px;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
+            background: transparent;
         }
 
         .btn-outline-light:hover {
@@ -119,153 +176,84 @@
             transform: translateY(-2px);
         }
 
+        .btn-primary {
+            background: #e2e8f0;
+            color: #475569;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            background: #cbd5e1;
+            color: #334155;
+            transform: translateY(-1px);
+        }
+
+        .btn-warning {
+            background: #fef3c7;
+            color: #92400e;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-warning:hover {
+            background: #fde68a;
+            color: #78350f;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: #fecaca;
+            color: #991b1b;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-danger:hover {
+            background: #fca5a5;
+            color: #7f1d1d;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: #d1fae5;
+            color: #065f46;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-success:hover {
+            background: #a7f3d0;
+            color: #064e3b;
+            transform: translateY(-1px);
+        }
+
+        /* Empty State */
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
-            color: #6c757d;
+            padding: 4rem 2rem;
+            color: #64748b;
         }
 
         .empty-state i {
             font-size: 4rem;
-            margin-bottom: 20px;
+            margin-bottom: 1rem;
             opacity: 0.3;
         }
 
-        .remove-btn {
-            display: none !important;
-        }
-
-        .add-form-btn {
-            background: linear-gradient(135deg, #198754 0%, #20c997 100%);
-            border: none;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 8px 25px rgba(25, 135, 84, 0.3);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .add-form-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(25, 135, 84, 0.4);
-            color: white;
-        }
-
-        .add-form-section {
-            text-align: center;
-            padding: 40px 20px;
-            margin: 30px 0;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .btn-edit {
-            background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
-        }
-
-        .btn-edit:hover {
-            background: linear-gradient(135deg, #0b5ed7 0%, #5a0fc8 100%);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4);
-        }
-
-        .btn-delete {
-            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-        }
-
-        .btn-delete:hover {
-            background: linear-gradient(135deg, #bb2d3b 0%, #e55a00 100%);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 2px solid #f8f9fa;
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
-            .form-actions {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .btn-edit, .btn-delete {
-                justify-content: center;
-                width: 100%;
-            }
-        }
-
-        .classroom-badges {
-            margin-bottom: 20px;
-        }
-
-        .classroom-badge {
-            background: rgba(13, 110, 253, 0.1);
-            color: #0d6efd;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            display: inline-block;
-            border: 1px solid rgba(13, 110, 253, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .classroom-badge {
-                display: block;
-                margin-bottom: 8px;
-                text-align: center;
-            }
-
             .card-body {
-                padding: 20px;
+                padding: 1.5rem;
             }
 
             .card-header {
-                padding: 20px;
+                padding: 1.5rem;
+            }
+
+            .page-header {
+                padding: 1.5rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                gap: 0.5rem;
             }
         }
     </style>
@@ -309,41 +297,59 @@
                     </div>
                     <div class="card-body">
                         @if($classforms->count() > 0)
-                            @php
-                                $formsByTitle = $classforms->groupBy('form.title');
-                            @endphp
-                            @foreach($formsByTitle as $formTitle => $forms)
-                                @if($forms->first()->form)
-                                    <div class="form-item mb-3 p-3" style="background: #f8f9fa; border-radius: 15px; border-left: 4px solid #0d6efd;">
-                                        <h6 class="mb-2 fw-bold text-dark">{{ $formTitle }}</h6>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-muted">
-                                                <i class="fas fa-calendar me-1"></i>{{ $forms->first()->form->created_at->format('M d, Y') }}
-                                            </small>
-                                            <div class="d-flex gap-1">
-                                                <a href="{{ route('teacher.showForm', $forms->first()->form->id) }}" class="btn btn-sm" style="background: #0d6efd; color: white; border-radius: 8px; padding: 6px 10px;">
-                                                    <i class="fas fa-eye"></i>
+                            <div class="row g-3">
+                                @foreach($classforms as $classform)
+                                    <div class="col-12">
+                                        <div class="form-card">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <div class="form-icon me-3">
+                                                    <i class="fas fa-file-alt"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="form-title mb-1">{{ $classform->form->title }}</h6>
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-calendar me-1"></i>{{ $classform->form->created_at->format('M d, Y') }}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            
+                                            @if($classform->allClassrooms && $classform->allClassrooms->count() > 1)
+                                                <div class="mb-3">
+                                                    <small class="text-muted d-block mb-1">Also in:</small>
+                                                    @foreach($classform->allClassrooms as $otherClassroom)
+                                                        @if($otherClassroom->classroom_id != $classform->classroom_id)
+                                                            <span class="badge bg-light text-dark me-1">{{ $otherClassroom->classroom->name }}</span>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                            
+                                            <div class="d-flex gap-2 flex-wrap">
+                                                <a href="{{ route('teacher.showForm', $classform->form->id) }}" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-eye me-1"></i>View
                                                 </a>
-                                                <a href="{{ route('teacher.editForm', $forms->first()->form->id) }}" class="btn btn-sm" style="background: #ffc107; color: #212529; border-radius: 8px; padding: 6px 10px;">
-                                                    <i class="fas fa-edit"></i>
+                                                <a href="{{ route('teacher.editForm', $classform->form->id) }}" class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit me-1"></i>Edit
                                                 </a>
-                                                <a href="{{ route('teacher.classroom.viewResponses', [$forms->first()->classroom_id, $forms->first()->form->id]) }}" class="btn btn-sm" style="background: #17a2b8; color: white; border-radius: 8px; padding: 6px 10px;">
-                                                    <i class="fas fa-chart-bar"></i>
+                                                <a href="{{ route('teacher.classroom.viewResponses', [$classform->classroom_id, $classform->form_id]) }}" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-chart-bar me-1"></i>Responses
                                                 </a>
-                                                <a href="{{ route('teacher.classroom.removeForm', [$forms->first()->classroom_id, $forms->first()->form->id]) }}"
-                                                   onclick="return confirm('Remove this form from classroom?')" class="btn btn-sm" style="background: #dc3545; color: white; border-radius: 8px; padding: 6px 10px;">
-                                                    <i class="fas fa-times"></i>
+                                                <a href="{{ route('teacher.classroom.removeForm', [$classform->classroom_id, $classform->form_id]) }}" class="btn btn-danger btn-sm" onclick="return confirm('Remove this form?')">
+                                                    <i class="fas fa-trash me-1"></i>Remove
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                @endif
-                            @endforeach
+                                @endforeach
+                            </div>
                         @else
                             <div class="empty-state">
                                 <i class="fas fa-file-alt"></i>
-                                <p>No forms assigned to this classroom yet.</p>
-                                <p>Click <a href="/teacher/formBuilder" class="text-decoration-none">here</a> to create form</p>
+                                <h5 class="mt-3 mb-2">No Forms Assigned</h5>
+                                <p class="text-muted mb-3">This classroom doesn't have any forms yet.</p>
+                                <a href="{{ route('teacher.formBuilder') }}" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>Create First Form
+                                </a>
                             </div>
                         @endif
                     </div>
@@ -355,34 +361,39 @@
                 <div class="class-card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            <i class="fas fa-users me-2"></i>Enrolled Students
+                            <i class="fas fa-users me-2"></i>Students ({{ $students->count() }})
                         </h3>
                     </div>
                     <div class="card-body">
                         @if($students->count() > 0)
-                            @foreach($students as $student)
-                                <div class="student-item mb-3 p-3" style="background: #f8f9fa; border-radius: 15px; border-left: 4px solid #198754;">
-                                    <div class="d-flex align-items-center">
-                                        <div class="student-avatar me-3" style="width: 40px; height: 40px; background: #198754; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                            <i class="fas fa-user text-white"></i>
+                            <div class="row g-3">
+                                @foreach($students as $student)
+                                    <div class="col-12">
+                                        <div class="student-card">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="student-avatar me-3">
+                                                        {{ strtoupper(substr($student->student->name, 0, 1)) }}
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="student-name mb-1">{{ $student->student->name }}</h6>
+                                                        <small class="student-email">{{ $student->student->email }}</small>
+                                                    </div>
+                                                </div>
+                                                
+                                                <a href="{{ route('teacher.classroom.viewStudentResponses', [$id, $student->student_id]) }}" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-chart-line me-1"></i>Responses
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1 fw-bold text-dark">{{ $student->student->name }}</h6>
-                                            <small class="text-muted">{{ $student->student->email }}</small>
-                                            <br><small class="text-muted">
-                                                <i class="fas fa-calendar-plus me-1"></i>Joined {{ $student->created_at->format('M d') }}
-                                            </small>
-                                        </div>
-                                        <a href="{{ route('teacher.classroom.viewStudentResponses', [$student->classroom_id, $student->student_id]) }}" class="btn btn-sm" style="background: #17a2b8; color: white; border-radius: 8px; padding: 6px 12px;">
-                                            <i class="fas fa-eye me-1"></i>Responses
-                                        </a>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         @else
                             <div class="empty-state">
-                                <i class="fas fa-users"></i>
-                                <p>No students have joined this classroom yet.</p>
+                                <i class="fas fa-user-plus"></i>
+                                <h5 class="mt-3 mb-2">No Students Enrolled</h5>
+                                <p class="text-muted">Students can join using the classroom code.</p>
                             </div>
                         @endif
                     </div>
@@ -390,7 +401,7 @@
             </div>
         </div>
     </div>
-</body>
-@include('javascript.js')
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

@@ -51,6 +51,7 @@ Route::group(['middleware' => 'auth:teacher'], function(){
     Route::get('/teacher/classroom/{classroom}/form/{form}/responses', [ClassroomController::class, 'viewAllResponses'])->name('teacher.classroom.viewResponses');
     Route::get('/teacher/classroom/{classroom}/student/{student}/responses', [ClassroomController::class, 'viewStudentResponses'])->name('teacher.classroom.viewStudentResponses');
     Route::get('/teacher/submission/{submission}', [ClassroomController::class, 'viewSubmission'])->name('teacher.viewSubmission');
+    Route::put('/teacher/submission/{submission}/remark', [ClassroomController::class, 'updateSubmissionRemark'])->name('teacher.updateSubmissionRemark');
 
 });
 

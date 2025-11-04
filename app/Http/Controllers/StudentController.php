@@ -71,11 +71,18 @@ class StudentController extends Controller
                                          ->whereIn('form_id', $forms->pluck('form_id'))
                                          ->pluck('form_id')
                                          ->toArray();
+        
+        // Get submissions with teacher responses
+        $submissions = FormSubmission::where('student_id', $studentId)
+                                    ->whereIn('form_id', $forms->pluck('form_id'))
+                                    ->get()
+                                    ->keyBy('form_id');
 
         return view('student.classroom.viewAssignedForms', [
             'classroom' => $classroom,
             'forms' => $forms,
-            'submittedFormIds' => $submittedFormIds
+            'submittedFormIds' => $submittedFormIds,
+            'submissions' => $submissions
         ]);
     }
 

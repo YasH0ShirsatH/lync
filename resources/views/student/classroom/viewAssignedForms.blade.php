@@ -283,6 +283,16 @@
                             <p class="info-text">
                                 <strong>Instructor:</strong> {{ $classroom->teacher->name }}<br>
                                 <strong>Status:</strong> {{ in_array($form->form_id, $submittedFormIds) ? 'Submitted' : 'Pending Completion' }}
+                                @if(in_array($form->form_id, $submittedFormIds) && isset($submissions[$form->form_id]))
+                                    @php $submission = $submissions[$form->form_id]; @endphp
+                                    @if($submission->rating !== null || $submission->comment)
+                                        <br><strong class="text-success">Teacher Response:</strong> 
+                                        <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Available</span>
+                                    @else
+                                        <br><strong class="text-warning">Teacher Response:</strong> 
+                                        <span class="badge bg-warning"><i class="fas fa-clock me-1"></i>Pending</span>
+                                    @endif
+                                @endif
                             </p>
                         </div>
 

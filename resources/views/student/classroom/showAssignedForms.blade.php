@@ -201,7 +201,86 @@
                             <div class="submitted-responses">
                                 {!! $submission->responses !!}
                             </div>
+
+                            @if($submission->rating !== null || $submission->comment)
+                                <div class="teacher-response mt-5">
+                                    <div class="card shadow-sm border-0" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 16px; overflow: hidden;">
+                                        <div class="card-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 1.5rem; border: none;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="teacher-avatar me-3" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-user-tie" style="font-size: 1.2rem;"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0" style="font-weight: 600;">Teacher Feedback</h5>
+                                                    <small style="opacity: 0.9;">Your submission has been reviewed</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body" style="padding: 2rem;">
+                                            @if($submission->rating !== null)
+                                                @php
+                                                    $totalMarks = '';
+                                                    if ($submission->comment && str_contains($submission->comment, '|')) {
+                                                        $parts = explode('|', $submission->comment, 2);
+                                                        $marksData = $parts[0];
+                                                        if (str_contains($marksData, '/')) {
+                                                            $marksParts = explode('/', $marksData);
+                                                            $totalMarks = $marksParts[1] ?? '';
+                                                        }
+                                                    }
+                                                @endphp
+                                                <div class="marks-section mb-4">
+                                                    <div class="d-flex align-items-center justify-content-between" style="background: #e8f5e8; padding: 1.5rem; border-radius: 12px; border: 1px solid #d4edda;">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="score-icon me-3" style="width: 50px; height: 50px; background: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                                                                <i class="fas fa-trophy" style="font-size: 1.3rem;"></i>
+                                                            </div>
+                                                            <div>
+                                                                <h6 class="mb-1" style="color: #155724; font-weight: 600;">Your Score</h6>
+                                                                <p class="mb-0 text-muted" style="font-size: 0.9rem;">Marks obtained</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="score-display">
+                                                            <span class="badge" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); font-size: 1.2rem; padding: 0.75rem 1.5rem; border-radius: 25px;">
+                                                                {{ $submission->rating }}{{ $totalMarks ? '/' . $totalMarks : '' }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+
+                                            @if($submission->comment)
+                                                @php
+                                                    $teacherComment = $submission->comment;
+                                                    if (str_contains($submission->comment, '|')) {
+                                                        $parts = explode('|', $submission->comment, 2);
+                                                        $teacherComment = $parts[1] ?? '';
+                                                    } elseif (str_contains($submission->comment, '/')) {
+                                                        $teacherComment = '';
+                                                    }
+                                                @endphp
+                                                @if($teacherComment)
+                                                    <div class="comments-section">
+                                                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #28a745;">
+                                                            <div class="d-flex align-items-start">
+                                                                <div class="comment-icon me-3" style="width: 35px; height: 35px; background: #28a745; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0;">
+                                                                    <i class="fas fa-comment-alt" style="font-size: 0.9rem;"></i>
+                                                                </div>
+                                                                <div class="flex-grow-1">
+                                                                    <h6 class="mb-2" style="color: #495057; font-weight: 600;">Teacher's Comments</h6>
+                                                                    <p class="mb-0" style="color: #6c757d; line-height: 1.6; font-style: italic;">"{{ $teacherComment }}"</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         @else
+                            <!-- Form for filling when not submitted -->
                             <form id="studentForm">
                                 {!! $form->form->html_content !!}
                             </form>

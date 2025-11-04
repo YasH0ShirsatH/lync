@@ -103,4 +103,28 @@ class ClassroomController extends Controller
         
         return view('teacher.classroom.viewSubmission', compact('submission'));
     }
+
+    public function updateSubmissionRemark(Request $request, $submissionId)
+    {
+        $request->validate([
+            'obtained_marks' => 'nullable|numeric|min:0',
+            'total_marks' => 'nullable|numeric|min:1',
+            'teacher_comment' => 'nullable|string|max:1000'
+        ]);
+
+        $submission = FormSubmission::findOrFail($submissionId);
+        $submission->rating = $request->obtained_marks;
+        
+        // Store marks format in comment field if both marks are provided
+        if ($request->obtained_marks !== null && $request->total_marks !== null) {
+            $marksInfo = $request->obtained_marks . '/' . $request->total_marks;
+            $submission->comment = $request->teacher_comment ? $marksInfo . '|' . $request->teacher_comment : $marksInfo;
+        } else {
+            $submission->comment = $request->teacher_comment;
+        }
+        
+        $submission->save();
+
+        return redirect()->back()->with('success', 'Marks and remarks updated successfully!');
+    }
 }
