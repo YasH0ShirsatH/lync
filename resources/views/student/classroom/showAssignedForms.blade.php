@@ -7,262 +7,332 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .form-preview-card {
-            background: rgba(52, 58, 64, 0.95);
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            backdrop-filter: blur(10px);
+
+        .header-section {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
         }
-        .form-preview-card .card-header {
-            background: transparent !important;
-            border-radius: 25px 25px 0 0 !important;
-            padding: 25px;
-            border: none;
+
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid #e9ecef;
         }
-        .form-preview-card h4 {
-            color: white !important;
-            font-size: 1.5rem;
-            font-weight: 700;
+
+        .form-title-bar {
+            background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-bottom: 3px solid #007bff;
         }
-        .form-preview-card small {
-            color: rgba(255,255,255,0.7) !important;
+
+        .form-content {
+            padding: 2.5rem;
         }
-        .form-preview-card small i {
-            color: #0d6efd !important;
-        }
-        .btn {
-            border-radius: 20px;
-            font-weight: 500;
+
+        .form-control, .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
         }
-        .btn-outline-dark {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.3);
-            color: white;
-            backdrop-filter: blur(10px);
+
+        .form-control:focus, .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
         }
-        .btn-outline-dark:hover {
-            background: rgba(255,255,255,0.2);
-            border-color: rgba(255,255,255,0.5);
-            color: white;
-            transform: translateY(-2px);
+
+        .form-control:disabled, .form-select:disabled {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+            opacity: 0.8;
         }
-        .btn-success {
-            background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+
+        .form-check-input:disabled {
+            opacity: 0.6;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
             border: none;
         }
-        .btn-success:hover {
+
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(25, 135, 84, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
         }
-        .awesome-form {
-            background: white;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            overflow: hidden;
+
+        .btn-outline-secondary {
+            border: 2px solid #6c757d;
+            color: #6c757d;
         }
-        .form-header {
-            background: linear-gradient(135deg, #212529 0%, #343a40 100%);
-            padding: 30px;
+
+        .btn-outline-secondary:hover {
+            background: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-submitted {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .action-section {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-top: 1px solid #e9ecef;
             text-align: center;
-            position: relative;
         }
-        .form-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: white;
+
+        .alert {
+            border-radius: 8px;
+            border: none;
+            padding: 1rem 1.5rem;
         }
-        .form-header h2 {
-            color: white;
-            font-weight: 700;
-            font-size: 2.2rem;
-            margin: 0;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+
+        .remove-btn {
+            display: none !important;
         }
-        .form-header p {
+
+        button[onclick*="removeField"] {
+            display: none !important;
+        }
+
+        .breadcrumb-nav {
+            background: transparent;
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb-item a {
             color: rgba(255,255,255,0.8);
-            margin: 10px 0 0 0;
-            font-size: 1.1rem;
+            text-decoration: none;
         }
-        .form-body {
-            padding: 40px;
-        }
-        .submit-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 30px;
-            text-align: center;
-            border-radius: 0 0 25px 25px;
+
+        .breadcrumb-item.active {
+            color: white;
         }
     </style>
 </head>
 <body>
-   @include('layouts.navbar')
+    @include('layouts.navbar')
 
-    <div class="container py-5">
+    <div class="header-section">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:history.back()">Classroom</a></li>
+                    <li class="breadcrumb-item active">{{ $form->form->title }}</li>
+                </ol>
+            </nav>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-2">Form Submission</h1>
+                    <p class="mb-0 opacity-75">Complete and submit your assignment</p>
+                </div>
+                <div class="status-badge {{ $isSubmitted ? 'status-submitted' : 'status-pending' }}">
+                    <i class="fas {{ $isSubmitted ? 'fa-check-circle' : 'fa-clock' }} me-2"></i>
+                    {{ $isSubmitted ? 'Submitted' : 'Pending' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container pb-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card border-0 form-preview-card">
-                    <div class="card-header border-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h4 class="mb-1 fw-bold">Form Assignment</h4>
-                                <small>
-                                    <i class="fas fa-clipboard-list me-1"></i>{{ $isSubmitted ? 'View Mode' : 'Student Mode' }}
-                                    <span class="mx-2">•</span>
-                                    {{ $isSubmitted ? 'Submitted Response' : 'Complete and Submit' }}
-                                </small>
-                            </div>
-                            <a href="javascript:history.back()" class="btn btn-outline-dark btn-sm">
-                                <i class="fas fa-arrow-left me-1"></i>Back
-                            </a>
-                        </div>
+                <div class="form-container">
+                    <div class="form-title-bar">
+                        <h3 class="mb-0">{{ $form->form->title }}</h3>
                     </div>
-                    <div class="card-body p-4">
-                        <div class="awesome-form">
-                            <div class="form-header">
-                                <h2>{{ $form->form->title }}</h2>
-                                <p>{{ $isSubmitted ? 'Your submitted response is shown below' : 'Please fill out all required fields and submit your response' }}</p>
+
+                    <div class="form-content">
+                        @if($isSubmitted && $submission)
+                            <div class="alert alert-success mb-4">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <strong>Submission Complete</strong> - Your response has been recorded successfully.
                             </div>
-                            <div class="form-body">
-                                @if($isSubmitted && $submission)
-                                    <div class="submitted-responses">
-                                        {!! $submission->responses !!}
-                                    </div>
-                                @else
-                                    <form id="studentForm">
-                                        {!! $form->form->html_content !!}
-                                    </form>
-                                @endif
+
+                            @if($formUpdatedAfterSubmission)
+                                <div class="alert alert-warning mb-4">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <strong>Form Updated</strong> - This form was modified after your submission. Your original response is preserved below.
+                                </div>
+                            @endif
+
+                            <div class="submitted-responses">
+                                {!! $submission->responses !!}
                             </div>
-                            <div class="submit-section">
-                                @if($isSubmitted)
-                                    <div class="alert alert-success mb-3">
-                                        <i class="fas fa-check-circle me-2"></i>
-                                        Form has been submitted successfully!
-                                    </div>
-                                    @if($formUpdatedAfterSubmission)
-                                        <div class="alert alert-warning mb-3">
-                                            <i class="fas fa-exclamation-triangle me-2"></i>
-                                            <strong>Notice:</strong> This form was updated after your submission. Your original response is preserved below.
-                                        </div>
-                                    @endif
-                                    <button type="button" class="btn btn-secondary btn-lg" disabled>
-                                        <i class="fas fa-check me-2"></i>Already Submitted
-                                    </button>
-                                @else
-                                    <button type="button" class="btn btn-success btn-lg me-3" onclick="submitForm()">
-                                        <i class="fas fa-paper-plane me-2"></i>Submit Form
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary btn-lg" onclick="resetForm()">
-                                        <i class="fas fa-undo me-2"></i>Reset
-                                    </button>
-                                @endif
-                            </div>
-                        </div>
+                        @else
+                            <form id="studentForm">
+                                {!! $form->form->html_content !!}
+                            </form>
+                        @endif
+                    </div>
+
+                    <div class="action-section">
+                        @if($isSubmitted)
+                            <button type="button" class="btn btn-secondary btn-lg" disabled>
+                                <i class="fas fa-check me-2"></i>Form Submitted
+                            </button>
+                        @else
+                            <button type="button" class="btn btn-primary btn-lg me-3" onclick="submitForm()">
+                                <i class="fas fa-paper-plane me-2"></i>Submit Form
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-lg" onclick="resetForm()">
+                                <i class="fas fa-undo me-2"></i>Reset Form
+                            </button>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        function submitForm() {
-            if (confirm('Are you sure you want to submit this form? You cannot edit it after submission.')) {
-                const form = document.getElementById('studentForm');
+<script>
+function submitForm() {
+    const form = document.getElementById('studentForm');
 
-                // Get all form data
-                const formData = new FormData(form);
-                let responseData = {};
+    // Validate required fields
+    const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
+    let hasErrors = false;
 
-                // Collect responses
-                for (let [key, value] of formData.entries()) {
-                    if (responseData[key]) {
-                        if (Array.isArray(responseData[key])) {
-                            responseData[key].push(value);
-                        } else {
-                            responseData[key] = [responseData[key], value];
-                        }
-                    } else {
-                        responseData[key] = value;
-                    }
-                }
-
-                // Create HTML with filled values
-                const formClone = form.cloneNode(true);
-                const inputs = formClone.querySelectorAll('input, textarea, select');
-
-                inputs.forEach(input => {
-                    if (input.type === 'text' || input.type === 'email' || input.type === 'number') {
-                        input.setAttribute('value', input.value);
-                    } else if (input.type === 'checkbox' || input.type === 'radio') {
-                        if (input.checked) {
-                            input.setAttribute('checked', 'checked');
-                        }
-                    } else if (input.tagName === 'TEXTAREA') {
-                        input.textContent = input.value;
-                    } else if (input.tagName === 'SELECT') {
-                        const options = input.querySelectorAll('option');
-                        options.forEach(option => {
-                            if (option.value === input.value) {
-                                option.setAttribute('selected', 'selected');
-                            }
-                        });
-                    }
-                });
-
-                fetch('/student/submit-form', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        form_id: {{ $form->form_id }},
-                        responses: formClone.innerHTML
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        location.reload();
-                    } else {
-                        alert(data.message);
-                    }
-                })
-                .catch(error => {
-                    alert('An error occurred. Please try again.');
-                });
-            }
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            hasErrors = true;
+            field.style.borderColor = '#dc3545';
+            field.style.boxShadow = '0 0 0 0.2rem rgba(220, 53, 69, 0.25)';
+        } else {
+            field.style.borderColor = '';
+            field.style.boxShadow = '';
         }
+    });
 
-        function resetForm() {
-            if (confirm('Are you sure you want to reset all fields?')) {
-                document.getElementById('studentForm').reset();
-            }
-        }
+    if (hasErrors) {
+        alert('Please fill in all required fields before submitting.');
+        return;
+    }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hide remove buttons
-            const removeButtons = document.querySelectorAll('.remove-btn');
-            removeButtons.forEach(btn => {
-                btn.style.display = 'none';
-            });
-
-            // Disable inputs if submitted
-            @if($isSubmitted)
-                const inputs = document.querySelectorAll('input, textarea, select');
-                inputs.forEach(input => {
-                    input.disabled = true;
-                });
-            @endif
+    if (confirm('Are you sure you want to submit this form? You cannot edit it after submission.')) {
+        // Disable all form fields during submission
+        form.querySelectorAll('input, textarea, select').forEach(field => {
+            field.disabled = true;
         });
-    </script>
+
+        const formClone = form.cloneNode(true);
+        const inputs = formClone.querySelectorAll('input, textarea, select');
+
+        inputs.forEach(input => {
+            if (input.type === 'text' || input.type === 'email' || input.type === 'number' || input.type === 'tel') {
+                input.setAttribute('value', input.value);
+            } else if (input.type === 'checkbox' || input.type === 'radio') {
+                if (input.checked) {
+                    input.setAttribute('checked', 'checked');
+                }
+            } else if (input.tagName === 'TEXTAREA') {
+                input.textContent = input.value;
+            } else if (input.tagName === 'SELECT') {
+                const options = input.querySelectorAll('option');
+                options.forEach(option => {
+                    if (option.selected) {
+                        option.setAttribute('selected', 'selected');
+                    }
+                });
+            }
+        });
+
+        fetch('/student/submit-form', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                classroom_id: {{ $form->classroom_id }},
+                form_id: {{ $form->form_id }},
+                responses: formClone.innerHTML,
+                form_version: '{{ $form->form->updated_at }}'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                // Re-enable fields if submission failed
+                form.querySelectorAll('input, textarea, select').forEach(field => {
+                    field.disabled = false;
+                });
+                alert('Error: ' + (data.message || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            // Re-enable fields if submission failed
+            form.querySelectorAll('input, textarea, select').forEach(field => {
+                field.disabled = false;
+            });
+            console.error('Error:', error);
+            alert('Error submitting form. Please try again.');
+        });
+    }
+}
+
+function resetForm() {
+    if (confirm('Are you sure you want to reset the form? All entered data will be lost.')) {
+        document.getElementById('studentForm').reset();
+        const form = document.getElementById('studentForm');
+        form.querySelectorAll('input, textarea, select').forEach(field => {
+            field.style.borderColor = '';
+            field.style.boxShadow = '';
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.remove-btn, button[onclick*="removeField"]').forEach(btn => {
+        btn.style.display = 'none';
+    });
+});
+</script>
+@include('javascript.js')
+
 </body>
 </html>

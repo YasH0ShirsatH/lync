@@ -34,8 +34,11 @@ class TeacherController extends Controller
 
         if ($request->ajax()) {
             $classroomSetup = Classroom::where('teacher_id', auth()->user()->id)->get();
+            $submissions = FormSubmission::whereHas('form', function ($query) {
+                $query->where('teacher_id', Auth::id());
+            })->get();
             return response()->json([
-                'html' => view('teacher.partials.forms', compact('forms', 'classroomSetup'))->render(),
+                'html' => view('teacher.partials.forms', compact('forms', 'classroomSetup', 'submissions'))->render(),
                 'pagination' => $forms->links('teacher.partials.pagination')->render()
             ]);
         }

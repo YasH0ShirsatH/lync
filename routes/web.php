@@ -48,6 +48,9 @@ Route::group(['middleware' => 'auth:teacher'], function(){
     Route::post('/teacher/classroom/save', [ClassroomController::class, 'createClassroom'])->name('teacher.classroom.save');
     Route::post('/form/save', [FormController::class, 'store'])->name('form.save');
     Route::get('/teacher/classroom/{classroom}/removeForm/{form}', [ClassroomController::class, 'removeForm'])->name('teacher.classroom.removeForm');
+    Route::get('/teacher/classroom/{classroom}/form/{form}/responses', [ClassroomController::class, 'viewAllResponses'])->name('teacher.classroom.viewResponses');
+    Route::get('/teacher/classroom/{classroom}/student/{student}/responses', [ClassroomController::class, 'viewStudentResponses'])->name('teacher.classroom.viewStudentResponses');
+    Route::get('/teacher/submission/{submission}', [ClassroomController::class, 'viewSubmission'])->name('teacher.viewSubmission');
 
 });
 

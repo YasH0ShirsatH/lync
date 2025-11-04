@@ -176,7 +176,7 @@
                     <label class="form-label fw-bold">Form Title</label>
                     <input type="text" id="formTitle" class="form-control" value="{{ $form->title }}" placeholder="Enter form title">
                 </div>
-                
+
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <h5 class="card-title mb-3">Add Form Elements</h5>
@@ -220,7 +220,7 @@
 
     <script>
         let elementCounter = 100; // Start high to avoid conflicts
-        
+
         // Update page title when form title changes
         document.getElementById('formTitle').addEventListener('input', function() {
             const newTitle = this.value || '{{ $form->title }}';
@@ -422,7 +422,7 @@
         function updateForm() {
             const html = document.getElementById('formArea').innerHTML;
             const title = document.getElementById('formTitle').value;
-            
+
             if (!title || title.trim() === '') {
                 alert('Form title is required!');
                 return;
@@ -471,5 +471,8 @@
             });
         }
     </script>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 </body>
 </html>

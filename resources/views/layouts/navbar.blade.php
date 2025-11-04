@@ -172,7 +172,14 @@
                             <li><a class="dropdown-item" href="{{ route('student.viewJoinedClasses') }}"><i class="fas fa-users"></i>My Classes</a></li>
                             <li><a class="dropdown-item" href="{{ route('student.classes') }}"><i class="fas fa-list"></i>All Classes</a></li>
                         </ul>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('student.allAssignedForms') }}">
+                            <i class="fas fa-graduation-cap"></i>Assignments
+                        </a>
                     </li>
+                    </li>
+
                 </ul>
             @endif
 

@@ -16,8 +16,24 @@ class StudentController extends Controller
     public function dashboard()
     {
         $studentId = Auth::guard('student')->id();
+        
+        // Calculate statistics
+        $joinedClassrooms = ClassroomStudents::where('student_id', $studentId)->count();
+        $completedForms = FormSubmission::where('student_id', $studentId)->count();
+        
+        // Get unique assigned forms
+        $totalAssignedForms = ClassroomForms::whereIn('classroom_id', 
+            ClassroomStudents::where('student_id', $studentId)->pluck('classroom_id')
+        )->distinct('form_id')->count('form_id');
+        
+        $pendingTasks = $totalAssignedForms - $completedForms;
+        $completionRate = $totalAssignedForms > 0 ? round(($completedForms / $totalAssignedForms) * 100) : 100;
+        
         return view('student.dashboard', [
-            'studentId' => $studentId
+            'joinedClassrooms' => $joinedClassrooms,
+            'completedForms' => $completedForms,
+            'pendingTasks' => $pendingTasks,
+            'completionRate' => $completionRate
         ]);
     }
 
@@ -195,14 +211,19 @@ class StudentController extends Controller
                                             ->with(['classroom.classroomForms.form'])
                                             ->get();
         
-        // Get submitted form IDs
+        // Get submitted form IDs and update status
         $submittedFormIds = FormSubmission::where('student_id', $studentId)
                                          ->pluck('form_id')
                                          ->toArray();
         
+        $formSubmissions = FormSubmission::where('student_id', $studentId)
+                                        ->get()
+                                        ->keyBy('form_id');
+        
         return view('student.classroom.allAssignedForms', [
             'joinedClassrooms' => $joinedClassrooms,
-            'submittedFormIds' => $submittedFormIds
+            'submittedFormIds' => $submittedFormIds,
+            'formSubmissions' => $formSubmissions
         ]);
     }
 }

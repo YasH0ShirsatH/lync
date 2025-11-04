@@ -84,7 +84,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
         }
 
         .page-header {
@@ -293,70 +293,104 @@
             </div>
         </div>
 
-        @if($classforms->count() > 0)
-            @php
-                $formsByTitle = $classforms->groupBy('form.title');
-            @endphp
-
-            @foreach($formsByTitle as $formTitle => $forms)
+        <div class="row">
+            <!-- Forms Section -->
+            <div class="col-lg-6">
                 <div class="class-card">
-                    @if($forms->first()->form)
-                        <div class="card-header">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
                             <h3 class="card-title">
-                                <i class="fas fa-file-alt me-2"></i>{{ $formTitle }}
+                                <i class="fas fa-file-alt me-2"></i>Assigned Forms
                             </h3>
+                            <a href="{{ route('teacher.formBuilder') }}" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-plus me-1"></i>Add Form
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <div class="classroom-badges">
-                                <strong class="text-muted mb-2 d-block">
-                                    <i class="fas fa-school me-1"></i>Available in other Classrooms:
-                                </strong>
-                                @foreach($forms->first()->allClassrooms as $classroomForm)
-                                    @if($classroomForm->classroom && $classroomForm->classroom_id != $id)
-                                        <a class="text-decoration-none" href="/teacher/classroom/show/{{$classroomForm->classroom->id}}" >
-                                            <span class="classroom-badge">
-                                                <i class="fas fa-chalkboard-teacher me-1"></i>{{ $classroomForm->classroom->name }}
-                                            </span>
-                                        </a>
-                                    @endif
-                                @endforeach
+                    </div>
+                    <div class="card-body">
+                        @if($classforms->count() > 0)
+                            @php
+                                $formsByTitle = $classforms->groupBy('form.title');
+                            @endphp
+                            @foreach($formsByTitle as $formTitle => $forms)
+                                @if($forms->first()->form)
+                                    <div class="form-item mb-3 p-3" style="background: #f8f9fa; border-radius: 15px; border-left: 4px solid #0d6efd;">
+                                        <h6 class="mb-2 fw-bold text-dark">{{ $formTitle }}</h6>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar me-1"></i>{{ $forms->first()->form->created_at->format('M d, Y') }}
+                                            </small>
+                                            <div class="d-flex gap-1">
+                                                <a href="{{ route('teacher.showForm', $forms->first()->form->id) }}" class="btn btn-sm" style="background: #0d6efd; color: white; border-radius: 8px; padding: 6px 10px;">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('teacher.editForm', $forms->first()->form->id) }}" class="btn btn-sm" style="background: #ffc107; color: #212529; border-radius: 8px; padding: 6px 10px;">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="{{ route('teacher.classroom.viewResponses', [$forms->first()->classroom_id, $forms->first()->form->id]) }}" class="btn btn-sm" style="background: #17a2b8; color: white; border-radius: 8px; padding: 6px 10px;">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                </a>
+                                                <a href="{{ route('teacher.classroom.removeForm', [$forms->first()->classroom_id, $forms->first()->form->id]) }}"
+                                                   onclick="return confirm('Remove this form from classroom?')" class="btn btn-sm" style="background: #dc3545; color: white; border-radius: 8px; padding: 6px 10px;">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <i class="fas fa-file-alt"></i>
+                                <p>No forms assigned to this classroom yet.</p>
+                                <p>Click <a href="/teacher/formBuilder" class="text-decoration-none">here</a> to create form</p>
                             </div>
-                            <div class="form-content">{!! $forms->first()->form->html_content !!}</div>
-
-                            <div class="form-actions">
-                                <a href="{{ route('teacher.editForm', $forms->first()->form->id) }}?classroom_id={{ $id }}" class="btn-edit">
-                                    <i class="fas fa-edit me-1"></i>Edit
-                                </a>
-                                <a href="{{ route('teacher.classroom.removeForm', [$forms->first()->classroom_id, $forms->first()->form->id]) }}"
-                                   onclick="return confirm('Are you sure you want to remove this form from this classroom?');"
-                                   class="btn-delete">
-                                    <i class="fas fa-times me-1"></i>Remove
-                                </a>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            @endforeach
-
-            <div class="add-form-section">
-                <a href="{{ route('teacher.formBuilder') }}" class="add-form-btn">
-                    <i class="fas fa-plus me-2"></i>Add New Form
-                </a>
-            </div>
-        @else
-            <div class="class-card">
-                <div class="empty-state">
-                    <i class="fas fa-inbox"></i>
-                    <h4>No Forms Available</h4>
-                    <p>There are no forms assigned to your classrooms yet.</p>
-                    <div class="mt-4">
-                        <a href="{{ route('teacher.formBuilder') }}" class="add-form-btn">
-                            <i class="fas fa-plus me-2"></i>Add Your First Form
-                        </a>
+                        @endif
                     </div>
                 </div>
             </div>
-        @endif
+
+            <!-- Students Section -->
+            <div class="col-lg-6">
+                <div class="class-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-users me-2"></i>Enrolled Students
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        @if($students->count() > 0)
+                            @foreach($students as $student)
+                                <div class="student-item mb-3 p-3" style="background: #f8f9fa; border-radius: 15px; border-left: 4px solid #198754;">
+                                    <div class="d-flex align-items-center">
+                                        <div class="student-avatar me-3" style="width: 40px; height: 40px; background: #198754; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-user text-white"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1 fw-bold text-dark">{{ $student->student->name }}</h6>
+                                            <small class="text-muted">{{ $student->student->email }}</small>
+                                            <br><small class="text-muted">
+                                                <i class="fas fa-calendar-plus me-1"></i>Joined {{ $student->created_at->format('M d') }}
+                                            </small>
+                                        </div>
+                                        <a href="{{ route('teacher.classroom.viewStudentResponses', [$student->classroom_id, $student->student_id]) }}" class="btn btn-sm" style="background: #17a2b8; color: white; border-radius: 8px; padding: 6px 12px;">
+                                            <i class="fas fa-eye me-1"></i>Responses
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="empty-state">
+                                <i class="fas fa-users"></i>
+                                <p>No students have joined this classroom yet.</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
+@include('javascript.js')
+
 </html>

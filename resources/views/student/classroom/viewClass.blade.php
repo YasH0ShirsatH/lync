@@ -9,82 +9,98 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            min-height: 100vh;
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .page-header {
-            background: rgba(52, 58, 64, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
+        .header-section {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 3rem 0;
             margin-bottom: 2rem;
         }
 
-        .card {
-            border-radius: 25px;
-            transition: all 0.4s ease;
-            border: none;
-            overflow: hidden;
+        .breadcrumb-nav {
+            background: transparent;
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb-item a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item.active {
+            color: white;
+        }
+
+        .class-card {
             background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .class-card:hover {
+            transform: translateY(-5px);
             box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            border-color: #007bff;
         }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-
-        .card-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            border: none;
-            padding: 2rem 1.5rem;
+        .class-header {
+            background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
+            color: white;
+            padding: 2rem;
             text-align: center;
-            position: relative;
+            border-bottom: 3px solid #007bff;
         }
 
         .class-icon {
             width: 60px;
             height: 60px;
             background: rgba(255,255,255,0.2);
-            border-radius: 50%;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1rem;
-            backdrop-filter: blur(10px);
         }
 
         .class-icon i {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: white;
         }
 
-        .card-body {
+        .class-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+        }
+
+        .class-body {
             padding: 2rem;
-            background: white;
-            display: flex;
-            flex-direction: column;
         }
 
-        .class-details {
-            margin-bottom: 1.5rem;
-        }
-
-        .detail-row {
+        .info-item {
             display: flex;
             align-items: flex-start;
             margin-bottom: 1.5rem;
             padding: 1rem;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 15px;
-            border-left: 4px solid #198754;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
         }
 
-        .detail-icon {
+        .info-icon {
             width: 40px;
             height: 40px;
-            background: #198754;
-            border-radius: 50%;
+            background: #007bff;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -92,131 +108,154 @@
             flex-shrink: 0;
         }
 
-        .detail-icon i {
+        .info-icon i {
             color: white;
             font-size: 1rem;
         }
 
-        .detail-content {
-            flex: 1;
-        }
-
-        .detail-label {
-            font-weight: 700;
+        .info-content h6 {
             color: #2c3e50;
+            font-weight: 600;
             font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.5rem;
-            display: block;
+            margin-bottom: 0.25rem;
         }
 
-        .detail-value {
+        .info-content p {
             color: #6c757d;
             margin: 0;
             line-height: 1.5;
+            font-size: 0.9rem;
         }
 
-        .action-area {
-            margin-top: 1rem;
+        .join-section {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
         }
 
-        .password-input-wrapper input {
-            border-radius: 15px;
+        .password-input {
             border: 2px solid #e9ecef;
+            border-radius: 8px;
             padding: 0.75rem 1rem;
             transition: all 0.3s ease;
+            margin-bottom: 1rem;
         }
 
-        .password-input-wrapper input:focus {
-            border-color: #198754;
-            box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
-        }
-
-        .button-group {
-            display: flex;
-            gap: 0.5rem;
+        .password-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
         }
 
         .btn {
-            border-radius: 15px;
+            border-radius: 8px;
             font-weight: 600;
             padding: 0.75rem 1.5rem;
             transition: all 0.3s ease;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
             border: none;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(25, 135, 84, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+            border: none;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(25, 135, 84, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: #dee2e6;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 <body>
 @include('layouts.navbar')
-<div class="container py-5">
-    <div class="page-header text-center text-white p-4 mb-5">
-        <h1 class="display-4 fw-bold mb-2">
-            <i class="fas fa-school me-3"></i>Available Classes
-        </h1>
-        <p class="lead mb-0">Choose a class to join and start your learning journey</p>
-    </div>
 
+<div class="header-section">
+    <div class="container">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active">Available Classes</li>
+            </ol>
+        </nav>
+        <div class="text-center">
+            <h1 class="display-5 fw-bold mb-2">
+                <i class="fas fa-school me-3"></i>Available Classes
+            </h1>
+            <p class="lead mb-0 opacity-75">Discover and join classrooms to start learning</p>
+        </div>
+    </div>
+</div>
+
+<div class="container pb-5">
     <div class="row g-4">
         @forelse ($classes as $class)
             <div class="col-lg-4 col-md-6">
-                <div class="card shadow-lg">
-                    <div class="card-header text-white">
+                <div class="class-card">
+                    <div class="class-header">
                         <div class="class-icon">
                             <i class="fas fa-graduation-cap"></i>
                         </div>
-                        <h5 class="card-title mb-0 fw-bold">{{ $class->name }}</h5>
+                        <h5 class="class-title">{{ $class->name }}</h5>
                     </div>
-                    
-                    <div class="card-body">
-                        <div class="class-details">
-                            <div class="detail-row">
-                                <div class="detail-icon">
-                                    <i class="fas fa-align-left"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <span class="detail-label">Description</span>
-                                    <p class="detail-value">{{ $class->description ?: 'No description available' }}</p>
-                                </div>
+
+                    <div class="class-body">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-user-tie"></i>
                             </div>
-                            
-                            <div class="detail-row">
-                                <div class="detail-icon">
-                                    <i class="fas fa-user-tie"></i>
-                                </div>
-                                <div class="detail-content">
-                                    <span class="detail-label">Instructor</span>
-                                    <p class="detail-value">{{ $class->teacher->name }}</p>
-                                </div>
+                            <div class="info-content">
+                                <h6>Instructor</h6>
+                                <p>{{ $class->teacher->name }}</p>
                             </div>
                         </div>
-                        
-                        <div class="action-area">
+
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-align-left"></i>
+                            </div>
+                            <div class="info-content">
+                                <h6>Description</h6>
+                                <p>{{ $class->description ?: 'No description available' }}</p>
+                            </div>
+                        </div>
+
+                        <div class="join-section">
                             <div class="password-section" id="password-{{ $class->id }}" style="display: none;">
-                                <div class="password-input-wrapper mb-3">
-                                    <input type="password" class="form-control" placeholder="Enter class password" id="password-input-{{ $class->id }}">
-                                </div>
-                                <div class="button-group">
+                                <input type="password" class="form-control password-input" placeholder="Enter class password" id="password-input-{{ $class->id }}">
+                                <div class="d-flex gap-2">
                                     <button type="button" class="btn btn-success flex-fill" onclick="submitJoin('{{ $class->id }}')">
-                                        <i class="fas fa-check me-1"></i>Join
+                                        <i class="fas fa-check me-1"></i>Join Class
                                     </button>
                                     <button type="button" class="btn btn-outline-secondary flex-fill" onclick="cancelJoin('{{ $class->id }}')">
                                         <i class="fas fa-times me-1"></i>Cancel
                                     </button>
                                 </div>
                             </div>
-                            
-                            <button type="button" class="btn btn-primary btn-lg w-100 join-btn" id="join-btn-{{ $class->id }}" onclick="showPassword('{{ $class->id }}')">
-                                <i class="fas fa-rocket me-2"></i>Join Class
+
+                            <button type="button" class="btn btn-primary w-100" id="join-btn-{{ $class->id }}" onclick="showPassword('{{ $class->id }}')">
+                                <i class="fas fa-plus me-2"></i>Join This Class
                             </button>
                         </div>
                     </div>
@@ -224,9 +263,13 @@
             </div>
         @empty
             <div class="col-12">
-                <div class="alert alert-info text-center">
-                    <i class="fas fa-info-circle me-2"></i>
-                    No classes available to join at the moment.
+                <div class="empty-state">
+                    <i class="fas fa-school empty-icon"></i>
+                    <h4 class="mb-3">No Classes Available</h4>
+                    <p class="text-muted mb-4">There are no classes available to join at the moment. Check back later or contact your instructor.</p>
+                    <a href="{{ route('student.dashboard') }}" class="btn btn-primary">
+                        <i class="fas fa-home me-2"></i>Back to Dashboard
+                    </a>
                 </div>
             </div>
         @endforelse
@@ -273,9 +316,11 @@ function submitJoin(classId) {
         }
     })
     .catch(error => {
+        console.error('Error:', error);
         alert('An error occurred. Please try again.');
     });
 }
 </script>
+@include('javascript.js')
 </body>
 </html>
