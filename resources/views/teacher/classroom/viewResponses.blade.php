@@ -6,80 +6,253 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #64748b;
+            --primary-blue: #0ea5e9;
+            --primary-blue-dark: #0369a1;
+            --secondary-blue: #0284c7;
+            --accent-blue: #38bdf8;
+            --neutral-50: #f8fafc;
+            --neutral-100: #f1f5f9;
+            --neutral-200: #e2e8f0;
+            --neutral-300: #cbd5e1;
+            --neutral-400: #94a3b8;
+            --neutral-500: #64748b;
+            --neutral-600: #475569;
+            --neutral-700: #334155;
+            --neutral-800: #1e293b;
+            --neutral-900: #0f172a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+        .edit-title-btn{
+            display : none;
+        }
         body {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #1e293b;
+            background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--neutral-800);
             min-height: 100vh;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
         }
 
-        /* Header */
+        /* Header Section */
         .page-header {
-            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
-            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
-            color: var(--text-primary);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            color: white;
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
         }
 
         .page-title {
             font-weight: 700;
-            font-size: 2rem;
+            font-size: 1.875rem;
             margin: 0;
+            position: relative;
+            z-index: 1;
         }
 
         .page-subtitle {
             opacity: 0.9;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            margin: 0.5rem 0 0 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-back {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 8px;
+            padding: 0.625rem 1.25rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-back:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.3);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Enhanced Stats Section */
+        .stats-section {
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--neutral-200);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+        }
+
+        .stat-icon.responses {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--primary-blue);
+        }
+
+        .stat-icon.students {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .stat-icon.latest {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-number {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--neutral-800);
             margin: 0;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+            margin: 0.25rem 0 0 0;
+            font-weight: 500;
+        }
+
+        /* Filters and Actions */
+        .controls-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--neutral-200);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 300px;
+        }
+
+        .search-box input {
+            padding-left: 2.5rem;
+            border: 1px solid var(--neutral-300);
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neutral-400);
         }
 
         /* Response Cards */
+        .responses-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
         .response-card {
             background: white;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--neutral-200);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
 
         .response-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-color: var(--primary-blue);
         }
 
         .response-header {
-            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
-            color: var(--text-primary);
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--neutral-200);
         }
 
         .student-info {
             display: flex;
             align-items: center;
-            justify-content: between;
+            justify-content: space-between;
+        }
+
+        .student-main {
+            display: flex;
+            align-items: center;
         }
 
         .student-avatar {
-            width: 40px;
-            height: 40px;
-            background: #3b82f6;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -87,127 +260,315 @@
             color: white;
             font-weight: 600;
             margin-right: 1rem;
+            font-size: 1.125rem;
         }
 
-        .student-name {
+        .student-details h6 {
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin: 0;
+            color: var(--neutral-800);
+        }
+
+        .student-email {
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+            margin: 0.25rem 0 0 0;
+        }
+
+        .submission-meta {
+            text-align: right;
         }
 
         .submission-time {
             font-size: 0.875rem;
-            opacity: 0.8;
+            color: var(--neutral-500);
             margin: 0;
         }
 
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .status-badge.graded {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
         .response-body {
-            padding: 2rem;
+            padding: 1.5rem;
             background: white;
         }
 
-        /* Response Content Styling */
-        .response-body h1, .response-body h2, .response-body h3,
-        .response-body h4, .response-body h5, .response-body h6 {
-            color: #1e293b;
-            margin-bottom: 1rem;
-        }
-
-        .response-body p {
-            color: #475569;
+        .response-preview {
+            color: var(--neutral-600);
             line-height: 1.6;
             margin-bottom: 1rem;
         }
 
-        .response-body ul, .response-body ol {
-            color: #475569;
-            padding-left: 1.5rem;
+        .response-preview h1, .response-preview h2, .response-preview h3,
+        .response-preview h4, .response-preview h5, .response-preview h6 {
+            color: var(--neutral-800);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
         }
 
-        .response-body li {
-            margin-bottom: 0.5rem;
+        .response-preview p {
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .response-preview ul, .response-preview ol {
+            margin-bottom: 0.75rem;
+            padding-left: 1.25rem;
+        }
+
+        .response-preview li {
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .response-preview strong {
+            color: var(--neutral-800);
+            font-weight: 600;
+        }
+
+        .response-preview em {
+            font-style: italic;
+            color: var(--neutral-700);
+        }
+
+        .response-preview blockquote {
+            border-left: 3px solid var(--primary-blue);
+            padding-left: 1rem;
+            margin: 0.75rem 0;
+            color: var(--neutral-600);
+            font-style: italic;
+        }
+
+        .response-preview code {
+            background: var(--neutral-100);
+            padding: 0.125rem 0.25rem;
+            border-radius: 4px;
+            font-size: 0.8125rem;
+            color: var(--neutral-700);
+        }
+
+        .response-preview pre {
+            background: var(--neutral-100);
+            padding: 0.75rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        .response-preview pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .response-preview table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0;
+            font-size: 0.875rem;
+        }
+
+        .response-preview th,
+        .response-preview td {
+            padding: 0.5rem;
+            border: 1px solid var(--neutral-300);
+            text-align: left;
+        }
+
+        .response-preview th {
+            background: var(--neutral-100);
+            font-weight: 600;
+            color: var(--neutral-800);
+        }
+
+        .response-preview a {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .response-preview a:hover {
+            text-decoration: underline;
+        }
+
+        .response-preview hr {
+            border: none;
+            border-top: 1px solid var(--neutral-300);
+            margin: 1rem 0;
+        }
+        }
+
+        .response-preview ul, .response-preview ol {
+            padding-left: 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .response-preview li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Teacher Remarks Section */
+        .remarks-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--neutral-200);
+        }
+
+        .remarks-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .remarks-header h6 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--neutral-700);
+            font-size: 0.875rem;
+        }
+
+        .remarks-form {
+            background: var(--neutral-50);
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid var(--neutral-200);
+        }
+
+        .marks-input-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .marks-input {
+            width: 70px;
+            text-align: center;
+            border: 1px solid var(--neutral-300);
+            border-radius: 6px;
+            padding: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .form-control-sm {
+            border: 1px solid var(--neutral-300);
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+
+        .form-control-sm:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.1);
         }
 
         /* Empty State */
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
-            color: #64748b;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--neutral-200);
         }
 
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            opacity: 0.3;
+        .empty-state-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--neutral-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--neutral-400);
+            font-size: 2rem;
         }
 
         .empty-state h4 {
-            color: #374151;
-            margin-bottom: 1rem;
+            color: var(--neutral-700);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
         }
 
-        /* Back Button */
-        .btn-back {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
-            color: white;
-            border-radius: 12px;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            text-decoration: none;
+        .empty-state p {
+            color: var(--neutral-500);
+            margin: 0;
+        }
+
+        /* Buttons */
+        .btn {
+            border-radius: 6px;
+            font-weight: 500;
             transition: all 0.2s ease;
         }
 
-        .btn-back:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.5);
-            color: white;
-            transform: translateY(-2px);
+        .btn-primary {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
         }
 
-        /* Stats Bar */
-        .stats-bar {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        .btn-primary:hover {
+            background: var(--primary-blue-dark);
+            border-color: var(--primary-blue-dark);
+            transform: translateY(-1px);
         }
 
-        .stat-item {
-            text-align: center;
+        .btn-warning {
+            background: var(--warning);
+            border-color: var(--warning);
         }
 
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin: 0;
+        .btn-success {
+            background: var(--success);
+            border-color: var(--success);
         }
 
-        .stat-label {
-            font-size: 0.875rem;
-            color: #64748b;
-            margin: 0;
-        }
-
-        /* Responsive */
+        /* Responsive Design */
         @media (max-width: 768px) {
+            .container {
+                padding: 0 0.75rem;
+            }
+
             .page-header {
                 padding: 1.5rem;
             }
 
-            .response-body {
-                padding: 1.5rem;
+            .page-title {
+                font-size: 1.5rem;
             }
 
-            .stats-bar {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .response-body {
                 padding: 1rem;
             }
 
-            .stat-number {
-                font-size: 1.5rem;
+            .student-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .submission-meta {
+                text-align: left;
             }
         }
     </style>
@@ -215,14 +576,15 @@
 <body>
     @include('layouts.navbar')
 
-    <div class="container py-5">
+    <div class="container py-4">
+        <!-- Page Header -->
         <div class="page-header">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
                 <div>
                     <h1 class="page-title">
-                        <i class="fas fa-chart-bar me-3"></i>{{ $form->title }}
+                        <i class="fas fa-chart-line me-2"></i>{{ $form->title }}
                     </h1>
-                    <p class="page-subtitle mt-2">{{ $classroom->name }} - Form Responses</p>
+                    <p class="page-subtitle">{{ $classroom->name }} • Form Responses</p>
                 </div>
                 <a href="{{ route('teacher.classroom.show', $classroom->id) }}" class="btn-back mt-3 mt-md-0">
                     <i class="fas fa-arrow-left me-2"></i>Back to Classroom
@@ -230,134 +592,189 @@
             </div>
         </div>
 
-        <!-- Stats Bar -->
-        <div class="stats-bar">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="stat-item">
-                        <div class="stat-number">{{ $submissions->count() }}</div>
-                        <div class="stat-label">Total Responses</div>
+        <!-- Enhanced Stats Section -->
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon responses">
+                            <i class="fas fa-file-text"></i>
+                        </div>
                     </div>
+                    <div class="stat-number">{{ $submissions ? $submissions->count() : 0 }}</div>
+                    <div class="stat-label">Total Responses</div>
                 </div>
-                <div class="col-md-4">
-                    <div class="stat-item">
-                        <div class="stat-number">{{ $submissions->unique('student_id')->count() }}</div>
-                        <div class="stat-label">Students Responded</div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon students">
+                            <i class="fas fa-users"></i>
+                        </div>
                     </div>
+                    <div class="stat-number">{{ $submissions ? $submissions->unique('student_id')->count() : 0 }}</div>
+                    <div class="stat-label">Students Responded</div>
                 </div>
-                <div class="col-md-4">
-                    <div class="stat-item">
-                        <div class="stat-number">{{ $submissions->count() > 0 ? $submissions->first()->created_at->format('M d') : '-' }}</div>
-                        <div class="stat-label">Latest Response</div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon latest">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="stat-number">{{ $submissions ? $submissions->whereNotNull('rating')->count() : 0 }}</div>
+                    <div class="stat-label">Graded Responses</div>
+                </div>
+            </div>
+
+            <!-- Controls Bar -->
+            <div class="controls-bar">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Search by student name..." id="searchInput">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <select class="form-select form-select-sm" style="width: auto;" id="statusFilter">
+                            <option value="all">All Responses</option>
+                            <option value="graded">Graded Only</option>
+                            <option value="pending">Pending Review</option>
+                        </select>
+                        <button class="btn btn-outline-primary btn-sm" >
+                            <i class="fas fa-download me-1"></i>Export
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Responses -->
-        @forelse($submissions as $submission)
-            <div class="response-card" onclick="window.location.href='{{ route('teacher.viewSubmission', $submission->id) }}'" style="cursor: pointer;">
-                <div class="response-header">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <div class="student-avatar">
-                                {{ strtoupper(substr($submission->student->name, 0, 1)) }}
-                            </div>
-                            <div>
-                                <h5 class="student-name">{{ $submission->student->name }}</h5>
-                                <p class="submission-time">{{ $submission->student->email }}</p>
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <small class="submission-time">
-                                <i class="fas fa-clock me-1"></i>{{ $submission->created_at->format('M d, Y H:i') }}
-                            </small>
-                        </div>
-                    </div>
-                </div>
-                <div class="response-body">
-                    {!! $submission->responses !!}
-
-                    <!-- Teacher Remarks Section -->
-                    <div class="mt-4 pt-4 border-top">
-                        <h6 class="mb-3"><i class="fas fa-clipboard-check me-2"></i>Teacher Remarks</h6>
-
-                        @php
-                            $obtainedMarks = $submission->rating;
-                            $teacherComment = '';
-
-                            // Count input fields in the form HTML content
-                            $formHtml = $submission->form->html_content;
-                            $inputCount = 0;
-                            if ($formHtml) {
-                                $inputCount += substr_count($formHtml, '<input');
-                                $inputCount += substr_count($formHtml, '<textarea');
-                                $inputCount += substr_count($formHtml, '<select');
-                            }
-                            $totalMarks = $inputCount;
-
-                            // Parse existing comment for teacher feedback
-                            if ($submission->comment) {
-                                if (str_contains($submission->comment, '|')) {
-                                    $parts = explode('|', $submission->comment, 2);
-                                    $teacherComment = $parts[1];
-                                } else if (!str_contains($submission->comment, '/')) {
-                                    $teacherComment = $submission->comment;
-                                }
-                            }
-
-                            $hasRemarks = $submission->rating !== null || !empty($teacherComment);
-                        @endphp
-
-                        <form action="{{ route('teacher.updateSubmissionRemark', $submission->id) }}" method="POST" class="remarks-form-{{ $submission->id }}">
-                            @csrf
-                            @method('PUT')
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold">Marks</label>
-                                    <div class="d-flex align-items-center">
-                                        <input type="number" class="form-control form-control-sm" name="obtained_marks"
-                                               value="{{ $obtainedMarks }}" placeholder="0" min="0"
-                                               style="width: 80px; margin-right: 8px;" {{ $hasRemarks ? 'disabled' : '' }}>
-                                        <span class="me-2">/</span>
-                                        <input type="number" class="form-control form-control-sm" name="total_marks"
-                                               placeholder="{{ $totalMarks }}" style="width: 80px;" {{ $hasRemarks ? 'disabled' : '' }}>
-                                    </div>
+        <!-- Responses Grid -->
+        <div class="responses-grid">
+            @forelse($submissions as $submission)
+                <div class="response-card" >
+                    <div class="response-header">
+                        <div class="student-info" onclick="window.location.href='{{ route('teacher.viewSubmission', $submission->id) }}'">
+                            <div class="student-main"  >
+                                <div class="student-avatar"  >
+                                    {{ strtoupper(substr($submission->student->name, 0, 1)) }}
+                                </div>
+                                <div class="student-details">
+                                    <h6>{{ $submission->student->name }}</h6>
+                                    <div class="student-email">{{ $submission->student->email }}</div>
                                 </div>
                             </div>
-
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">Comments</label>
-                                <textarea class="form-control form-control-sm" name="teacher_comment" rows="2"
-                                          placeholder="Add feedback..." {{ $hasRemarks ? 'disabled' : '' }}>{{ $teacherComment }}</textarea>
-                            </div>
-
-                            <div class="d-flex justify-content-end">
-                                @if($hasRemarks)
-                                    <button type="button" class="btn btn-warning btn-sm me-2" onclick="enableEdit({{ $submission->id }})">
-                                        <i class="fas fa-edit me-1"></i>Edit
-                                    </button>
-                                    <button type="submit" class="btn btn-primary btn-sm" style="display: none;" id="saveBtn-{{ $submission->id }}">
-                                        <i class="fas fa-save me-1"></i>Save
-                                    </button>
+                            <div class="submission-meta">
+                                <div class="submission-time">
+                                    <i class="fas fa-clock me-1"></i>{{ $submission->created_at->diffForHumans() }}
+                                </div>
+                                @if($submission->rating !== null)
+                                    <div class="status-badge graded">
+                                        <i class="fas fa-check-circle me-1"></i>Graded
+                                    </div>
                                 @else
-                                    <button type="submit" class="btn btn-primary btn-sm">
-                                        <i class="fas fa-save me-1"></i>Save
-                                    </button>
+                                    <div class="status-badge pending">
+                                        <i class="fas fa-clock me-1"></i>Pending
+                                    </div>
                                 @endif
                             </div>
-                        </form>
+                        </div>
+                    </div>
+                    <div class="response-body">
+                        <div class="response-preview">
+                            {!! $submission->responses !!}
+                        </div>
+
+                        <!-- Teacher Remarks Section -->
+                        <div class="remarks-section">
+                            <div class="remarks-header">
+                                <h6><i class="fas fa-clipboard-check me-2"></i>Teacher Remarks</h6>
+                            </div>
+
+                            @php
+                                $obtainedMarks = $submission->rating;
+                                $teacherComment = '';
+
+                                // Count input fields in the form HTML content
+                                $formHtml = $submission->form->html_content;
+                                $inputCount = 0;
+                                if ($formHtml) {
+                                    $inputCount += substr_count($formHtml, '<input>');
+                                    $inputCount += substr_count($formHtml, '<textarea>');
+                                    $inputCount += substr_count($formHtml, '<select>');
+                                }
+                                $totalMarks = '';
+                                       if ($submission->comment && str_contains($submission->comment, '|')) {
+                                                                                    $parts = explode('|', $submission->comment, 2);
+                                                                                    $marksData = $parts[0];
+                                        if (str_contains($marksData, '/')) {
+                                                                                       $marksParts = explode('/', $marksData);
+                                                                                        $totalMarks = $marksParts[1] ?? '';
+                                                                                    }
+                                                                                }
+
+                                // Parse existing comment for teacher feedback
+                                if ($submission->comment) {
+                                    if (str_contains($submission->comment, '|')) {
+                                        $parts = explode('|', $submission->comment, 2);
+                                        $teacherComment = $parts[1];
+                                    } else if (!str_contains($submission->comment, '/')) {
+                                        $teacherComment = $submission->comment;
+                                    }
+                                }
+
+                                $hasRemarks = $submission->rating !== null || !empty($teacherComment);
+                            @endphp
+
+                            <div class="remarks-form">
+                                <form action="{{ route('teacher.updateSubmissionRemark', $submission->id) }}" method="POST" class="remarks-form-{{ $submission->id }}">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-semibold" style="font-size: 0.875rem;">Marks</label>
+                                            <div class="marks-input-group">
+                                                <input type="number" class="marks-input" name="obtained_marks"
+                                                       value="{{ $obtainedMarks }}" placeholder="0" min="0" {{ $hasRemarks ? 'disabled' : '' }}>
+                                                <span>/</span>
+                                                <input type="number" class="marks-input" name="total_marks"
+                                                       placeholder="{{ $totalMarks }}" {{ $hasRemarks ? 'disabled' : '' }}>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold" style="font-size: 0.875rem;">Comments</label>
+                                        <textarea class="form-control form-control-sm" name="teacher_comment" rows="2"
+                                                  placeholder="Add feedback..." {{ $hasRemarks ? 'disabled' : '' }}>{{ $teacherComment }}</textarea>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end gap-2">
+                                        @if($hasRemarks)
+                                            <button type="button" class="btn btn-warning btn-sm" onclick="enableEdit({{ $submission->id }})">
+                                                <i class="fas fa-edit me-1"></i>Edit
+                                            </button>
+                                            <button type="submit" class="btn btn-primary btn-sm" style="display: none;" id="saveBtn-{{ $submission->id }}">
+                                                <i class="fas fa-save me-1"></i>Save
+                                            </button>
+                                        @else
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-save me-1"></i>Save
+                                            </button>
+                                        @endif
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        @empty
-            <div class="empty-state">
-                <i class="fas fa-inbox"></i>
-                <h4>No Responses Yet</h4>
-                <p>Students haven't submitted responses for this form yet.</p>
-            </div>
-        @endforelse
+            @empty
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-inbox"></i>
+                    </div>
+                    <h4>No Responses Yet</h4>
+                    <p>Students haven't submitted responses for this form yet. Share the form link to start collecting responses.</p>
+                </div>
+            @endforelse
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -371,6 +788,48 @@
             inputs.forEach(input => input.disabled = false);
             editBtn.style.display = 'none';
             saveBtn.style.display = 'inline-block';
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const responseCards = document.querySelectorAll('.response-card');
+
+            responseCards.forEach(card => {
+                const studentName = card.querySelector('.student-details h6').textContent.toLowerCase();
+                const studentEmail = card.querySelector('.student-email').textContent.toLowerCase();
+
+                if (studentName.includes(searchTerm) || studentEmail.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Status filter functionality
+        document.getElementById('statusFilter').addEventListener('change', function(e) {
+            const filterValue = e.target.value;
+            const responseCards = document.querySelectorAll('.response-card');
+
+            responseCards.forEach(card => {
+                const isGraded = card.querySelector('.status-badge.graded');
+
+                if (filterValue === 'all') {
+                    card.style.display = 'block';
+                } else if (filterValue === 'graded' && isGraded) {
+                    card.style.display = 'block';
+                } else if (filterValue === 'pending' && !isGraded) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Export functionality placeholder
+        function exportResponses() {
+            alert('Export functionality would be implemented here');
         }
     </script>
 </body>

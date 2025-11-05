@@ -7,63 +7,124 @@
     <title>Your Classrooms - Lync</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        * {
+             font-family: "Playwrite DE Grund", cursive;
         }
 
-        .header-section {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            padding: 3rem 0;
+        :root {
+            --primary-500: #0ea5e9;
+            --primary-600: #0284c7;
+            --primary-700: #0369a1;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --danger-500: #ef4444;
+            --white: #ffffff;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--gray-50) 0%, #e0f2fe 100%);
+             font-family: "Playwrite DE Grund", cursive;
+            min-height: 100vh;
+            color: var(--gray-800);
+        }
+
+        .container {
+            max-width: 1350px;
+        }
+
+        .page-header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 2rem 0;
             margin-bottom: 2rem;
         }
 
-        .breadcrumb-nav {
-            background: transparent;
+        .breadcrumb {
+            background: none;
             padding: 0;
             margin-bottom: 1rem;
         }
 
         .breadcrumb-item a {
-            color: rgba(255,255,255,0.8);
+            color: var(--primary-600);
             text-decoration: none;
         }
 
-        .breadcrumb-item.active {
-            color: white;
+        .page-title {
+            color: var(--gray-900);
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .page-subtitle {
+            color: var(--gray-600);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .stats-overview {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-600);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            font-weight: 500;
         }
 
         .class-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border: 1px solid #e9ecef;
-            transition: all 0.3s ease;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 1rem;
             overflow: hidden;
+            transition: all 0.3s ease;
             height: 100%;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .class-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-            border-color: #007bff;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-500);
         }
 
         .class-header {
-            background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
             color: white;
             padding: 2rem;
             text-align: center;
-            border-bottom: 3px solid #007bff;
         }
 
         .class-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 12px;
+            width: 3rem;
+            height: 3rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 0.75rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -71,14 +132,13 @@
         }
 
         .class-icon i {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             color: white;
         }
 
         .class-title {
             font-size: 1.25rem;
-            font-weight: 700;
-            color: white;
+            font-weight: 600;
             margin: 0;
         }
 
@@ -90,19 +150,19 @@
         }
 
         .class-description {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 8px;
-            border-left: 4px solid #007bff;
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary-500);
             margin-bottom: 1.5rem;
             flex-grow: 1;
         }
 
         .description-text {
-            color: #6c757d;
+            color: var(--gray-600);
             margin: 0;
             line-height: 1.5;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
         }
 
         .action-buttons {
@@ -112,112 +172,85 @@
         }
 
         .btn {
-            border-radius: 8px;
+            border-radius: 0.5rem;
             font-weight: 600;
             padding: 0.75rem 1.5rem;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             flex: 1;
+            border: none;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-            border: none;
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+            color: white;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+            color: white;
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-            border: none;
+            background: linear-gradient(135deg, var(--danger-500) 0%, #dc2626 100%);
+            color: white;
         }
 
         .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            color: white;
         }
 
         .empty-state {
             text-align: center;
-            padding: 3rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 4rem 2rem;
+            background: var(--white);
+            border-radius: 1rem;
+            border: 1px solid var(--gray-200);
         }
 
         .empty-icon {
-            font-size: 4rem;
-            color: #dee2e6;
+            font-size: 3rem;
+            color: var(--gray-500);
             margin-bottom: 1rem;
-        }
-
-        .stats-section {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border: 1px solid #e9ecef;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #007bff;
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-label {
-            color: #6c757d;
-            font-size: 0.9rem;
-            font-weight: 500;
         }
     </style>
 </head>
 <body>
 @include('layouts.navbar')
 
-<div class="header-section">
+<div class="page-header">
     <div class="container">
-        <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">Dashboard</a></li>
                 <li class="breadcrumb-item active">Your Classrooms</li>
             </ol>
         </nav>
-        <div class="text-center">
-            <h1 class="display-5 fw-bold mb-2">
-                <i class="fas fa-graduation-cap me-3"></i>Your Classrooms
-            </h1>
-            <p class="lead mb-0 opacity-75">Access your enrolled classrooms and assignments</p>
-        </div>
+        <h1 class="page-title">Your Classrooms</h1>
+        <p class="page-subtitle">Access your enrolled classrooms and assignments</p>
     </div>
 </div>
 
 <div class="container pb-5">
     @if($classrooms->count() > 0)
-        <div class="stats-section">
+        <div class="stats-overview">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="stat-item">
+                    <div class="stat-card">
                         <div class="stat-number">{{ $classrooms->count() }}</div>
                         <div class="stat-label">Enrolled Classes</div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="stat-item">
+                    <div class="stat-card">
                         <div class="stat-number">{{ $classrooms->sum(function($c) { return $c->classroomForms->count(); }) }}</div>
                         <div class="stat-label">Total Assignments</div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="stat-item">
+                    <div class="stat-card">
                         <div class="stat-number">{{ $classrooms->unique('teacher_id')->count() }}</div>
                         <div class="stat-label">Instructors</div>
                     </div>

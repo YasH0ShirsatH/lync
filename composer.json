@@ -10,8 +10,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "jd-dotlogics/laravel-grapesjs": "^3.4",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "msa/laravel-grapes": "^1.0",
+        "tightenco/ziggy": "^2.6"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

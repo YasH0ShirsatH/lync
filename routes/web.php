@@ -7,7 +7,7 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
-
+use App\Http\Controllers\PageController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -30,6 +30,8 @@ Route::group(['prefix' => 'account'],function(){
 
 // Logout route accessible by both guards
 Route::get('/account/logout', [LoginController::class, 'logout'])->name('account.logout');
+Route::get('/page/{slug}', [PageController::class, 'showBySlug']);
+
 
 // Teacher Routes
 Route::group(['middleware' => 'auth:teacher'], function(){
@@ -52,6 +54,20 @@ Route::group(['middleware' => 'auth:teacher'], function(){
     Route::get('/teacher/classroom/{classroom}/student/{student}/responses', [ClassroomController::class, 'viewStudentResponses'])->name('teacher.classroom.viewStudentResponses');
     Route::get('/teacher/submission/{submission}', [ClassroomController::class, 'viewSubmission'])->name('teacher.viewSubmission');
     Route::put('/teacher/submission/{submission}/remark', [ClassroomController::class, 'updateSubmissionRemark'])->name('teacher.updateSubmissionRemark');
+    Route::get('/teacher/classroom/cms', [PageController::class, 'builder'])->name('website.builder.teacher');
+    Route::post('/front-end-builder/create-page', [PageController::class, 'store'])->name('new_page.store');
+    Route::put('/front-end-builder/update-page-content/{id}', [PageController::class, 'updateContent'])->name('update.page_content');
+    Route::get('/front-end-builder/all-pages', [PageController::class, 'allPages'])->name('page.all');
+    Route::get('/front-end-builder/find-page/{id}', [PageController::class, 'show'])->name('page.find');
+    Route::delete('/front-end-builder/delete-page/{id}', [PageController::class, 'destroy'])->name('page.delete');
+
+    // Block/Component routes
+    Route::get('hello/get/custome-components', function() { return response()->json([]); })->name('custome_component.all');
+    Route::post('hello/store/custome-component', function() { return response()->json(['success' => true]); })->name('custome_component.store');
+    Route::put('hello/store/custome-component/update/{id}', function() { return response()->json(['success' => true]); })->name('update.component');
+    Route::delete('hello/store/custome-component/delete/{id}', function() { return response()->json(['success' => true]); })->name('component.delete');
+
+
 
 });
 

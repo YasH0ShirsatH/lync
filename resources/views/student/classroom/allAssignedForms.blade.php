@@ -6,55 +6,137 @@
     <title>All Assigned Forms - Lync</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        * {
+        font-family: "Playwrite DE Grund", cursive;
         }
 
-        .header-section {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            padding: 3rem 0;
+        :root {
+            --primary-500: #0ea5e9;
+            --primary-600: #0284c7;
+            --primary-700: #0369a1;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --success-500: #22c55e;
+            --warning-500: #f59e0b;
+            --white: #ffffff;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--gray-50) 0%, #e0f2fe 100%);
+
+            min-height: 100vh;
+            color: var(--gray-800);
+        }
+
+        .container {
+            max-width: 1350px;
+        }
+
+        .page-header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 2rem 0;
             margin-bottom: 2rem;
         }
 
-        .breadcrumb-nav {
-            background: transparent;
+        .breadcrumb {
+            background: none;
             padding: 0;
             margin-bottom: 1rem;
         }
 
         .breadcrumb-item a {
-            color: rgba(255,255,255,0.8);
+            color: var(--primary-600);
             text-decoration: none;
         }
 
-        .breadcrumb-item.active {
-            color: white;
+        .page-title {
+            color: var(--gray-900);
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
         }
 
-        .classroom-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        .page-subtitle {
+            color: var(--gray-600);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .stats-overview {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .stat-card.primary .stat-number { color: var(--primary-600); }
+        .stat-card.success .stat-number { color: var(--success-500); }
+        .stat-card.warning .stat-number { color: var(--warning-500); }
+
+        .classroom-section {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 1rem;
             margin-bottom: 2rem;
             overflow: hidden;
-            border: 1px solid #e9ecef;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .classroom-header {
-            background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
             color: white;
             padding: 1.5rem 2rem;
-            border-bottom: 3px solid #007bff;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .classroom-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .form-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            margin-left: 10px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
 
         .form-item {
             padding: 1.5rem 2rem;
-            border-bottom: 1px solid #f8f9fa;
-            transition: all 0.3s ease;
-            position: relative;
+            border-bottom: 1px solid var(--gray-100);
+            transition: all 0.2s ease;
         }
 
         .form-item:last-child {
@@ -62,8 +144,7 @@
         }
 
         .form-item:hover {
-            background: #f8f9fa;
-            transform: translateX(5px);
+            background: var(--gray-50);
         }
 
         .form-link {
@@ -73,111 +154,92 @@
         }
 
         .form-title {
-            color: #2c3e50;
+            color: var(--gray-900);
+            font-size: 1.125rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
         .form-meta {
-            color: #6c757d;
-            font-size: 0.9rem;
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
             display: inline-flex;
             align-items: center;
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            gap: 0.25rem;
         }
 
         .status-pending {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
+            background: #fef3c7;
+            color: #d97706;
         }
 
         .status-completed {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: #dcfce7;
+            color: #16a34a;
         }
 
         .status-updated {
-            background: #ffeaa7;
-            color: #d68910;
-            border: 1px solid #f39c12;
+            background: #fef3c7;
+            color: #d97706;
         }
 
-        .arrow-icon {
-            color: #007bff;
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-        }
-
-        .form-item:hover .arrow-icon {
-            transform: translateX(5px);
-        }
-
-        .stats-section {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border: 1px solid #e9ecef;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 1rem;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #2c3e50;
-        }
-
-        .stat-label {
-            color: #6c757d;
-            font-size: 0.9rem;
-            font-weight: 500;
+        .status-feedback {
+            background: #dcfce7;
+            color: #16a34a;
         }
 
         .empty-state {
             text-align: center;
-            padding: 3rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 4rem 2rem;
+            background: var(--white);
+            border-radius: 1rem;
+            border: 1px solid var(--gray-200);
         }
 
         .empty-icon {
-            font-size: 4rem;
-            color: #dee2e6;
+            font-size: 3rem;
+            color: var(--gray-500);
             margin-bottom: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
         }
     </style>
 </head>
 <body>
 @include('layouts.navbar')
 
-<div class="header-section">
+<div class="page-header">
     <div class="container">
-        <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">Dashboard</a></li>
                 <li class="breadcrumb-item active">All Assigned Forms</li>
             </ol>
         </nav>
-        <div class="text-center">
-            <h1 class="display-5 fw-bold mb-2">
-                <i class="fas fa-clipboard-list me-3"></i>All Assigned Forms
-            </h1>
-            <p class="lead mb-0 opacity-75">Complete your assignments organized by classroom</p>
-        </div>
+        <h1 class="page-title">All Assigned Forms</h1>
+        <p class="page-subtitle">Complete your assignments organized by classroom</p>
     </div>
 </div>
 
@@ -196,23 +258,23 @@
     @endphp
 
     @if($totalForms > 0)
-        <div class="stats-section">
+        <div class="stats-overview">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="stat-item">
+                    <div class="stat-card primary">
                         <div class="stat-number">{{ $totalForms }}</div>
                         <div class="stat-label">Total Forms</div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="stat-item">
-                        <div class="stat-number text-success">{{ $completedForms }}</div>
+                    <div class="stat-card success">
+                        <div class="stat-number">{{ $completedForms }}</div>
                         <div class="stat-label">Completed</div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="stat-item">
-                        <div class="stat-number text-warning">{{ $totalForms - $completedForms }}</div>
+                    <div class="stat-card warning">
+                        <div class="stat-number">{{ $totalForms - $completedForms }}</div>
                         <div class="stat-label">Pending</div>
                     </div>
                 </div>
@@ -222,18 +284,15 @@
 
     @forelse($joinedClassrooms as $classroomStudent)
         @if($classroomStudent->classroom->classroomForms->count() > 0)
-            <div class="classroom-card">
+            <div class="classroom-section">
                 <div class="classroom-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="mb-0 fw-bold">
-                            <i class="fas fa-graduation-cap me-2"></i>
-                            {{ $classroomStudent->classroom->name }}
-                        </h3>
-                        <small class="opacity-75">
-                            {{ $classroomStudent->classroom->classroomForms->count() }}
-                            {{ $classroomStudent->classroom->classroomForms->count() == 1 ? 'form' : 'forms' }}
-                        </small>
-                    </div>
+                    <h3 class="classroom-title">
+                        <i class="fas fa-graduation-cap me-2"></i>
+                        {{ $classroomStudent->classroom->name }}
+                    </h3>
+                    <span class="form-count">
+                        {{ $classroomStudent->classroom->classroomForms->count() }} forms
+                    </span>
                 </div>
 
                 @foreach($classroomStudent->classroom->classroomForms as $classroomForm)
@@ -241,44 +300,41 @@
                         <a href="{{ route('student.showForm', [$classroomStudent->classroom->id, $classroomForm->id]) }}" class="form-link">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="flex-grow-1">
-                                    <h5 class="form-title mb-1">
+                                    <h5 class="form-title">
                                         <i class="fas fa-file-alt me-2 text-primary"></i>
                                         {{ $classroomForm->form->title }}
                                     </h5>
                                     <div class="form-meta">
-                                        <i class="fas fa-user me-1"></i>
-                                        Assigned by {{ $classroomStudent->classroom->teacher->name }}
-                                        <span class="mx-2">•</span>
-                                        <i class="fas fa-calendar me-1"></i>
-                                        {{ $classroomForm->created_at->format('M d, Y') }}
+                                        <span><i class="fas fa-user me-1"></i>{{ $classroomStudent->classroom->teacher->name }}</span>
+                                        <span><i class="fas fa-calendar me-1"></i>{{ $classroomForm->created_at->format('M d, Y') }}</span>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center gap-2">
                                     @if(in_array($classroomForm->form_id, $submittedFormIds))
                                         @php
                                             $submission = $formSubmissions->get($classroomForm->form_id);
                                             $isUpdated = $submission && $classroomForm->form->updated_at > $submission->form_version;
                                         @endphp
                                         @if($isUpdated)
-                                            <span class="status-badge status-updated me-2">
-                                                <i class="fas fa-sync-alt me-1"></i>Updated
+                                            <span class="status-badge status-updated">
+                                                <i class="fas fa-sync-alt"></i>Updated
                                             </span>
                                         @else
-                                            <span class="status-badge status-completed me-2">
-                                                <i class="fas fa-check me-1"></i>Completed
+                                            <span class="status-badge status-completed">
+                                                <i class="fas fa-check"></i>Completed
                                             </span>
                                         @endif
                                         @if($submission && ($submission->rating !== null || $submission->comment))
-                                            <span class="status-badge status-completed me-2">
-                                                <i class="fas fa-comment me-1"></i>Teacher Feedback
+                                            <span class="status-badge status-feedback">
+                                                <i class="fas fa-comment"></i>Teacher Feedback
                                             </span>
                                         @endif
                                     @else
-                                        <span class="status-badge status-pending me-2">
-                                            <i class="fas fa-clock me-1"></i>Pending
+                                        <span class="status-badge status-pending">
+                                            <i class="fas fa-clock"></i>Pending
                                         </span>
                                     @endif
-                                    <i class="fas fa-chevron-right arrow-icon"></i>
+                                    <i class="fas fa-chevron-right text-primary"></i>
                                 </div>
                             </div>
                         </a>
@@ -300,3 +356,4 @@
 
 </body>
 </html>
+@include('javascript.js')

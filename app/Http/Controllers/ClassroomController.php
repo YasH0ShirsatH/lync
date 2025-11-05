@@ -70,13 +70,11 @@ class ClassroomController extends Controller
     public function viewAllResponses($classroomId, $formId)
     {
         $classroom = Classroom::findOrFail($classroomId);
-        $form = Form::findOrFail($formId);
+        $form = Form::with('submissions')->findOrFail($formId);
 
         $submissions = FormSubmission::where('form_id', $formId)
-            ->whereIn('student_id',
-                ClassroomStudents::where('classroom_id', $classroomId)->pluck('student_id')
-            )
             ->with('student')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('teacher.classroom.viewResponses', compact('classroom', 'form', 'submissions'));

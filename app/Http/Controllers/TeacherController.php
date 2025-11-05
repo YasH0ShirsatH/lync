@@ -70,4 +70,8 @@ class TeacherController extends Controller
     }
 
 
+    public function cms (){
+        return view('teacher.cms.pageBuilder');
+    }
+
 }

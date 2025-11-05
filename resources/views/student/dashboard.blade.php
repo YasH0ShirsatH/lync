@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,41 +9,52 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     <style>
-        /* --- Modern Color Palette & Variables --- */
-        :root {
-            --text-dark: #1f2937; /* Dark Slate */
-            --primary-blue: #3b82f6; /* Tailwind Blue 500 */
-            --primary-dark: #1e40af; /* Tailwind Blue 800 */
-            --bg-light: #f8fafc; /* Crisp White/Light Gray */
-            --border-color: #e5e7eb;
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-        }
-
         body {
-            background-color: var(--bg-light);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8fafc;
+            font-family: "Playwrite DE Grund", cursive;
             min-height: 100vh;
-            color: var(--text-dark);
+            color: #1f2937;
         }
 
-        /* --- Header Section --- */
+        .container {
+            max-width: 1350px;
+        }
+
+        .header-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
         .header {
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
-            padding: 3rem 0;
-            border-radius: 0 0 24px 24px;
-        }
-        .header-title {
-            font-weight: 600;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        .header-subtitle {
-            opacity: 0.9;
-            font-size: 1rem;
+            padding: 4rem 4rem;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 1330px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
-        /* --- Stats Cards --- */
+        .header-title {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .student-name {
+            font-family: 'Brush Script MT', cursive;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-subtitle {
+            opacity: 0.95;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -54,7 +66,7 @@
             background: white;
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             border: 1px solid #e9ecef;
             transition: all 0.2s ease;
             text-align: center;
@@ -76,24 +88,49 @@
             font-weight: 700;
             margin-bottom: 0.25rem;
         }
+
         .stat-label {
             color: #6c757d;
             font-weight: 500;
             font-size: 0.9rem;
         }
 
-        /* Color themes for stats */
-        .stat-card.blue .stat-icon { background-color: #e3f2fd; color: #007bff; }
-        .stat-card.blue .stat-number { color: #007bff; }
-        .stat-card.green .stat-icon { background-color: #e8f5e8; color: #198754; }
-        .stat-card.green .stat-number { color: #198754; }
-        .stat-card.orange .stat-icon { background-color: #fff3cd; color: #fd7e14; }
-        .stat-card.orange .stat-number { color: #fd7e14; }
-        .stat-card.purple .stat-icon { background-color: #f3e8ff; color: #7c3aed; }
-        .stat-card.purple .stat-number { color: #7c3aed; }
+        .stat-card.blue .stat-icon {
+            background-color: #e3f2fd;
+            color: #007bff;
+        }
 
+        .stat-card.blue .stat-number {
+            color: #007bff;
+        }
 
-        /* --- Action Cards (Cleaner and more defined) --- */
+        .stat-card.green .stat-icon {
+            background-color: #e8f5e8;
+            color: #198754;
+        }
+
+        .stat-card.green .stat-number {
+            color: #198754;
+        }
+
+        .stat-card.orange .stat-icon {
+            background-color: #fff3cd;
+            color: #fd7e14;
+        }
+
+        .stat-card.orange .stat-number {
+            color: #fd7e14;
+        }
+
+        .stat-card.purple .stat-icon {
+            background-color: #f3e8ff;
+            color: #7c3aed;
+        }
+
+        .stat-card.purple .stat-number {
+            color: #7c3aed;
+        }
+
         .actions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -107,15 +144,15 @@
             padding: 2rem;
             text-decoration: none;
             color: inherit;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            border: 1px solid #e5e7eb;
             transition: all 0.2s ease;
         }
 
         .action-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border-color: var(--text-dark);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: #1f2937;
             color: inherit;
             text-decoration: none;
         }
@@ -129,7 +166,7 @@
         .action-icon-large {
             width: 48px;
             height: 48px;
-            border-radius: 8px; /* Square icon background */
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -139,48 +176,64 @@
 
         .action-title {
             font-weight: 600;
-            color: var(--text-dark);
+            color: #1f2937;
             font-size: 1.25rem;
             margin-bottom: 0;
         }
+
         .action-desc {
-            color: var(--secondary-text);
+            color: #6c757d;
             font-size: 0.9rem;
             line-height: 1.5;
-            padding-left: 3.75rem; /* Align description under title but next to icon */
+            padding-left: 3.75rem;
         }
 
-        /* Action card specific colors */
-        .card-blue .action-icon-large { background-color: #eff6ff; color: var(--primary-blue); }
-        .card-purple .action-icon-large { background-color: #ede9fe; color: #7c3aed; }
-        .card-green .action-icon-large { background-color: #ecfdf5; color: #059669; }
-
-        /* Bubble animation */
-        .bubble-animate {
-            animation: bubbleEffect 0.6s ease-out;
+        .card-blue .action-icon-large {
+            background-color: #eff6ff;
+            color: #3b82f6;
         }
+
+        .card-purple .action-icon-large {
+            background-color: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .card-green .action-icon-large {
+            background-color: #ecfdf5;
+            color: #059669;
+        }
+
 
         @keyframes bubbleEffect {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+            0% {
+                transform: scale(1);
+            }
 
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
+
 <body>
     @include('layouts.navbar')
 
-    {{-- 1. Header Section --}}
-    <div class="header">
-        <div class="container">
-            <h1 class="header-title">Welcome, {{ Auth::guard('student')->user()->name }}</h1>
-            <p class="header-subtitle">Track your progress and manage your academic journey</p>
+    <div class="header-wrapper">
+        <div class="header">
+            <div class="container">
+                <h1 class="header-title">Welcome, <span
+                        class="student-name" style="font-family : Delius Swash Caps, cursive;letter-spacing : 1px;" >{{ Auth::guard('student')->user()->name }}</span></h1>
+                <p class="header-subtitle">Track your progress and manage your academic journey</p>
+            </div>
         </div>
     </div>
 
     <div class="container">
-        {{-- 2. Stats Section (Independent Cards) --}}
         <div class="stats-grid">
             <div class="stat-card blue">
                 <div class="stat-icon">
@@ -210,15 +263,12 @@
                 <div class="stat-number">{{ $pendingForms }}</div>
                 <div class="stat-label">Pending</div>
             </div>
-
         </div>
 
-        {{-- 3. Action Cards (Grid) --}}
         <h3 class="fw-bold mb-4 mt-4 text-body-emphasis">Quick Actions</h3>
 
         <div class="actions-grid">
-
-            <a href="{{ route('student.classes') }}" class="action-card card-blue" id="searchBtn">
+            <a href="{{ route('student.classes') }}" class="action-card card-blue">
                 <div class="action-card-header">
                     <div class="action-icon-large">
                         <i class="fas fa-search"></i>
@@ -230,7 +280,7 @@
 
             <a href="{{ route('student.viewJoinedClasses') }}" class="action-card card-purple">
                 <div class="action-card-header">
-                    <div class="action-icon-large" style="background-color: #ede9fe; color: #7c3aed;">
+                    <div class="action-icon-large">
                         <i class="fas fa-graduation-cap"></i>
                     </div>
                     <h4 class="action-title">My Classrooms</h4>
@@ -250,17 +300,20 @@
         </div>
     </div>
 
-    {{-- Javascript --}}
     <script>
-        document.getElementById('searchBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            this.classList.add('bubble-animate');
-            setTimeout(() => {
-                window.location.href = this.href;
-            }, 300);
+        document.addEventListener('DOMContentLoaded', function() {
+            const actionCards = document.querySelectorAll('.action-card');
+            actionCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.classList.add('bubble-animate');
+                    setTimeout(() => {
+                        window.location.href = this.href;
+                    }, 300);
+                });
+            });
         });
     </script>
-
-    @include('javascript.js')
 </body>
+@include('javascript.js')
 </html>
