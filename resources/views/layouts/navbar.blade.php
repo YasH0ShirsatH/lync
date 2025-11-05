@@ -567,6 +567,32 @@
                             <span>Form Builder</span>
                         </a>
                     </li>
+
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ request()->routeIs('student.classes') || request()->routeIs('student.viewJoinedClasses') ? 'active' : '' }}"
+                            href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-globe"></i>
+                            <span>Website</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('website.builder.teacher') }}">
+                                    <i class="fas fa-users"></i>
+                                    <span>Website Builder</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{route('website.links.teacher')}}">
+                                    <i class="fas fa-list"></i>
+                                    <span>Website links</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
                 </ul>
             @elseif(Auth::guard('student')->check())
                 <ul class="navbar-nav me-auto">

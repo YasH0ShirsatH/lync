@@ -754,6 +754,13 @@
                                     <span class="header-stat-value">{{ $classroomSetup->count() }}</span>
                                     <div class="header-stat-label">Classrooms</div>
                                 </div>
+
+                                <div class="header-stat">
+                                    <span class="header-stat-value">{{ $totalWebsites }}</span>
+                                    <div class="header-stat-label">Websites</div>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -811,6 +818,23 @@
                         <div class="kpi-label">Avg Forms per Classroom</div>
                         <div class="kpi-description">Average distribution of learning materials</div>
                     </div>
+
+
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <div class="kpi-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="kpi-trend neutral">
+                                <i class="fas fa-minus"></i>
+                                Available
+                            </div>
+                        </div>
+                        <div class="kpi-value">{{ $totalWebsites }}</div>
+                        <div class="kpi-label">Websites</div>
+                        <div class="kpi-description">Websites created by Teacher {{Auth::guard('teacher')->user()->name }}</div>
+                    </div>
+
                 </div>
             </div>
 

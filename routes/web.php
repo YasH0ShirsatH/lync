@@ -67,6 +67,9 @@ Route::group(['middleware' => 'auth:teacher'], function(){
     Route::put('hello/store/custome-component/update/{id}', function() { return response()->json(['success' => true]); })->name('update.component');
     Route::delete('hello/store/custome-component/delete/{id}', function() { return response()->json(['success' => true]); })->name('component.delete');
 
+    Route::get('/teacher/classroom/cms/websiteLinks', [PageController::class, 'showWebsiteLinks'])->name('website.links.teacher');
+    Route::get('teacher/website/delete/{id}' , [PageController::class, 'destroyPage'])->name('teacher.deletePage');
+    Route::delete('/pages/{id}', [PageController::class, 'destroy'])->name('pages.destroy');
 
 
 });

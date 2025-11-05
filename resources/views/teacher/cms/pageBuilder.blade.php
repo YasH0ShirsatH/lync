@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{config('app.name')}} | Page Builder</title>
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="{{asset('css/laravel-grapes.css')}}" rel="stylesheet">
@@ -13,11 +15,71 @@
             margin: 0;
         }
         .editor-toolbar {
-            background: var(--white);
-            border-bottom: 1px solid var(--gray-200);
-            padding: 1rem 0;
-            box-shadow: var(--shadow-sm);
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width : 1350px;
+            color: white;
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.15);
+            position: relative;
+            overflow: hidden;
         }
+
+        .gjs-one-bg {
+            background: #20506d !important ;
+        }
+
+        .gjs-field {
+            background-color: white !important;
+            color : black !important;
+            border: none;
+            box-shadow: none;
+            border-radius: 2px;
+            box-sizing: border-box;
+            padding: 0;
+            position: relative;
+        }
+
+        .gjs-four-color {
+            color: black !important;
+        }
+        .editor-toolbar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: unset;
+            border-radius: 8px;
+            padding: 0.625rem 1.25rem;
+            display: flex;
+            font-weight: 500;
+            text-decoration: none;
+            align-items: center;
+            transition: all 0.2s  ease;
+            font-size: 0.875rem;
+            position: relative;
+            z-index: 1;
+        }
+
+                .btn-back:hover {
+                    background: rgba(255,255,255,0.2);
+                    border-color: rgba(255,255,255,0.3);
+                    color: white;
+                    transform: translateY(-1px);
+                }
+
         .btn-modern {
             border-radius: var(--radius-md);
             padding: 0.75rem 1.5rem;
@@ -30,19 +92,35 @@
             color: var(--white);
         }
         .btn-success {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: var(--white);
+            background: rgba(16, 185, 129, 0.9);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+        .btn-success:hover {
+            background: rgba(16, 185, 129, 1);
+            border-color: rgba(255,255,255,0.3);
+            color: white;
         }
         .btn-outline-secondary {
-            border: 1px solid var(--gray-300);
-            color: var(--gray-700);
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+        .btn-outline-secondary:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.3);
+            color: white;
         }
         .btn-modern:hover {
             transform: translateY(-1px);
             box-shadow: var(--shadow-md);
         }
-        .navbar-container {
-            max-width: 1400px;
+        .navbar1-container {
+            max-width: 1500px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
@@ -71,27 +149,34 @@
         <div class="navbar-container">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
-                    <h4 class="mb-0 me-3" style="color: var(--gray-800); font-weight: 600;">
-                        <i class="fas fa-paint-brush me-2" style="color: var(--primary-600);"></i>
-                        Page Builder
-                    </h4>
+                    <div>
+                        <h1 class="mb-0" style="font-weight: 700; font-size: 1.875rem; position: relative; z-index: 1;">
+                            <i class="fas fa-paint-brush me-2"></i>Page Builder
+                        </h1>
+                        <p class="mb-0 mt-2" style="opacity: 0.9; font-size: 1rem; position: relative; z-index: 1;">Create beautiful web pages with drag & drop</p>
+                    </div>
                 </div>
                 <div class="d-flex gap-2">
                     <button id="previewBtn" class="btn btn-outline-secondary btn-modern">
                         <i class="fas fa-eye me-1"></i> Preview
                     </button>
 
-                    <button id="saveBtn" class="btn btn-success btn-modern">
-                        <i class="fas fa-save me-1"></i> Save Page
-                    </button>
+                    <a href="{{ route('teacher.dashboard') }}" class="btn-back mt-3 mt-md-0">
+                                        <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                                    </a>
+
                 </div>
+
             </div>
         </div>
     </div>
 
+
+
+
     <!-- Editor Container -->
     <div class="editor-container">
-        <div class="navbar-container">
+        <div class="navbar1-container">
             <input id="Pages" type="hidden" pages-data='@json($pages)'>
             <input id="Languages" type="hidden" lang-data='@json([])'>
             <div id="gjs" class="gjs-editor-cont"></div>
@@ -119,6 +204,23 @@
             let isPreviewMode = false;
             const previewBtn = document.getElementById('previewBtn');
             const codeBtn = document.getElementById('codeBtn');
+
+            // Check for edit parameter and set selectPage value
+            const urlParams = new URLSearchParams(window.location.search);
+            const editPageId = urlParams.get('edit');
+
+            if (editPageId) {
+                // Wait for GrapesJS to load and then set the select value
+                const checkForSelect = setInterval(() => {
+                    const selectPage = document.getElementById('selectPage');
+                    if (selectPage) {
+                        selectPage.value = editPageId;
+                        // Trigger change event to load the page
+                        selectPage.dispatchEvent(new Event('change'));
+                        clearInterval(checkForSelect);
+                    }
+                }, 100);
+            }
 
             // Preview toggle functionality
             previewBtn.addEventListener('click', function() {

@@ -36,21 +36,21 @@ class PageController extends Controller
     public function showBySlug($slug)
     {
         $page = Page::where('slug', $slug)->firstOrFail();
-        
+
         // Decode the JSON stored in page_data
         $data = json_decode($page->page_data, true);
-        
+
         // Extract HTML & CSS from the data structure
         $html = $data['gjs-html'] ?? $data['html'] ?? '';
         $css = $data['gjs-css'] ?? $data['css'] ?? '';
-        
+
         // Format CSS properly by adding line breaks and proper spacing
         $formattedCss = str_replace(['{', '}', ';'], [" {\n  ", "\n}\n", ";\n  "], $css);
         $formattedCss = preg_replace('/\s+/', ' ', $formattedCss);
-        
+
         // Combine for rendering
         $renderedHtml = "<style>\n{$formattedCss}\n</style>\n" . $html;
-        
+
         return view('teacher.cms.page', compact('renderedHtml'));
     }
 
@@ -58,12 +58,12 @@ class PageController extends Controller
     {
         try {
             $page = Page::findOrFail($id);
-            
+
             // The library sends the data in a specific format
             $pageData = $request->all();
-            
+
             $page->update(['page_data' => json_encode($pageData)]);
-            
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             \Log::error('Update page content error: ' . $e->getMessage());
@@ -79,8 +79,24 @@ class PageController extends Controller
 
     public function destroy($id)
     {
+        try {
+            Page::findOrFail($id)->delete();
+            return response()->json(['success' => true, 'message' => 'Page deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error deleting page'], 500);
+        }
+    }
+
+    public function showWebsiteLinks()
+    {
+        $pages = Page::select('id', 'name', 'slug')->get();
+        return view('teacher.cms.websiteLinks', compact('pages'));
+    }
+
+    public function destroyPage($id)
+    {
         Page::findOrFail($id)->delete();
-        return response()->json(['success' => true]);
+        return redirect()->route('website.links.teacher')->with('success', 'Page deleted successfully.');
     }
 }
 

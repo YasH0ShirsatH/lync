@@ -12,14 +12,14 @@ class TeacherController extends Controller
 {
     public function dashboard()
     {
-
+        $totalWebsites = \App\Models\Page::count();
         $forms = Form::where('teacher_id', Auth::id())->paginate(4);
         $submissions = FormSubmission::whereHas('form', function ($query) {
             $query->where('teacher_id', Auth::id());
         })->get();
         $classroomSetup = Classroom::where('teacher_id', auth()->user()->id)->get();
 
-        return view('teacher.dashboard',compact('forms','classroomSetup','submissions'));
+        return view('teacher.dashboard',compact('forms','classroomSetup','submissions','totalWebsites'));
     }
 
     public function getForms(Request $request)
