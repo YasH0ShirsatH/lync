@@ -4,26 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Page;
+use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
     public function builder()
     {
-        $pages = Page::select('id', 'name', 'slug')->get();
+        $pages = Page::select('id', 'name', 'slug')
+                    ->where('teacher_id', auth()->id())
+                    ->get();
         return view('teacher.cms.pageBuilder', compact('pages'));
     }
 
     public function store(Request $request)
     {
-        $page = Page::create([
+        $teacherId = auth()->id();
+        
+        $pageId = DB::table('pages')->insertGetId([
             'name' => $request->name,
             'slug' => $request->slug,
-            'page_data' => $request->page_data
+            'page_data' => $request->page_data,
+            'teacher_id' => $teacherId,
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
+        
+        $page = Page::find($pageId);
 
         return response()->json([
             'success' => true,
-            'page' => $page
+            'page' => $page,
+            'teacher_id' => $teacherId
         ]);
     }
 
@@ -73,7 +84,9 @@ class PageController extends Controller
 
     public function allPages()
     {
-        $pages = Page::select('id', 'name', 'slug')->get();
+        $pages = Page::select('id', 'name', 'slug')
+                    ->where('teacher_id', auth()->id())
+                    ->get();
         return response()->json($pages);
     }
 
@@ -89,7 +102,7 @@ class PageController extends Controller
 
     public function showWebsiteLinks()
     {
-        $pages = Page::select('id', 'name', 'slug')->get();
+        $pages = Page::select('id', 'name', 'slug')->where('teacher_id',auth()->id())->get();
         return view('teacher.cms.websiteLinks', compact('pages'));
     }
 

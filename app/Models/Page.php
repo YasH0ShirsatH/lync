@@ -10,5 +10,5 @@ class Page extends Model implements Editable
 {
     use EditableTrait;
 
-    protected $fillable = ['name', 'slug', 'page_data'];
+    protected $fillable = ['name', 'slug', 'page_data', 'teacher_id'];
 }
