@@ -8,6 +8,18 @@ use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PageController;
+
+// Override Laravel Grapes package routes FIRST to ensure precedence
+Route::middleware('auth:teacher')->group(function() {
+    Route::post('hello/front-end-builder/create-page', [PageController::class, 'store'])->name('new_page.store');
+    Route::post('cms/front-end-builder/create-page', [PageController::class, 'store']);
+    Route::put('hello/front-end-builder/update-page-content/{id}', [PageController::class, 'updateContent'])->name('update.page_content');
+    Route::get('hello/front-end-builder/all-pages', [PageController::class, 'allPages'])->name('page.all');
+    Route::get('hello/front-end-builder/find-page/{id}', [PageController::class, 'show'])->name('page.find');
+    Route::delete('hello/front-end-builder/delete-page/{id}', [PageController::class, 'destroy'])->name('page.delete');
+    Route::put('hello/front-end-builder/update-page/{id}', [PageController::class, 'update'])->name('update.page');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -16,7 +28,7 @@ Route::group(['prefix' => 'account'],function(){
 
     //GUEST MIDDLEWARE
     Route::group(['middleware' => 'guest.multi'],function(){
-        Route::get('/login', [LoginController::class, 'index'])->name('account.login');
+//         Route::get('/login', [LoginController::class, 'index'])->name('account.login');
         Route::post('/login', [LoginController::class, 'authenticate'])->name('account.login-post');
         Route::get('/register', [LoginController::class, 'register'])->name('account.register');
         Route::post('/register', [LoginController::class, 'processRegister'])->name('account.register-post');
@@ -30,7 +42,7 @@ Route::group(['prefix' => 'account'],function(){
 
 // Logout route accessible by both guards
 Route::get('/account/logout', [LoginController::class, 'logout'])->name('account.logout');
-Route::get('/page/{slug}', [PageController::class, 'showBySlug']);
+Route::get('/{slug}', [PageController::class, 'showBySlug']);
 
 
 // Teacher Routes
@@ -55,11 +67,7 @@ Route::group(['middleware' => 'auth:teacher'], function(){
     Route::get('/teacher/submission/{submission}', [ClassroomController::class, 'viewSubmission'])->name('teacher.viewSubmission');
     Route::put('/teacher/submission/{submission}/remark', [ClassroomController::class, 'updateSubmissionRemark'])->name('teacher.updateSubmissionRemark');
     Route::get('/teacher/classroom/cms', [PageController::class, 'builder'])->name('website.builder.teacher');
-    Route::post('/front-end-builder/create-page', [PageController::class, 'store'])->name('new_page.store');
-    Route::put('/front-end-builder/update-page-content/{id}', [PageController::class, 'updateContent'])->name('update.page_content');
-    Route::get('/front-end-builder/all-pages', [PageController::class, 'allPages'])->name('page.all');
-    Route::get('/front-end-builder/find-page/{id}', [PageController::class, 'show'])->name('page.find');
-    Route::delete('/front-end-builder/delete-page/{id}', [PageController::class, 'destroy'])->name('page.delete');
+    Route::get('hello/front-end-builder', [PageController::class, 'builder'])->name('website.builder');
 
     // Block/Component routes
     Route::get('hello/get/custome-components', function() { return response()->json([]); })->name('custome_component.all');

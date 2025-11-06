@@ -151,7 +151,7 @@
                 <div class="d-flex align-items-center">
                     <div>
                         <h1 class="mb-0" style="font-weight: 700; font-size: 1.875rem; position: relative; z-index: 1;">
-                            <i class="fas fa-paint-brush me-2"></i>Page Builder
+                            <i class="fas fa-paint-brush me-2"></i>Page Builder {{$teacher_id}}
                         </h1>
                         <p class="mb-0 mt-2" style="opacity: 0.9; font-size: 1rem; position: relative; z-index: 1;">Create beautiful web pages with drag & drop</p>
                     </div>
@@ -179,7 +179,10 @@
         <div class="navbar1-container">
             <input id="Pages" type="hidden" pages-data='@json($pages)'>
             <input id="Languages" type="hidden" lang-data='@json([])'>
+            <input type="hidden" name="teacher_id" id="teacher_id" value="{{ auth()->user()->id }}">
             <div id="gjs" class="gjs-editor-cont"></div>
+            <input type="hidden" name="teacher_id" value="{{ $teacher_id }}">
+
         </div>
     </div>
 
@@ -198,6 +201,40 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('/js/laravel-grapes.js') }}"></script>
+
+    <script>
+        // Setup CSRF token for all AJAX requests
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+
+
+        // Intercept AJAX requests to add teacher_id
+        $(document).ajaxSend(function(event, xhr, settings) {
+            console.log('AJAX request intercepted:', settings.url);
+            if (settings.url && settings.url.includes('create-page')) {
+                console.log('Create-page request detected');
+                const teacherId = $('#teacher_id').val();
+                console.log('Teacher ID from input:', teacherId);
+                console.log('Original data:', settings.data);
+
+                if (teacherId) {
+                    // Add teacher_id to the data
+                    if (typeof settings.data === 'string') {
+                        settings.data += '&teacher_id=' + teacherId;
+                    } else if (settings.data) {
+                        settings.data.teacher_id = teacherId;
+                    } else {
+                        settings.data = 'teacher_id=' + teacherId;
+                    }
+                    console.log('Modified data:', settings.data);
+                }
+            }
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -237,31 +274,33 @@
                 }
             });
 
-            // Code view functionality
-            codeBtn.addEventListener('click', function() {
-                if (window.editor) {
-                    const html = window.editor.getHtml();
-                    const css = window.editor.getCss();
-                    const codeContent = `HTML:\n${html}\n\nCSS:\n${css}`;
+            // Code view functionality (if codeBtn exists)
+            if (codeBtn) {
+                codeBtn.addEventListener('click', function() {
+                    if (window.editor) {
+                        const html = window.editor.getHtml();
+                        const css = window.editor.getCss();
+                        const codeContent = `HTML:\n${html}\n\nCSS:\n${css}`;
 
-                    const newWindow = window.open('', '_blank');
-                    newWindow.document.write(`
-                        <html>
-                            <head>
-                                <title>Generated Code</title>
-                                <style>
-                                    body { font-family: 'Courier New', monospace; padding: 20px; background: #f8f9fa; }
-                                    pre { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); white-space: pre-wrap; }
-                                </style>
-                            </head>
-                            <body>
-                                <h2>Generated Code</h2>
-                                <pre>${codeContent.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
-                            </body>
-                        </html>
-                    `);
-                }
-            });
+                        const newWindow = window.open('', '_blank');
+                        newWindow.document.write(`
+                            <html>
+                                <head>
+                                    <title>Generated Code</title>
+                                    <style>
+                                        body { font-family: 'Courier New', monospace; padding: 20px; background: #f8f9fa; }
+                                        pre { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); white-space: pre-wrap; }
+                                    </style>
+                                </head>
+                                <body>
+                                    <h2>Generated Code</h2>
+                                    <pre>${codeContent.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+                                </body>
+                            </html>
+                        `);
+                    }
+                });
+            }
         });
     </script>
 </body>

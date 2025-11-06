@@ -16,14 +16,14 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->redirectTo(
-            guests: 'account/login',
+            guests: '/login',
             users: function ($request) {
                 if (auth()->guard('teacher')->check()) {
                     return '/teacher/dashboard';
                 } elseif (auth()->guard('student')->check()) {
                     return '/student/dashboard';
                 }
-                return '/account/login';
+                return '/login';
             }
         );
     })

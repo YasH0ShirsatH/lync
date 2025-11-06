@@ -12,7 +12,7 @@ class TeacherController extends Controller
 {
     public function dashboard()
     {
-        $totalWebsites = \App\Models\Page::count();
+        $totalWebsites = \App\Models\Page::where('teacher_id',Auth::id())->count();
         $forms = Form::where('teacher_id', Auth::id())->paginate(4);
         $submissions = FormSubmission::whereHas('form', function ($query) {
             $query->where('teacher_id', Auth::id());

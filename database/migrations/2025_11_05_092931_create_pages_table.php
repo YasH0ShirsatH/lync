@@ -15,8 +15,11 @@ return new class extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
+
             $table->string('name');
             $table->string('slug');
+
             $table->json('page_data')->nullable();
             $table->timestamps();
         });

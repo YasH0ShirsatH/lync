@@ -22,7 +22,7 @@ class LoginController extends Controller
 
         if($validated){
             $credentials = ['email' => $request->email, 'password' => $request->password];
-            
+
             // Try teacher guard first
             if(Auth::guard('teacher')->attempt(array_merge($credentials, ['role' => 'teacher']))){
                 return redirect()->route('teacher.dashboard');
@@ -64,7 +64,7 @@ class LoginController extends Controller
                             $user->password = bcrypt($request->password);
                             $user->role = $request->role;
                             $user->save();
-                            return redirect()->route('account.login')->with('success', 'Registration successful. Please login.');
+                            return redirect('/login')->with('success', 'Registration successful. Please login.');
 
                         }
                         else{
@@ -81,9 +81,9 @@ class LoginController extends Controller
         } elseif(Auth::guard('student')->check()){
             Auth::guard('student')->logout();
         }
-        
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('account.login')->with('success', 'Logged out successfully.');
+        return redirect('/login')->with('success', 'Logged out successfully.');
     }
 }

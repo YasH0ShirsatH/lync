@@ -14,6 +14,7 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "msa/laravel-grapes": "^1.0",
+        "thunderer/shortcode": "^0.7.6",
         "tightenco/ziggy": "^2.6"
     },
     "require-dev": {
