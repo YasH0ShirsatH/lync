@@ -160,6 +160,9 @@
                     <button id="previewBtn" class="btn btn-outline-secondary btn-modern">
                         <i class="fas fa-eye me-1"></i> Preview
                     </button>
+                    <a href="/teacher/classroom/cms/websiteLinks" class="btn-back mt-3 mt-md-0">
+                                        <i class="fas fa-link me-2"></i>Links
+                                    </a>
 
                     <a href="{{ route('teacher.dashboard') }}" class="btn-back mt-3 mt-md-0">
                                         <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
