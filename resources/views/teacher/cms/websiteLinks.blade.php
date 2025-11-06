@@ -296,7 +296,7 @@
             color: var(--neutral-400);
             font-size: 2rem;
         }
-        
+
         .alert {
             border: none;
             border-radius: 12px;
@@ -304,17 +304,17 @@
             margin-bottom: 1.5rem;
             font-weight: 500;
         }
-        
+
         .alert-success {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
         }
-        
+
         .alert-success .btn-close {
             filter: brightness(0) invert(1);
         }
-        
+
         .btn-delete {
             background: #ef4444;
             color: white;
@@ -327,12 +327,12 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .btn-delete:hover {
             background: #dc2626;
             transform: translateY(-1px);
         }
-        
+
         .btn-edit {
             background: var(--orange-500);
             color: white;
@@ -346,12 +346,38 @@
             justify-content: center;
             text-decoration: none;
         }
-        
+
         .btn-edit:hover {
             background: var(--orange-600);
             color: white;
             transform: translateY(-1px);
         }
+
+        .copy-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--green-500) 0%, var(--green-600) 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            z-index: 9999;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .copy-toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
     </style>
 </head>
 <body>
@@ -360,6 +386,11 @@
     <div class="container py-4">
         <!-- Page Header -->
         <div class="page-header">
+            <div id="copyToast" class="copy-toast">
+                <i class="fas fa-check-circle"></i>
+                <span>Link copied to clipboard!</span>
+            </div>
+
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
                 <div>
                     <h1 class="page-title">
@@ -381,7 +412,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
-        
+
         <!-- Links Section -->
         <div class="links-section">
             <h3 class="section-title">
@@ -405,17 +436,17 @@
                             </div>
                             <div class="page-card-body">
                                 <div class="page-url">
-                                    {{ url('/page/' . $page->slug) }}
+                                    {{ url('/' . $page->slug) }}
                                 </div>
                                 <div class="page-actions">
-                                    <a href="/page/{{ $page->slug }}" class="btn-view" target="_blank">
+                                    <a href="/{{ $page->slug }}" class="btn-view" target="_blank">
                                         <i class="fas fa-external-link-alt"></i>
                                         View Page
                                     </a>
-                                    <button class="btn-copy" onclick="copyToClipboard('{{ url('/page/' . $page->slug) }}')"
-                                            title="Copy URL">
+                                    <button class="btn-copy" onclick="copyToClipboard('{{ url('/page/' . $page->slug) }}')" title="Copy Link">
                                         <i class="fas fa-copy"></i>
                                     </button>
+
                                     <a href="{{ route('website.builder.teacher') }}?edit={{ $page->id }}" class="btn-edit" title="Edit Page">
                                         <i class="fas fa-edit"></i>
                                     </a>
@@ -453,25 +484,29 @@
     <script>
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(function() {
-                // Show success feedback
-                const button = event.target.closest('.btn-copy');
-                const originalIcon = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-check"></i>';
-                button.style.background = '#10b981';
-                button.style.color = 'white';
-                button.style.borderColor = '#10b981';
-
-                setTimeout(() => {
-                    button.innerHTML = originalIcon;
-                    button.style.background = '';
-                    button.style.color = '';
-                    button.style.borderColor = '';
-                }, 2000);
-            }).catch(function(err) {
-                console.error('Could not copy text: ', err);
+                showCopyToast();
+            }).catch(function() {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showCopyToast();
             });
         }
-        
+
+        function showCopyToast() {
+            const toast = document.getElementById('copyToast');
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 900);
+        }
+
+
         function deletePage(pageId) {
             if (confirm('Are you sure you want to delete this page? This action cannot be undone.')) {
                 fetch(`/pages/${pageId}`, {

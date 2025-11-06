@@ -2,11 +2,11 @@
     @csrf
 
     <div class="form-group">
-        <input type="text" 
-               name="user" 
+        <input type="text"
+               name="user"
                placeholder="Username"
                class="form-control @error('user') is-invalid @enderror"
-               value="{{old('user')}}" 
+               value="{{old('user')}}"
                required>
         @error('user')
             <div class="invalid-feedback">{{ $message }}</div>
@@ -14,11 +14,11 @@
     </div>
 
     <div class="form-group">
-        <input type="email" 
-               name="email" 
+        <input type="email"
+               name="email"
                placeholder="Email Address"
                class="form-control @error('email') is-invalid @enderror"
-               value="{{old('email')}}" 
+               value="{{old('email')}}"
                required>
         @error('email')
             <div class="invalid-feedback">{{ $message }}</div>
@@ -26,8 +26,8 @@
     </div>
 
     <div class="form-group">
-        <input type="password" 
-               name="password" 
+        <input type="password"
+               name="password"
                placeholder="Password"
                class="form-control @error('password') is-invalid @enderror"
                required>
@@ -37,8 +37,8 @@
     </div>
 
     <div class="form-group">
-        <input type="password" 
-               name="password_confirmation" 
+        <input type="password"
+               name="password_confirmation"
                placeholder="Confirm Password"
                class="form-control @error('password_confirmation') is-invalid @enderror"
                required>
@@ -48,7 +48,7 @@
     </div>
 
     <div class="form-group">
-        <select name="role" class="form-control @error('role') is-invalid @enderror" required>
+        <select name="role" class="select-controll @error('role') is-invalid @enderror" required>
             <option value="" disabled selected>Select your role</option>
             <option value="teacher" {{ old('role') == 'teacher' ? 'selected' : '' }}>Teacher</option>
             <option value="student" {{ old('role') == 'student' ? 'selected' : '' }}>Student</option>
@@ -62,8 +62,19 @@
 </form>
 
 <style>
+
+    .select-controll {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        background: white;
+        cursor: pointer;
+    }
+
 .shortcode-register-form {
-    max-width: 350px;
+
     margin: 20px 0;
 }
 

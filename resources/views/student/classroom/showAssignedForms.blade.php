@@ -463,7 +463,7 @@ function submitForm() {
         const inputs = formClone.querySelectorAll('input, textarea, select');
 
         inputs.forEach(input => {
-            if (input.type === 'text' || input.type === 'email' || input.type === 'number' || input.type === 'tel') {
+            if (input.type === 'text' || input.type === 'email' || input.type === 'number' || input.type === 'tel'|| input.type === 'date') {
                 input.setAttribute('value', input.value);
             } else if (input.type === 'checkbox' || input.type === 'radio') {
                 if (input.checked) {
