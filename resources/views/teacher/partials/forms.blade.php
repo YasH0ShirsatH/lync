@@ -63,6 +63,22 @@
                     </div>
                 </div>
 
+                <!-- Shortcode Section -->
+                <div class="shortcode-section">
+                    <div class="shortcode-header">
+                        <i class="fas fa-code"></i>
+                        <span>Shortcode</span>
+                    </div>
+                    <div class="shortcode-content">
+                        <div class="shortcode-display">
+                            <code>[display_forms form id="{{ $form->id }}"]</code>
+                        </div>
+                        <button class="btn-copy-shortcode" onclick="copyShortcode('{{ $form->id }}')" title="Copy Shortcode">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Assigned Classrooms -->
                 @if($assignedClassrooms->count() > 0)
                     <div class="classroom-section">
@@ -221,8 +237,9 @@
 .form-id {
     font-size: 0.875rem;
     color: var(--gray-500);
-    font-weight: 500;
 }
+
+
 
 .status-badge {
     padding: 0.25rem 0.75rem;
@@ -554,18 +571,19 @@
         grid-template-columns: 1fr;
         gap: 1rem;
     }
-    
+
     .form-metrics {
         grid-template-columns: 1fr;
     }
-    
+
     .form-timestamps {
         flex-direction: column;
         gap: 0.5rem;
     }
-    
+
     .form-actions {
         grid-template-columns: 1fr;
     }
 }
 </style>
+

@@ -8,6 +8,7 @@ use Thunder\Shortcode\Parser\RegularParser;
 use Thunder\Shortcode\Processor\Processor;
 use App\Shortcodes\LoginFormShortcode;
 use App\Shortcodes\RegisterFormShortcode;
+use App\Shortcodes\FormShortcode;
 
 class ShortcodeServiceProvider extends ServiceProvider
 {
@@ -18,7 +19,7 @@ class ShortcodeServiceProvider extends ServiceProvider
         $handlers = new HandlerContainer();
         $handlers->add('login_form', new LoginFormShortcode());
         $handlers->add('register_form', new RegisterFormShortcode());
-
+        $handlers->add('display_forms', new FormShortcode());
 
         $processor = new Processor(new RegularParser(), $handlers);
 

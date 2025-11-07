@@ -18,14 +18,21 @@ class Form extends Model
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
-    
+
     public function classroomForms()
     {
         return $this->hasMany(ClassroomForms::class, 'form_id');
     }
-    
+
     public function submissions()
     {
         return $this->hasMany(FormSubmission::class, 'form_id');
     }
+
+    public function globalSubmissions()
+    {
+        return $this->hasMany(GlobalFormSubmission::class, 'form_id');
+    }
+
+
 }

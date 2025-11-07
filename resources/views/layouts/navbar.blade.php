@@ -563,7 +563,7 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('teacher.formBuilder') ? 'active' : '' }}"
                             href="{{ route('teacher.formBuilder') }}">
-                            <i class="fas fa-wpforms"></i>
+                            <i class="fab fa-wpforms"></i>
                             <span>Form Builder</span>
                         </a>
                     </li>
@@ -579,7 +579,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="dropdown-item" href="{{ route('website.builder.teacher') }}">
-                                    <i class="fas fa-users"></i>
+                                    <i class="fa-solid fa-gears"></i>
                                     <span>Website Builder</span>
                                 </a>
                             </li>
@@ -589,6 +589,13 @@
                                     <span>Website links</span>
                                 </a>
                             </li>
+                            <li>
+                                <a class="dropdown-item" href="{{route('teacher.globalFormSubmissions')}}">
+                                    <i class="fab fa-wpforms"></i>
+                                    <span>Global Forms</span>
+                                </a>
+                            </li>
+
                         </ul>
                     </li>
 

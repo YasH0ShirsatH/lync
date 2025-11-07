@@ -199,7 +199,7 @@
             font-size: 1.5rem;
             font-weight: 600;
             color: var(--gray-800);
-            margin-bottom: 1.5rem;
+
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -280,6 +280,95 @@
 
         .kpi-trend.neutral {
             color: var(--gray-500);
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        /* Shortcode Section Styles */
+        .shortcode-section {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .shortcode-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .shortcode-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .shortcode-display {
+            flex: 1;
+            background: white;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            padding: 0.5rem 0.75rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.875rem;
+            color: var(--gray-700);
+        }
+
+        .btn-copy-shortcode {
+            background: var(--primary-500);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+        }
+
+        .btn-copy-shortcode:hover {
+            background: var(--primary-600);
+            transform: translateY(-1px);
+        }
+
+        .copy-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--success-500) 0%, var(--success-600) 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            z-index: 9999;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .copy-toast.show {
+            transform: translateX(0);
+            opacity: 1;
         }
 
         .kpi-value {
@@ -878,6 +967,40 @@
                 </div>
             </div>
 
+            <!-- Global Actions Section -->
+            <div class="actions-section fade-in">
+                <h2 class="section-title">
+                    <i class="fas fa-bolt"></i>
+                    Webpage Actions
+                </h2>
+                <div class="actions-grid">
+                    <a href="/teacher/classroom/cms/websiteLinks" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Website Links</h3>
+                            <p>Manage your website links.</p>
+                        </div>
+                    </a>
+
+
+
+                    <a href="/teacher/global-form-submissions" class="action-card">
+                        <div class="action-icon">
+                            <i class="fab fa-wpforms"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Global Forms</h3>
+                            <p>Manage forms assigned on your webpages.</p>
+                        </div>
+                    </a>
+
+
+
+                </div>
+            </div>
+
             <!-- Forms Management Section -->
             <div class="forms-section fade-in">
                 <div class="forms-container">
@@ -909,6 +1032,12 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Copy Toast -->
+    <div id="shortcodeToast" class="copy-toast">
+        <i class="fas fa-check-circle"></i>
+        <span>Shortcode copied to clipboard!</span>
     </div>
 
     <!-- Scripts -->
@@ -1058,6 +1187,32 @@
             // Initial animation
             addFadeInAnimation();
         });
+
+        // Shortcode copy functionality
+        function copyShortcode(formId) {
+            const shortcode = `[display_forms  form_id="${formId}"]`;
+
+            navigator.clipboard.writeText(shortcode).then(function() {
+                showShortcodeToast();
+            }).catch(function() {
+                const textArea = document.createElement('textarea');
+                textArea.value = shortcode;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showShortcodeToast();
+            });
+        }
+
+        function showShortcodeToast() {
+            const toast = document.getElementById('shortcodeToast');
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
     </script>
 </body>
 </html>

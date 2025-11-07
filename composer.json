@@ -12,6 +12,7 @@
         "php": "^8.2",
         "jd-dotlogics/laravel-grapesjs": "^3.4",
         "laravel/framework": "^12.0",
+        "laravel/reverb": "^1.0",
         "laravel/tinker": "^2.10.1",
         "msa/laravel-grapes": "^1.0",
         "thunderer/shortcode": "^0.7.6",

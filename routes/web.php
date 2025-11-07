@@ -8,6 +8,7 @@ use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\GlobalFormController;
 
 // Override Laravel Grapes package routes FIRST to ensure precedence
 Route::middleware('auth:teacher')->group(function() {
@@ -43,6 +44,11 @@ Route::group(['prefix' => 'account'],function(){
 // Logout route accessible by both guards
 Route::get('/account/logout', [LoginController::class, 'logout'])->name('account.logout');
 Route::get('/{slug}', [PageController::class, 'showBySlug']);
+//global submission
+Route::post('/form/submit', [GlobalFormController::class, 'submitForm'])->name('global.form.submit');
+Route::get('/form/submissions/{form}', [GlobalFormController::class, 'index'])->name('global.form.submissions');
+Route::get('/form-uploads/{filename}', [GlobalFormController::class, 'serveFile'])->name('form.file');
+
 
 
 // Teacher Routes
@@ -78,6 +84,8 @@ Route::group(['middleware' => 'auth:teacher'], function(){
     Route::get('/teacher/classroom/cms/websiteLinks', [PageController::class, 'showWebsiteLinks'])->name('website.links.teacher');
     Route::get('teacher/website/delete/{id}' , [PageController::class, 'destroyPage'])->name('teacher.deletePage');
     Route::delete('/pages/{id}', [PageController::class, 'destroy'])->name('pages.destroy');
+    Route::get('/teacher/global-form-submissions', [GlobalFormController::class, 'allSubmissions'])->name('teacher.globalFormSubmissions');
+    Route::get('/teacher/global-form-submissions/{id}',[GlobalFormController::class , 'show'])->name('teacher.viewGlobalFormSubmission');
 
 
 });
