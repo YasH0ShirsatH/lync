@@ -9,6 +9,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\GlobalFormController;
+use App\Http\Controllers\chat\ChatController;
 
 // Override Laravel Grapes package routes FIRST to ensure precedence
 Route::middleware('auth:teacher')->group(function() {
@@ -48,6 +49,8 @@ Route::get('/{slug}', [PageController::class, 'showBySlug']);
 Route::post('/form/submit', [GlobalFormController::class, 'submitForm'])->name('global.form.submit');
 Route::get('/form/submissions/{form}', [GlobalFormController::class, 'index'])->name('global.form.submissions');
 Route::get('/form-uploads/{filename}', [GlobalFormController::class, 'serveFile'])->name('form.file');
+Route::get('/common/support/chat', [ChatController::class, 'supportChat'])->name('support.chat');
+Route::get('/chat/user/{id}', [ChatController::class, 'getUser']);
 
 
 
@@ -87,6 +90,9 @@ Route::group(['middleware' => 'auth:teacher'], function(){
     Route::get('/teacher/global-form-submissions', [GlobalFormController::class, 'allSubmissions'])->name('teacher.globalFormSubmissions');
     Route::get('/teacher/global-form-submissions/{id}',[GlobalFormController::class , 'show'])->name('teacher.viewGlobalFormSubmission');
 
+    //chat
+
+
 
 });
 
@@ -101,6 +107,9 @@ Route::group(['middleware' => 'auth:student'], function(){
     Route::post('/student/leave-class', [StudentController::class, 'leaveClass'])->name('student.leaveClass');
     Route::post('/student/submit-form', [StudentController::class, 'submitForm'])->name('student.submitForm');
     Route::get('/student/all-assigned-forms', [StudentController::class, 'viewAllAssignedForms'])->name('student.allAssignedForms');
+
+    //chat
+
 });
 
 
@@ -111,3 +120,10 @@ Route::group(['middleware' => 'auth:student'], function(){
 
 
 
+
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
